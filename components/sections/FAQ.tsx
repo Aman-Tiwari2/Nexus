@@ -1,7 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const numberColors = ["#8b5cf6", "#00e5cc", "#3b82f6", "#fbbf24", "#ec4899", "#10b981"];
 
 const faqs = [
   { q: "Who can join Nexus?", a: "Any college student from any year or branch can join Nexus. We welcome everyone from first-year freshers to final-year students. The earlier you join, the more you benefit from our structured roadmaps." },
@@ -18,111 +21,158 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div
-      style={{
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-      }}
-    >
+    <div style={{ borderBottom: "1px solid var(--border)" }}>
       <button
-        className="w-full flex items-center justify-between py-5 text-left gap-4"
         onClick={() => setOpen(!open)}
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "20px 0",
+          textAlign: "left",
+          gap: "16px",
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+        }}
+        aria-expanded={open}
       >
-        <div className="flex items-center gap-4">
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", flex: 1, minWidth: 0 }}>
           <span
-            className="text-xs font-mono flex-shrink-0"
-            style={{ color: "#808080", width: "24px" }}
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "11px",
+              fontWeight: 800,
+              color: numberColors[index % numberColors.length],
+              flexShrink: 0,
+              padding: "3px 8px",
+              borderRadius: "6px",
+              background: `${numberColors[index % numberColors.length]}12`,
+              border: `1px solid ${numberColors[index % numberColors.length]}30`,
+            }}
           >
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="font-medium text-white text-sm leading-snug">{item.q}</span>
+          <span
+            style={{
+              fontWeight: 600,
+              fontSize: "14.5px",
+              color: open ? "var(--text-primary)" : "rgba(240,240,240,0.85)",
+              lineHeight: 1.4,
+              transition: "color 0.2s",
+            }}
+          >
+            {item.q}
+          </span>
         </div>
+
         <div
-          className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200"
           style={{
-            border: "1px solid rgba(255,255,255,0.15)",
-            color: open ? "#00e5cc" : "#a0a0a0",
-            borderColor: open ? "rgba(0,229,204,0.2)" : "rgba(255,255,255,0.15)",
+            width: "24px",
+            height: "24px",
+            borderRadius: "50%",
+            border: `1px solid ${open ? "rgba(0,229,204,0.25)" : "var(--border)"}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            color: open ? "var(--accent)" : "var(--text-muted)",
+            transition: "border-color 0.2s, color 0.2s",
           }}
         >
-          {open ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+          {open
+            ? <Minus style={{ width: "11px", height: "11px" }} />
+            : <Plus style={{ width: "11px", height: "11px" }} />
+          }
         </div>
       </button>
 
-      <div
-        style={{
-          maxHeight: open ? "300px" : "0",
-          overflow: "hidden",
-          transition: "max-height 0.35s ease",
-        }}
-      >
-        <p
-          className="text-sm leading-relaxed pb-5"
-          style={{ color: "#a0a0a0", paddingLeft: "40px" }}
-        >
-          {item.a}
-        </p>
-      </div>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="answer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.28, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            <p
+              style={{
+                fontSize: "13.5px",
+                lineHeight: 1.75,
+                color: "var(--text-secondary)",
+                paddingLeft: "36px",
+                paddingBottom: "20px",
+              }}
+            >
+              {item.a}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 export default function FAQ() {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
-    if (sectionRef.current) obs.observe(sectionRef.current);
-    return () => obs.disconnect();
-  }, []);
-
   return (
-    <section id="faq" className="section-padding" style={{ background: "#111111" }}>
+    <section id="faq" className="section-padding" style={{ background: "var(--bg-secondary)" }}>
       <div className="section-container">
-        <div className="flex flex-col lg:flex-row gap-16">
-          {/* Left */}
-          <div className="lg:w-80 flex-shrink-0">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "48px",
+          }}
+          className="faq-layout"
+        >
+          {/* ── Left: heading ── */}
+          <div>
             <div className="section-tag">FAQ</div>
             <h2
-              className="font-black text-white leading-[0.95] mt-3 mb-6"
+              className="heading-display"
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(32px, 5vw, 60px)",
-                letterSpacing: "-0.03em",
+                fontSize: "clamp(32px, 5vw, 56px)",
+                marginTop: "10px",
+                marginBottom: "16px",
               }}
             >
               Frequently<br />Asked
             </h2>
-            <p className="text-sm leading-relaxed mb-8" style={{ color: "#a0a0a0" }}>
-              Have a question that isn&apos;t answered here? Feel free to reach out.
+            <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "var(--text-secondary)", marginBottom: "28px", maxWidth: "280px" }}>
+              Have a question that isn&apos;t answered here? Feel free to reach out to us directly.
             </p>
             <a
               href="#contact"
-              className="btn-secondary text-sm"
-              style={{ padding: "10px 22px" }}
-              onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+              className="btn-secondary"
+              style={{ fontSize: "13px", padding: "9px 20px" }}
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Contact Us
             </a>
           </div>
 
-          {/* Right */}
-          <div
-            ref={sectionRef}
-            className="flex-1"
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? "translateY(0)" : "translateY(20px)",
-              transition: "opacity 0.7s ease, transform 0.7s ease",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
+          {/* ── Right: FAQ list ── */}
+          <div style={{ borderTop: "1px solid var(--border)" }}>
             {faqs.map((faq, i) => (
               <FAQItem key={i} item={faq} index={i} />
             ))}
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 900px) {
+          .faq-layout {
+            grid-template-columns: 280px 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

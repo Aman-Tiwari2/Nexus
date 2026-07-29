@@ -1,209 +1,313 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { Calendar, MapPin, Clock, ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Calendar, MapPin, Clock, ExternalLink, Users, Trophy } from "lucide-react";
 import { events } from "@/data/events";
 
-function CountdownTimer() {
-  const targetDate = 0;
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+function CountdownBox({ value, label }: { value: number; label: string }) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div
+        style={{
+          background: "rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: "12px",
+          padding: "12px 14px",
+          minWidth: "60px",
+          marginBottom: "6px",
+        }}
+        className="countdown-box"
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(26px, 4vw, 36px)",
+            fontWeight: 800,
+            color: "var(--text-primary)",
+            lineHeight: 1,
+            display: "block",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {String(value).padStart(2, "0")}
+        </span>
+      </div>
+      <span
+        style={{
+          fontSize: "9.5px",
+          fontWeight: 700,
+          letterSpacing: "0.16em",
+          textTransform: "uppercase",
+          color: "var(--text-muted)",
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function Countdown({ targetDateStr }: { targetDateStr: string }) {
+  const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        return;
-      }
-
-      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((difference % (1000 * 60)) / 1000);
-
-      setTimeLeft({ days: d, hours: h, minutes: m, seconds: s });
+    const target = new Date(targetDateStr).getTime();
+    const tick = () => {
+      const diff = target - Date.now();
+      if (diff <= 0) { setTime({ d: 0, h: 0, m: 0, s: 0 }); return; }
+      setTime({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff % 86400000) / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      });
     };
-
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const formatNumber = (num: number) => String(num).padStart(2, "0");
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [targetDateStr]);
 
   return (
-    <div className="flex flex-col gap-2 mt-8">
-      <span className="text-[10px] uppercase tracking-widest font-bold" style={{ color: "#808080", letterSpacing: "0.15em" }}>
+    <div>
+      <div
+        style={{
+          fontSize: "9.5px",
+          fontWeight: 700,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          color: "var(--accent)",
+          marginBottom: "16px",
+        }}
+      >
         Event Starts In
-      </span>
-      <div className="flex items-center gap-2 md:gap-3 mt-1">
-        {/* Days */}
-        <div className="flex items-center gap-2 md:gap-3">
-          <div className="flex flex-col items-center justify-center p-3 rounded-xl border" style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)", minWidth: "64px" }}>
-            <span className="text-2xl md:text-3xl font-bold text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{formatNumber(timeLeft.days)}</span>
-            <span className="text-[9px] uppercase tracking-widest mt-1 font-semibold" style={{ color: "#808080" }}>Days</span>
-          </div>
-          <span className="text-lg font-bold" style={{ color: "rgba(255,255,255,0.15)" }}>:</span>
-        </div>
-        {/* Hours */}
-        <div className="flex items-center gap-2 md:gap-3">
-          <div className="flex flex-col items-center justify-center p-3 rounded-xl border" style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)", minWidth: "64px" }}>
-            <span className="text-2xl md:text-3xl font-bold text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{formatNumber(timeLeft.hours)}</span>
-            <span className="text-[9px] uppercase tracking-widest mt-1 font-semibold" style={{ color: "#808080" }}>Hrs</span>
-          </div>
-          <span className="text-lg font-bold" style={{ color: "rgba(255,255,255,0.15)" }}>:</span>
-        </div>
-        {/* Minutes */}
-        <div className="flex items-center gap-2 md:gap-3">
-          <div className="flex flex-col items-center justify-center p-3 rounded-xl border" style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)", minWidth: "64px" }}>
-            <span className="text-2xl md:text-3xl font-bold text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{formatNumber(timeLeft.minutes)}</span>
-            <span className="text-[9px] uppercase tracking-widest mt-1 font-semibold" style={{ color: "#808080" }}>Min</span>
-          </div>
-          <span className="text-lg font-bold" style={{ color: "rgba(255,255,255,0.15)" }}>:</span>
-        </div>
-        {/* Seconds */}
-        <div className="flex flex-col items-center justify-center p-3 rounded-xl border" style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.06)", minWidth: "64px" }}>
-          <span className="text-2xl md:text-3xl font-bold text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{formatNumber(timeLeft.seconds)}</span>
-          <span className="text-[9px] uppercase tracking-widest mt-1 font-semibold" style={{ color: "#808080" }}>Sec</span>
-        </div>
+      </div>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", flexWrap: "nowrap" }}>
+        <CountdownBox value={time.d} label="Days" />
+        <span style={{ fontSize: "22px", fontWeight: 300, color: "var(--border-hover)", marginTop: "10px" }}>:</span>
+        <CountdownBox value={time.h} label="Hrs" />
+        <span style={{ fontSize: "22px", fontWeight: 300, color: "var(--border-hover)", marginTop: "10px" }}>:</span>
+        <CountdownBox value={time.m} label="Min" />
+        <span style={{ fontSize: "22px", fontWeight: 300, color: "var(--border-hover)", marginTop: "10px" }}>:</span>
+        <CountdownBox value={time.s} label="Sec" />
       </div>
     </div>
   );
 }
 
 export default function UpcomingEvent() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
-    if (sectionRef.current) obs.observe(sectionRef.current);
-    return () => obs.disconnect();
-  }, []);
-
   const upcomingEvent = events.find((e) => e.isUpcoming && e.type === "hackathon");
-
   if (!upcomingEvent) return null;
 
+  const date = new Date(upcomingEvent.date).toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <section id="upcoming" className="section-padding" style={{ background: "#0d0d0d" }}>
-      <div className="section-container">
-        {/* Header */}
-        <div className="flex flex-col mb-12">
-          <div className="section-tag" style={{ color: "#00e5cc" }}>Coming Soon</div>
+    <section
+      id="upcoming"
+      className="section-padding relative overflow-hidden"
+      style={{ background: "var(--bg-secondary)" }}
+    >
+      {/* Ambient glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "20%",
+          right: "-10%",
+          width: "600px",
+          height: "600px",
+          background: "radial-gradient(circle, rgba(0,229,204,0.06) 0%, transparent 65%)",
+          filter: "blur(80px)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <div className="section-container" style={{ position: "relative", zIndex: 1 }}>
+        <div style={{ marginBottom: "52px" }}>
+          <div className="section-tag">Coming Soon</div>
           <h2
-            className="font-black text-white leading-[0.95] mt-3"
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(36px, 6vw, 72px)",
-              letterSpacing: "-0.03em",
-            }}
+            className="heading-display"
+            style={{ fontSize: "clamp(36px, 5.5vw, 68px)", marginTop: "8px" }}
           >
-            Next Big<br />
-            <span style={{ color: "#00e5cc" }}>Event</span>
+            The Next Big<br />
+            <span style={{ color: "var(--accent)" }}>Event</span>
           </h2>
         </div>
 
-        {/* Card */}
+        {/* Main layout: left info + right registration */}
         <div
-          ref={sectionRef}
-          className="card p-8 md:p-10 max-w-4xl"
           style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(20px)",
-            transition: "opacity 0.6s ease, transform 0.6s ease",
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "0",
+            border: "1px solid var(--border)",
+            borderRadius: "20px",
+            overflow: "hidden",
+            background: "var(--bg-card)",
           }}
+          className="upcoming-grid"
         >
-          {/* Top badges */}
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            <span
-              className="text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full"
+          {/* ── Left: event details ── */}
+          <div
+            style={{
+              padding: "clamp(28px, 4vw, 48px)",
+              borderBottom: "1px solid var(--border)",
+            }}
+            className="upcoming-left"
+          >
+            {/* Badges */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "24px" }}>
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontSize: "10px",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  padding: "5px 12px",
+                  borderRadius: "999px",
+                  background: "rgba(0,229,204,0.09)",
+                  color: "var(--accent)",
+                  border: "1px solid rgba(0,229,204,0.2)",
+                }}
+              >
+                <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--accent)", animation: "pulse-dot 1.5s ease infinite" }} />
+                Hackathon
+              </span>
+              {upcomingEvent.prize && (
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontSize: "10px",
+                    fontWeight: 600,
+                    padding: "5px 12px",
+                    borderRadius: "999px",
+                    background: "rgba(251,191,36,0.08)",
+                    color: "#fbbf24",
+                    border: "1px solid rgba(251,191,36,0.2)",
+                  }}
+                >
+                  <Trophy style={{ width: "11px", height: "11px" }} />
+                  {upcomingEvent.prize}
+                </span>
+              )}
+            </div>
+
+            {/* Title */}
+            <h3
               style={{
-                background: "rgba(0,229,204,0.1)",
-                color: "#00e5cc",
-                border: "1px solid rgba(0,229,204,0.2)",
-                letterSpacing: "0.1em",
-                fontSize: "10px",
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(24px, 3.5vw, 40px)",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                lineHeight: 1.15,
+                letterSpacing: "-0.025em",
+                marginBottom: "16px",
               }}
             >
-              Hackathon
-            </span>
-            {upcomingEvent.prize && (
-              <span className="text-xs font-medium" style={{ color: "#a0a0a0" }}>
-                🏆 Prize: {upcomingEvent.prize}
-              </span>
-            )}
+              {upcomingEvent.title}
+            </h3>
+
+            {/* Description */}
+            <p
+              style={{
+                fontSize: "14px",
+                lineHeight: 1.75,
+                color: "var(--text-secondary)",
+                marginBottom: "28px",
+                maxWidth: "520px",
+              }}
+            >
+              {upcomingEvent.description}
+            </p>
+
+            {/* Meta chips */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
+              {[
+                { icon: Calendar, text: date },
+                ...(upcomingEvent.venue ? [{ icon: MapPin, text: upcomingEvent.venue }] : []),
+                { icon: Clock, text: "24 Hours" },
+                { icon: Users, text: "200+ Participants" },
+              ].map(({ icon: Icon, text }, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "7px",
+                    fontSize: "12.5px",
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  <Icon style={{ width: "13px", height: "13px", color: "var(--accent)", flexShrink: 0 }} />
+                  {text}
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Title */}
-          <h3
-            className="font-black text-white mb-4 leading-tight"
-            style={{ fontSize: "clamp(28px, 4vw, 42px)", fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "-0.02em" }}
+          {/* ── Right: countdown + CTA ── */}
+          <div
+            style={{
+              padding: "clamp(28px, 4vw, 48px)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              gap: "36px",
+              background: "rgba(0,229,204,0.015)",
+            }}
+            className="upcoming-right"
           >
-            {upcomingEvent.title}
-          </h3>
+            <Countdown targetDateStr={upcomingEvent.date} />
 
-          {/* Description */}
-          <p className="text-sm leading-relaxed mb-8 max-w-2xl" style={{ color: "#a0a0a0" }}>
-            {upcomingEvent.description}
-          </p>
-
-          {/* Meta Info */}
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-8 text-xs" style={{ color: "#808080" }}>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-[#00e5cc]" />
-              <span>Friday, 15 August 2026</span>
-            </div>
-            {upcomingEvent.venue && (
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[#00e5cc]" />
-                <span>{upcomingEvent.venue}</span>
-              </div>
-            )}
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#00e5cc]" />
-              <span>24 Hours</span>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", margin: "24px 0" }} />
-
-          {/* Countdown & Button layout */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <CountdownTimer />
-
-            <div className="flex flex-col justify-end">
+            <div>
               <a
                 href={upcomingEvent.registrationLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200"
+                className="btn-primary"
                 style={{
-                  background: "#ffffff",
-                  color: "#0d0d0d",
+                  width: "100%",
+                  justifyContent: "center",
+                  fontSize: "14px",
                   padding: "14px 28px",
-                  borderRadius: "50px",
-                  boxShadow: "0 4px 15px rgba(255,255,255,0.15)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "#e5e5e5";
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "#ffffff";
-                  (e.currentTarget as HTMLElement).style.transform = "none";
+                  marginBottom: "12px",
                 }}
               >
                 Register Now — Free Entry
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink style={{ width: "14px", height: "14px" }} />
               </a>
+              <p style={{ fontSize: "11.5px", color: "var(--text-muted)", textAlign: "center", marginTop: "10px" }}>
+                Free entry · Open to all students
+              </p>
             </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 900px) {
+          .upcoming-grid {
+            grid-template-columns: 1.5fr 1fr !important;
+          }
+          .upcoming-left {
+            border-bottom: none !important;
+            border-right: 1px solid var(--border);
+          }
+        }
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(0.7); }
+        }
+      `}</style>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const activities = [
   { num: "01", category: "Coding", tags: ["Contests", "DSA Sessions", "Code Reviews", "LeetCode Sprints"] },
@@ -22,78 +23,113 @@ export default function WhatWeDo() {
   }, []);
 
   return (
-    <section id="what-we-do" className="section-padding" style={{ background: "#111111" }}>
-      <div className="section-container">
+    <section id="what-we-do" className="section-padding relative overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
+      <div className="section-container relative" style={{ zIndex: 1 }}>
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
-          <div>
-            <div className="section-tag">What We Do</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "48px" }}>
+          <div className="section-tag">What We Do</div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+              gap: "24px",
+            }}
+          >
             <h2
-              className="font-black text-white leading-[0.95]"
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(36px, 6vw, 72px)",
-                letterSpacing: "-0.03em",
-                marginTop: "12px",
-              }}
+              className="heading-display"
+              style={{ fontSize: "clamp(36px, 5.5vw, 68px)" }}
             >
               Everything You<br />
-              Need to <span style={{ color: "#00e5cc" }}>Succeed</span>
+              Need to <span style={{ color: "var(--accent)" }}>Succeed</span>
             </h2>
-          </div>
-          <p
-            className="max-w-sm text-sm leading-relaxed lg:text-right"
-            style={{ color: "#a0a0a0", paddingBottom: "8px" }}
-          >
-            From coding contests to career guidance — a complete ecosystem for your placement journey.
-          </p>
-        </div>
 
-        {/* Skill table rows — like reference portfolio */}
-        <div ref={sectionRef}>
-          {activities.map((item, i) => (
-            <div
-              key={item.num}
-              className="skill-row group"
+            <p
               style={{
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(20px)",
-                transition: `opacity 0.5s ease ${i * 0.07}s, transform 0.5s ease ${i * 0.07}s`,
+                color: "var(--text-secondary)",
+                fontSize: "14px",
+                lineHeight: 1.7,
+                maxWidth: "380px",
               }}
             >
-              {/* Number */}
-              <span
-                className="flex-shrink-0 font-mono"
-                style={{ color: "#808080", fontSize: "12px", width: "28px" }}
-              >
-                {item.num}
-              </span>
+              From coding contests to career guidance — a complete ecosystem designed for your placement journey.
+            </p>
+          </div>
+        </div>
 
-              {/* Category label */}
-              <span
-                className="font-bold text-white flex-shrink-0"
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: "clamp(16px, 2vw, 22px)",
-                  letterSpacing: "-0.02em",
-                  minWidth: "200px",
-                }}
-              >
-                {item.category}
-              </span>
+        {/* Clean, Perfectly Spaced Skill Rows */}
+        <div ref={sectionRef} style={{ borderTop: "1px solid var(--border)" }}>
+          {activities.map((item, i) => (
+            <motion.div
+              key={item.num}
+              initial={{ opacity: 0, y: 16 }}
+              animate={visible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr",
+                gap: "12px",
+                padding: "20px 0",
+                borderBottom: "1px solid var(--border)",
+                alignItems: "center",
+              }}
+              className="what-we-do-row group"
+            >
+              {/* Category + Number */}
+              <div style={{ display: "flex", alignItems: "center", gap: "20px", flexShrink: 0 }}>
+                <span
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    color: "var(--accent)",
+                    padding: "3px 8px",
+                    borderRadius: "6px",
+                    background: "rgba(0, 229, 204, 0.08)",
+                    border: "1px solid rgba(0, 229, 204, 0.2)",
+                    flexShrink: 0,
+                  }}
+                >
+                  {item.num}
+                </span>
 
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 flex-1">
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "clamp(17px, 2vw, 22px)",
+                    fontWeight: 700,
+                    color: "var(--text-primary)",
+                    letterSpacing: "-0.015em",
+                    lineHeight: 1.2,
+                    margin: 0,
+                  }}
+                >
+                  {item.category}
+                </h3>
+              </div>
+
+              {/* Skill Tags */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                 {item.tags.map((tag) => (
                   <span key={tag} className="skill-tag">
                     {tag}
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 768px) {
+          .what-we-do-row {
+            grid-template-columns: 280px 1fr !important;
+            gap: 24px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

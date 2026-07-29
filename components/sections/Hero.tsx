@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
-// Subtle star-dot background (white dots, not neon)
 function StarField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -13,40 +12,25 @@ function StarField() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const dots: Array<{ x: number; y: number; size: number; opacity: number }> = [];
-    for (let i = 0; i < 120; i++) {
-      dots.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 1.2 + 0.3,
-        opacity: Math.random() * 0.4 + 0.05,
-      });
-    }
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    dots.forEach((d) => {
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 229, 204, ${d.opacity})`;
-      ctx.fill();
-    });
-
-    const onResize = () => {
+    const render = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      dots.forEach((d) => {
+      for (let i = 0; i < 90; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const size = Math.random() * 1.1 + 0.2;
+        const opacity = Math.random() * 0.35 + 0.04;
         ctx.beginPath();
-        ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 229, 204, ${d.opacity})`;
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 229, 204, ${opacity})`;
         ctx.fill();
-      });
+      }
     };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+
+    render();
+    window.addEventListener("resize", render);
+    return () => window.removeEventListener("resize", render);
   }, []);
 
   return (
@@ -65,24 +49,21 @@ export default function Hero() {
   const [charIdx, setCharIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
-  // Typewriter effect
   useEffect(() => {
     const word = rotatingWords[wordIdx];
     let timer: NodeJS.Timeout;
     if (!deleting) {
       if (charIdx < word.length) {
-        timer = setTimeout(() => setCharIdx((c) => c + 1), 70);
+        timer = setTimeout(() => setCharIdx((c) => c + 1), 68);
       } else {
-        timer = setTimeout(() => setDeleting(true), 2200);
+        timer = setTimeout(() => setDeleting(true), 2400);
       }
     } else {
       if (charIdx > 0) {
-        timer = setTimeout(() => setCharIdx((c) => c - 1), 35);
+        timer = setTimeout(() => setCharIdx((c) => c - 1), 32);
       } else {
-        timer = setTimeout(() => {
-          setDeleting(false);
-          setWordIdx((i) => (i + 1) % rotatingWords.length);
-        }, 0);
+        setDeleting(false);
+        setWordIdx((i) => (i + 1) % rotatingWords.length);
       }
     }
     return () => clearTimeout(timer);
@@ -92,85 +73,129 @@ export default function Hero() {
     <section
       id="home"
       className="relative min-h-screen flex flex-col overflow-hidden"
-      style={{ background: "#0d0d0d" }}
+      style={{ background: "var(--bg-primary)" }}
     >
-      {/* Subtle dot field */}
       <StarField />
 
-      {/* Very subtle gradient glow — not neon, just warmth */}
+      {/* Subtle ambient glows (Multi-Color) */}
       <div
         className="absolute pointer-events-none"
         style={{
-          top: "20%",
+          top: "5%",
           right: "-5%",
-          width: "500px",
-          height: "500px",
-          background: "radial-gradient(circle, rgba(0,229,204,0.04) 0%, transparent 70%)",
-          filter: "blur(60px)",
+          width: "650px",
+          height: "650px",
+          background: "radial-gradient(circle, rgba(0,229,204,0.06) 0%, transparent 65%)",
+          filter: "blur(90px)",
+          zIndex: 0,
+        }}
+      />
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          bottom: "15%",
+          left: "-10%",
+          width: "550px",
+          height: "550px",
+          background: "radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 65%)",
+          filter: "blur(90px)",
+          zIndex: 0,
+        }}
+      />
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "40%",
+          left: "30%",
+          width: "450px",
+          height: "450px",
+          background: "radial-gradient(circle, rgba(236,72,153,0.04) 0%, transparent 65%)",
+          filter: "blur(90px)",
           zIndex: 0,
         }}
       />
 
-      {/* Main content — takes full height */}
+      {/* Main content */}
       <div
-        className="section-container flex-1 flex flex-col justify-center relative"
-        style={{ zIndex: 2, paddingTop: "120px", paddingBottom: "60px" }}
+        className="section-container relative flex-1 flex flex-col justify-center"
+        style={{ zIndex: 2, paddingTop: "clamp(96px, 12vw, 136px)", paddingBottom: "clamp(48px, 6vw, 72px)" }}
       >
-        <div className="grid lg:grid-cols-12 gap-12 items-center w-full">
-          {/* Left Column (Content) */}
-          <div className="lg:col-span-7 flex flex-col">
-            {/* Community label */}
-            <div className="section-tag mb-6 align-self-start">
-              Nexus Community · Est. 2022
+        <div className="grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-16 items-center w-full">
+
+          {/* ── Left: Content ── */}
+          <div className="flex flex-col max-w-2xl">
+            {/* Eyebrow label */}
+            <div
+              className="section-tag"
+              style={{ marginBottom: "28px" }}
+            >
+              <span style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "4px 12px",
+                background: "rgba(0,229,204,0.07)",
+                border: "1px solid rgba(0,229,204,0.15)",
+                borderRadius: "999px",
+              }}>
+                ✦ Nexus Community · Est. 2022
+              </span>
             </div>
 
-            {/* Massive headline */}
+            {/* Main heading — typewriter with crisp white + neon green accent */}
             <h1
-              className="font-black text-white leading-[0.92] tracking-tight mb-8"
+              className="heading-display"
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(46px, 8vw, 110px)",
-                letterSpacing: "-0.03em",
+                fontSize: "clamp(34px, 7vw, 104px)",
+                marginBottom: "24px",
+                color: "#ffffff",
               }}
             >
               {rotatingWords[wordIdx].slice(0, charIdx)}
               <span
-                className="inline-block w-[4px] align-middle ml-2"
                 style={{
-                  height: "0.85em",
-                  background: "#00e5cc",
-                  animation: "blink 1s step-end infinite",
+                  display: "inline-block",
+                  width: "4px",
+                  height: "0.82em",
+                  background: "var(--accent)",
+                  verticalAlign: "middle",
+                  marginLeft: "6px",
                   borderRadius: "2px",
+                  animation: "blink 1s step-end infinite",
+                  WebkitTextFillColor: "initial",
                 }}
               />
             </h1>
 
             {/* Description */}
             <p
-              className="text-base leading-relaxed mb-8 max-w-xl"
-              style={{ color: "#888888", fontSize: "15px" }}
+              style={{
+                color: "var(--text-secondary)",
+                fontSize: "clamp(14px, 1.5vw, 16px)",
+                lineHeight: 1.75,
+                maxWidth: "520px",
+                marginBottom: "36px",
+              }}
             >
-              We are a student-driven community helping college students master
-              coding, aptitude, hackathons, and real-world skills — so you can
-              crack your dream placement.
+              A student-driven community helping college students master coding,
+              aptitude, hackathons, and real-world skills — so you can crack
+              your dream placement.
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4">
+            {/* CTA row */}
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px" }}>
               <a
                 href="https://vexta.collegecrm.in"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"
-                style={{ fontSize: "14px", padding: "12px 28px" }}
               >
                 Join Community
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight style={{ width: "15px", height: "15px" }} />
               </a>
               <a
                 href="#events"
                 className="btn-secondary"
-                style={{ fontSize: "14px", padding: "11px 28px" }}
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById("events")?.scrollIntoView({ behavior: "smooth" });
@@ -179,135 +204,141 @@ export default function Hero() {
                 Explore Events
               </a>
             </div>
+
+            {/* Stats row with vibrant multi-colors */}
+            <div
+              style={{
+                display: "flex",
+                gap: "36px",
+                marginTop: "48px",
+                paddingTop: "24px",
+                borderTop: "1px solid var(--border)",
+              }}
+            >
+              {[
+                { value: "1500+", label: "Active Members", color: "#8b5cf6" },
+                { value: "50+", label: "Events Hosted", color: "#00e5cc" },
+                { value: "3+", label: "Years Running", color: "#ec4899" },
+              ].map((s) => (
+                <div key={s.label}>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 800,
+                      fontSize: "clamp(20px, 2.5vw, 26px)",
+                      color: s.color,
+                      lineHeight: 1.1,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {s.value}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      color: "var(--text-muted)",
+                      letterSpacing: "0.06em",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Right Column (Community Logo with move animation behind it) */}
-          <div className="lg:col-span-5 flex justify-center items-center relative py-12 lg:py-0">
-            {/* Moving background glow/shape */}
+          {/* ── Right: Logo visual ── */}
+          <div
+            className="hidden lg:flex items-center justify-center"
+            style={{ position: "relative", width: "280px", height: "280px", flexShrink: 0 }}
+          >
+            {/* Rotating gradient ring */}
             <div
-              className="absolute rounded-full pointer-events-none"
               style={{
-                width: "min(320px, 70vw)",
-                height: "min(320px, 70vw)",
-                background: "radial-gradient(circle, rgba(0, 229, 204, 0.15) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 70%)",
-                filter: "blur(35px)",
-                animation: "move-behind 8s ease-in-out infinite",
-                zIndex: 1,
+                position: "absolute",
+                inset: "-8px",
+                borderRadius: "50%",
+                background: "linear-gradient(45deg, #00e5cc, #8b5cf6, #00e5cc, #8b5cf6)",
+                backgroundSize: "300% 300%",
+                filter: "blur(10px)",
+                opacity: 0.7,
+                animation: "rotate-glow 10s linear infinite, sparkling-glow 3s ease infinite",
+                zIndex: 0,
               }}
             />
 
-            {/* Slow floating logo container */}
+            {/* Logo circle */}
             <div
-              className="relative flex items-center justify-center transition-all duration-300"
               style={{
-                width: "clamp(200px, 22vw, 270px)",
-                height: "clamp(200px, 22vw, 270px)",
+                position: "relative",
+                width: "100%",
+                height: "100%",
                 borderRadius: "50%",
                 background: "#ffffff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 padding: "20px",
-                boxShadow: "0 20px 50px rgba(0,0,0,0.5), 0 0 80px rgba(0,229,204,0.15)",
-                border: "2px solid rgba(255,255,255,0.05)",
-                zIndex: 2,
-                animation: "float-slow 6s ease-in-out infinite",
+                boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
+                zIndex: 1,
+                animation: "float 7s ease-in-out infinite",
               }}
             >
-              {/* Glowing / Sparkly Ring */}
-              <div
-                className="absolute rounded-full pointer-events-none"
-                style={{
-                  top: "-6px",
-                  left: "-6px",
-                  right: "-6px",
-                  bottom: "-6px",
-                  background: "linear-gradient(45deg, #00e5cc, #8b5cf6, #00e5cc, #8b5cf6)",
-                  backgroundSize: "300% 300%",
-                  filter: "blur(8px)",
-                  opacity: 0.85,
-                  zIndex: -1,
-                  animation: "sparkling-glow 3s ease infinite, rotate-glow 10s linear infinite"
-                }}
-              />
-
-              {/* Sparkle 1 */}
-              <div
-                className="absolute text-[#00e5cc] pointer-events-none select-none"
-                style={{
-                  top: "5%",
-                  right: "-5%",
-                  fontSize: "24px",
-                  filter: "drop-shadow(0 0 5px #00e5cc)",
-                  animation: "sparkle-star 4s ease-in-out infinite",
-                  animationDelay: "0s",
-                }}
-              >
-                ✦
-              </div>
-              {/* Sparkle 2 */}
-              <div
-                className="absolute text-[#8b5cf6] pointer-events-none select-none"
-                style={{
-                  bottom: "5%",
-                  left: "-10%",
-                  fontSize: "20px",
-                  filter: "drop-shadow(0 0 5px #8b5cf6)",
-                  animation: "sparkle-star 5s ease-in-out infinite",
-                  animationDelay: "1.5s",
-                }}
-              >
-                ✦
-              </div>
-              {/* Sparkle 3 */}
-              <div
-                className="absolute text-[#00e5cc] pointer-events-none select-none"
-                style={{
-                  top: "65%",
-                  right: "-10%",
-                  fontSize: "18px",
-                  filter: "drop-shadow(0 0 5px #00e5cc)",
-                  animation: "sparkle-star 6s ease-in-out infinite",
-                  animationDelay: "3s",
-                }}
-              >
-                ✦
-              </div>
-              {/* Sparkle 4 */}
-              <div
-                className="absolute text-white pointer-events-none select-none"
-                style={{
-                  top: "-10%",
-                  left: "20%",
-                  fontSize: "22px",
-                  filter: "drop-shadow(0 0 8px rgba(255,255,255,0.8))",
-                  animation: "sparkle-star 3s ease-in-out infinite",
-                  animationDelay: "0.8s",
-                }}
-              >
-                ✦
-              </div>
-
               <img
                 src="/images/logo.png"
                 alt="Nexus Community Logo"
-                className="w-[85%] h-[85%] object-contain"
+                style={{ width: "82%", height: "82%", objectFit: "contain" }}
               />
             </div>
+
+            {/* Sparkles */}
+            {[
+              { top: "2%", right: "-6%", size: "22px", color: "#00e5cc", delay: "0s", dur: "4s" },
+              { bottom: "4%", left: "-8%", size: "18px", color: "#8b5cf6", delay: "1.5s", dur: "5s" },
+              { top: "60%", right: "-8%", size: "16px", color: "#00e5cc", delay: "2.8s", dur: "6s" },
+              { top: "-6%", left: "22%", size: "20px", color: "#ffffff", delay: "0.8s", dur: "3.5s" },
+            ].map((sp, i) => (
+              <div
+                key={i}
+                style={{
+                  position: "absolute",
+                  top: sp.top,
+                  bottom: (sp as any).bottom,
+                  left: (sp as any).left,
+                  right: (sp as any).right,
+                  fontSize: sp.size,
+                  color: sp.color,
+                  filter: `drop-shadow(0 0 6px ${sp.color})`,
+                  animation: `sparkle-star ${sp.dur} ease-in-out infinite`,
+                  animationDelay: sp.delay,
+                  pointerEvents: "none",
+                  userSelect: "none",
+                  zIndex: 2,
+                }}
+              >
+                ✦
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Footer bar of hero — like reference site (©2025 | /BUILDING SINCE 2022) */}
+      {/* Bottom bar */}
       <div
-        className="section-container relative flex justify-between items-center py-5"
+        className="section-container relative flex justify-between items-center"
         style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid var(--border)",
+          paddingTop: "16px",
+          paddingBottom: "16px",
           zIndex: 2,
         }}
       >
-        <span style={{ color: "#808080", fontSize: "12px", fontWeight: 500, letterSpacing: "0.05em" }}>
-          ©2025
+        <span style={{ color: "var(--text-muted)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.06em" }}>
+          ©2025 Nexus Community
         </span>
-        <span style={{ color: "#808080", fontSize: "11px", fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-          
+        <span style={{ color: "var(--text-faint)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+          Building Since 2022
         </span>
       </div>
 
@@ -316,18 +347,13 @@ export default function Hero() {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
         }
-        @keyframes move-behind {
-          0%, 100% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(25px, -15px) scale(1.08); }
-          66% { transform: translate(-20px, 20px) scale(0.95); }
-        }
-        @keyframes float-slow {
+        @keyframes float {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-12px); }
+          50% { transform: translateY(-10px); }
         }
         @keyframes sparkling-glow {
-          0%, 100% { opacity: 0.7; filter: blur(6px); }
-          50% { opacity: 1; filter: blur(12px); }
+          0%, 100% { opacity: 0.6; filter: blur(8px); }
+          50% { opacity: 0.9; filter: blur(14px); }
         }
         @keyframes rotate-glow {
           0% { background-position: 0% 50%; transform: rotate(0deg); }
@@ -335,8 +361,8 @@ export default function Hero() {
           100% { background-position: 0% 50%; transform: rotate(360deg); }
         }
         @keyframes sparkle-star {
-          0%, 100% { transform: scale(0.3) rotate(0deg); opacity: 0; }
-          50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+          0%, 100% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+          50% { transform: scale(1.1) rotate(180deg); opacity: 1; }
         }
       `}</style>
     </section>

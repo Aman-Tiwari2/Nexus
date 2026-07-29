@@ -2,25 +2,65 @@
 
 /* ============================================================
    NEXUS COMMUNITY — GLOBAL STYLES
-   Editorial Dark Theme (Professional)
+   Editorial Dark Theme (Crisp White + Neon Green Accent)
    ============================================================ */
 
 :root {
-  --bg-primary: #0d0d0d;
-  --bg-secondary: #111111;
-  --bg-card: #161616;
-  --bg-elevated: #1e1e1e;
+  /* Backgrounds */
+  --bg-primary: #0c0c0c;
+  --bg-secondary: #101010;
+  --bg-card: #141414;
+  --bg-elevated: #1a1a1a;
+  --bg-hover: #1f1f1f;
+
+  /* Primary Accent: Neon Green / Cyan */
   --accent: #00e5cc;
-  --accent-muted: rgba(0, 229, 204, 0.15);
+  --accent-dim: rgba(0, 229, 204, 0.12);
+  --accent-glow: rgba(0, 229, 204, 0.08);
+
+  /* Multi-Accents for badges & tags */
+  --accent-purple: #8b5cf6;
+  --accent-blue: #3b82f6;
+  --accent-pink: #ec4899;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #10b981;
+
+  /* Text hierarchy */
   --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
-  --text-tertiary: #888888;
-  --border: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(255, 255, 255, 0.25);
+  --text-secondary: #a8a8a8;
+  --text-muted: #666666;
+  --text-faint: #3a3a3a;
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.2);
+  --border-accent: rgba(0, 229, 204, 0.3);
+
+  /* Spacing scale */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-5: 40px;
+  --sp-6: 48px;
+
+  /* Typography */
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 220ms ease;
 }
 
-/* Base */
-* {
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -28,59 +68,102 @@
 
 html {
   scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: #0d0d0d;
-}
-::-webkit-scrollbar-thumb {
-  background: #333333;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #444444;
+img, video {
+  max-width: 100%;
+  display: block;
 }
 
-/* Selection */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: #3a3a3a; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
 ::selection {
   background: rgba(0, 229, 204, 0.25);
-  color: white;
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* ============================================================
-   SECTION TAG (small label like "TECH STACK", "ABOUT US")
+   LAYOUT CONTAINERS
    ============================================================ */
+
+.section-container {
+  max-width: 1280px;
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+.section-padding {
+  padding-block: clamp(56px, 9vw, 112px);
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
 .section-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 16px;
+  margin-bottom: var(--sp-2);
+}
+
+.heading-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: #ffffff;
 }
 
 /* ============================================================
-   EDITORIAL CARD (minimal, no glass)
+   CARDS & BUTTONS (Clean, Normal Crisp Style)
    ============================================================ */
+
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base), background var(--transition-base), box-shadow var(--transition-base);
 }
 
 .card:hover {
@@ -88,72 +171,75 @@ body {
   background: var(--bg-elevated);
 }
 
-/* Legacy glass-card support (minimal version) */
-.glass-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: border-color 0.2s ease;
-}
-
-.glass-card:hover {
-  border-color: var(--border-hover);
-}
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
+/* Normal Clean Solid Neon Green Primary Button */
 .btn-primary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 12px 28px;
-  background: var(--text-primary);
-  color: var(--bg-primary);
-  font-weight: 600;
-  font-size: 14px;
-  border-radius: 50px;
+  background: var(--accent); /* Solid Neon Green #00e5cc */
+  color: #0c0c0c;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13.5px;
+  line-height: 1;
+  border-radius: var(--radius-full);
   border: none;
-  transition: all 0.2s ease;
-  text-decoration: none;
   cursor: pointer;
+  transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 44px;
+  box-shadow: 0 4px 20px rgba(0, 229, 204, 0.25);
 }
 
 .btn-primary:hover {
-  background: #e5e5e5;
-  transform: translateY(-1px);
+  background: #00c7b2;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 229, 204, 0.4);
 }
 
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Normal Clean Ghost Secondary Button */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 11px 28px;
+  padding: 11px 26px;
   background: transparent;
-  color: var(--text-primary);
-  font-weight: 500;
-  font-size: 14px;
-  border-radius: 50px;
-  border: 1px solid var(--border-hover);
-  transition: all 0.2s ease;
-  text-decoration: none;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  line-height: 1;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 44px;
 }
 
 .btn-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(0, 229, 204, 0.4);
+  background: rgba(0, 229, 204, 0.08);
+  color: var(--accent);
 }
 
-/* ============================================================
-   SKILL ROW (like reference portfolio tech stack)
-   ============================================================ */
+/* Skill Row Utilities for WhatWeDo */
 .skill-row {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 28px 0;
+  padding: 22px 0;
   border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
 }
 
 .skill-row:first-child {
@@ -163,24 +249,30 @@ body {
 .skill-tag {
   display: inline-flex;
   align-items: center;
-  padding: 6px 16px;
-  background: transparent;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
-  border-radius: 50px;
-  font-size: 13px;
-  font-weight: 400;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
   color: var(--text-secondary);
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
+  white-space: nowrap;
 }
 
 .skill-tag:hover {
-  border-color: var(--border-hover);
-  color: var(--text-primary);
+  border-color: rgba(0, 229, 204, 0.4);
+  color: var(--accent);
+  background: rgba(0, 229, 204, 0.06);
 }
 
-/* ============================================================
-   HORIZONTAL SCROLLING TICKER / MARQUEE
-   ============================================================ */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Marquee & Lightbox */
 .marquee-wrapper {
   overflow: hidden;
   white-space: nowrap;
@@ -189,221 +281,23 @@ body {
 .marquee-track {
   display: inline-flex;
   gap: 48px;
-  animation: scroll-left 35s linear infinite;
+  animation: scroll-left 40s linear infinite;
 }
 
 .marquee-wrapper:hover .marquee-track {
   animation-play-state: paused;
 }
 
-/* ============================================================
-   DIVIDER LINE
-   ============================================================ */
-.section-divider {
-  width: 100%;
-  height: 1px;
-  background: var(--border);
-}
-
-/* ============================================================
-   SECTION LABEL (legacy support)
-   ============================================================ */
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-/* ============================================================
-   SCROLL REVEAL
-   ============================================================ */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal-left.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal-right.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* ============================================================
-   PROGRESS BAR
-   ============================================================ */
-.scroll-progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  background: var(--accent);
-  z-index: 9997;
-  transform-origin: left;
-}
-
-/* ============================================================
-   TIMELINE
-   ============================================================ */
-.timeline-line {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: translateX(-50%);
-  background: var(--border);
-}
-
-.timeline-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--accent);
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-}
-
-/* ============================================================
-   MASONRY GALLERY
-   ============================================================ */
-.masonry-grid {
-  columns: 3;
-  column-gap: 16px;
-}
-
-@media (max-width: 768px) {
-  .masonry-grid {
-    columns: 2;
-  }
-}
-
-@media (max-width: 480px) {
-  .masonry-grid {
-    columns: 1;
-  }
-}
-
-.masonry-item {
-  break-inside: avoid;
-  margin-bottom: 16px;
-}
-
-/* ============================================================
-   COUNTDOWN
-   ============================================================ */
-.countdown-digit {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  text-align: center;
-  min-width: 80px;
-}
-
-/* ============================================================
-   LIGHTBOX
-   ============================================================ */
 .lightbox-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(13, 13, 13, 0.97);
-  backdrop-filter: blur(20px);
+  background: rgba(12, 12, 12, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* ============================================================
-   PAGE LOADER
-   ============================================================ */
-.page-loader {
-  position: fixed;
-  inset: 0;
-  background: #0d0d0d;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-/* ============================================================
-   FLIP CARD
-   ============================================================ */
-.flip-card {
-  perspective: 1200px;
-}
-
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: 12px;
-}
-
-.flip-card-back {
-  transform: rotateY(180deg);
-}
-
-/* ============================================================
-   ANIMATED GRID (subtle, not neon)
-   ============================================================ */
-.animated-grid {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 80px 80px;
-}
-
-/* ============================================================
-   KEYFRAMES
-   ============================================================ */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
 }
 
 @keyframes scroll-left {
@@ -411,61 +305,7 @@ body {
   100% { transform: translateX(-50%); }
 }
 
-@keyframes scroll-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ============================================================
-   UTILITY
-   ============================================================ */
-.section-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 32px;
-}
-
-.section-padding {
-  padding: 120px 0;
-}
-
-/* Gradient text — used sparingly for accent only */
-.gradient-text {
-  background: linear-gradient(135deg, #ffffff, #aaaaaa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.accent-text {
-  color: var(--accent);
-}
-
-@media (max-width: 768px) {
-  .section-padding {
-    padding: 80px 0;
-  }
-  .section-container {
-    padding: 0 20px;
-  }
 }

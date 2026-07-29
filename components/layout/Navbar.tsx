@@ -22,12 +22,11 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 30);
-
+      setScrolled(window.scrollY > 20);
       const sections = navLinks.map((l) => l.href.replace("#", ""));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
-        if (el && window.scrollY >= el.offsetTop - 120) {
+        if (el && window.scrollY >= el.offsetTop - 100) {
           setActiveSection(sections[i]);
           break;
         }
@@ -45,29 +44,55 @@ export default function Navbar() {
     setMobileOpen(false);
   };
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled ? "rgba(13, 13, 13, 0.92)" : "transparent",
-          backdropFilter: scrolled ? "blur(16px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          transition: "background 0.3s, border-color 0.3s, backdrop-filter 0.3s",
+          background: scrolled ? "rgba(12,12,12,0.9)" : "transparent",
+          backdropFilter: scrolled ? "blur(18px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(18px)" : "none",
+          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
         }}
       >
         <div className="section-container">
-          <div className="flex items-center justify-between h-16">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              height: "60px",
+            }}
+          >
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <img 
-                src="/images/logo.png" 
-                alt="Nexus Community" 
-                className="h-9 w-auto object-contain"
+            <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src="/images/logo.png"
+                alt="Nexus Community"
+                style={{ height: "34px", width: "auto", objectFit: "contain" }}
               />
             </Link>
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-3">
+            {/* Desktop nav links */}
+            <div
+              style={{
+                display: "none",
+                alignItems: "center",
+                gap: "2px",
+              }}
+              className="nav-desktop"
+            >
               {navLinks.map((link) => {
                 const id = link.href.replace("#", "");
                 const isActive = activeSection === id;
@@ -76,110 +101,185 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="px-4 py-1.5 text-sm transition-all duration-200 rounded-full"
                     style={{
-                      color: isActive ? "#ffffff" : "#b0b0b0",
-                      fontWeight: isActive ? 500 : 400,
+                      position: "relative",
+                      padding: "6px 12px",
+                      fontSize: "13px",
+                      fontWeight: isActive ? 600 : 400,
+                      color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
+                      borderRadius: "6px",
+                      transition: "color 0.18s",
                     }}
                     onMouseEnter={(e) => {
-                      if (!isActive) (e.currentTarget as HTMLElement).style.color = "#ffffff";
+                      if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
                     }}
                     onMouseLeave={(e) => {
-                      if (!isActive) (e.currentTarget as HTMLElement).style.color = "#b0b0b0";
+                      if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
                     }}
                   >
                     {link.label}
+                    {/* Active dot indicator */}
+                    {isActive && (
+                      <span
+                        style={{
+                          position: "absolute",
+                          bottom: "2px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          width: "3px",
+                          height: "3px",
+                          borderRadius: "50%",
+                          background: "var(--accent)",
+                        }}
+                      />
+                    )}
                   </a>
                 );
               })}
             </div>
 
-            {/* CTA */}
-            <div className="hidden lg:flex items-center gap-3">
+            {/* Desktop CTA */}
+            <div style={{ display: "none" }} className="nav-cta">
               <a
                 href="https://vexta.collegecrm.in"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm font-medium px-5 py-2 rounded-full transition-all duration-200"
                 style={{
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  color: "#ffffff",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  fontSize: "12.5px",
+                  fontWeight: 500,
+                  padding: "7px 18px",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  color: "var(--text-primary)",
+                  transition: "background 0.18s, border-color 0.18s",
+                  whiteSpace: "nowrap",
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.35)";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.32)";
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.background = "transparent";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.2)";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.18)";
                 }}
               >
-                <span style={{ fontSize: "10px" }}>✦</span>
+                <span style={{ fontSize: "9px", color: "var(--accent)" }}>✦</span>
                 Join Community
               </a>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile burger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-full transition-all"
+              aria-label="Toggle menu"
               style={{
-                border: "1px solid rgba(255,255,255,0.15)",
-                color: "#cccccc",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "36px",
+                height: "36px",
+                borderRadius: "8px",
+                border: "1px solid var(--border)",
                 background: mobileOpen ? "rgba(255,255,255,0.05)" : "transparent",
+                color: "var(--text-secondary)",
+                transition: "background 0.18s",
               }}
+              className="nav-burger"
             >
-              {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {mobileOpen ? <X style={{ width: "16px", height: "16px" }} /> : <Menu style={{ width: "16px", height: "16px" }} />}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* ── Mobile overlay menu ── */}
       <div
-        className="fixed inset-0 z-40 lg:hidden transition-all duration-300"
         style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 40,
           opacity: mobileOpen ? 1 : 0,
           pointerEvents: mobileOpen ? "all" : "none",
+          transition: "opacity 0.25s ease",
         }}
+        className="nav-mobile-overlay"
       >
+        {/* Backdrop */}
         <div
-          className="absolute inset-0"
-          style={{ background: "rgba(13,13,13,0.97)", backdropFilter: "blur(20px)" }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "rgba(12,12,12,0.97)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+          }}
           onClick={() => setMobileOpen(false)}
         />
+
+        {/* Menu content */}
         <div
-          className="absolute top-16 left-0 right-0 p-6"
           style={{
-            transform: mobileOpen ? "translateY(0)" : "translateY(-10px)",
-            transition: "transform 0.25s ease",
+            position: "absolute",
+            top: "60px",
+            left: 0,
+            right: 0,
+            padding: "24px",
+            transform: mobileOpen ? "translateY(0)" : "translateY(-8px)",
+            transition: "transform 0.22s ease",
           }}
         >
-          <div className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="py-3 px-4 text-base font-medium transition-all rounded-lg"
-                style={{ color: "#b0b0b0" }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#b0b0b0"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href="https://vexta.collegecrm.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary justify-center mt-6 text-sm"
-            >
-              Join Community
-            </a>
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginBottom: "24px" }}>
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.replace("#", "");
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  style={{
+                    padding: "13px 16px",
+                    fontSize: "15px",
+                    fontWeight: isActive ? 600 : 400,
+                    color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
+                    borderRadius: "8px",
+                    background: isActive ? "rgba(255,255,255,0.04)" : "transparent",
+                    transition: "color 0.18s, background 0.18s",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  {isActive && (
+                    <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
+                  )}
+                  {link.label}
+                </a>
+              );
+            })}
           </div>
+          <a
+            href="https://vexta.collegecrm.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
+            Join Community
+          </a>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .nav-desktop { display: flex !important; }
+          .nav-cta { display: flex !important; }
+          .nav-burger { display: none !important; }
+          .nav-mobile-overlay { display: none !important; }
+        }
+      `}</style>
     </>
   );
 }

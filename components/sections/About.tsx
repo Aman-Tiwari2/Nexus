@@ -1,184 +1,294 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Eye, Heart, Zap, Users, BookOpen } from "lucide-react";
+import { Target, Eye, Heart, Users, Zap, BookOpen, ShieldCheck, Code, Award, CheckCircle2 } from "lucide-react";
 
 const coreValues = [
-  { icon: Target, label: "Excellence", desc: "We push boundaries and strive for the best in everything we do." },
-  { icon: Users, label: "Community", desc: "Together we grow stronger. Every student matters here." },
-  { icon: Zap, label: "Innovation", desc: "Creative solutions and fresh approaches to learning." },
-  { icon: BookOpen, label: "Learning", desc: "Continuous growth through practice, feedback and mentorship." },
+  { icon: Target, num: "01", label: "Excellence", desc: "We push boundaries and strive for the best in everything we do." },
+  { icon: Users, num: "02", label: "Community", desc: "Together we grow stronger. Every student matters here." },
+  { icon: Zap, num: "03", label: "Innovation", desc: "Creative solutions and fresh approaches to learning." },
+  { icon: BookOpen, num: "04", label: "Learning", desc: "Continuous growth through practice, feedback and mentorship." },
 ];
 
-const containerVariants = {
+const pillars = [
+  {
+    icon: Target,
+    title: "Our Mission",
+    desc: "Bridging academic education and industry requirements by equipping students with technical skills, aptitude, and placement confidence.",
+    badge: "Purpose",
+  },
+  {
+    icon: Eye,
+    title: "Our Vision",
+    desc: "Becoming the most impactful student-run placement and tech ecosystem across colleges nationwide.",
+    badge: "Goal",
+  },
+  {
+    icon: Heart,
+    title: "Peer Mentorship",
+    desc: "Placed seniors mentor juniors, sharing real interview experiences, roadmaps, and direct referral opportunities.",
+    badge: "Community",
+  },
+  {
+    icon: ShieldCheck,
+    title: "College CRM Integration",
+    desc: "We run on College CRM — our proprietary task-tracking system ensuring total operational transparency and team performance tracking.",
+    badge: "Tech",
+  },
+];
+
+const ecosystemBadges = [
+  { icon: Code, label: "Placement Focused", count: "100% Practical" },
+  { icon: Users, label: "Senior Mentors", count: "50+ Placed Seniors" },
+  { icon: Award, label: "Tech Contests", count: "Weekly Challenges" },
+  { icon: CheckCircle2, label: "Internal Tools", count: "Vexta & CRM Built" },
+];
+
+const stagger = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
-const itemVariants = {
-  hidden: { y: 25, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut" as const,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { y: 30, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring" as const,
-      stiffness: 100,
-      damping: 16,
-    },
-  },
+const fadeUp = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.45, ease: "easeOut" as const } },
 };
 
 export default function About() {
   return (
-    <section id="about" className="section-padding relative overflow-hidden" style={{ background: "#0d0d0d" }}>
+    <section
+      id="about"
+      className="section-padding relative overflow-hidden"
+      style={{ background: "var(--bg-primary)" }}
+    >
       {/* Background radial glow */}
       <div
         className="absolute pointer-events-none"
         style={{
-          bottom: "-10%",
-          left: "-5%",
+          top: "10%",
+          left: "-10%",
           width: "600px",
           height: "600px",
-          background: "radial-gradient(circle, rgba(0,229,204,0.03) 0%, transparent 70%)",
-          filter: "blur(80px)",
+          background: "radial-gradient(circle, rgba(0,229,204,0.035) 0%, transparent 65%)",
+          filter: "blur(90px)",
           zIndex: 0,
         }}
       />
 
-      <div className="section-container relative z-10">
-        {/* Tag */}
+      <div className="section-container relative" style={{ zIndex: 1 }}>
+        
+        {/* ── Top Eyebrow Tag ── */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
           className="section-tag"
+          style={{ marginBottom: "16px" }}
         >
-          About Us
+          About Nexus
         </motion.div>
 
-        {/* Large "Hey!" headline & Details */}
-        <div className="grid lg:grid-cols-3 gap-12 lg:gap-16 items-start mb-24">
-          {/* Left — big heading */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-          >
-            <h2
-              className="font-black text-white leading-[0.9]"
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(56px, 8vw, 100px)",
-                letterSpacing: "-0.03em",
-              }}
-            >
-              Who<br />We Are.
-            </h2>
-          </motion.div>
-
-          {/* Center — description */}
+        {/* ── Main 2-Column Split Layout (Perfectly Balanced) ── */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "48px",
+            marginBottom: "64px",
+            alignItems: "stretch",
+          }}
+          className="about-main-grid"
+        >
+          {/* ── Left Column: Heading + Description + Feature Grid ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-            style={{ paddingTop: "8px" }}
+            transition={{ duration: 0.5 }}
+            style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
           >
-            <p className="text-base leading-relaxed mb-6" style={{ color: "#c0c0c0", fontSize: "16px" }}>
-              We&apos;re a student-driven community based at college level, founded in 2022 to bridge the gap
-              between academic education and industry requirements.
-            </p>
-            <p className="text-base leading-relaxed" style={{ color: "#c0c0c0", fontSize: "16px" }}>
-              We equip students with technical skills, aptitude, and confidence needed to excel in placements
-              and build successful careers.
-            </p>
-          </motion.div>
+            <div>
+              <h2
+                className="heading-display"
+                style={{
+                  fontSize: "clamp(42px, 5.5vw, 76px)",
+                  lineHeight: 0.95,
+                  color: "var(--text-primary)",
+                  marginBottom: "24px",
+                }}
+              >
+                Who We Are<span style={{ color: "var(--accent)" }}>.</span>
+              </h2>
 
-          {/* Right — details */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            className="flex flex-col gap-4"
-            style={{ paddingTop: "8px" }}
-          >
-            {[
-              {
-                icon: Target,
-                title: "Our Mission",
-                desc: "To bridge the gap between academic education and industry requirements by equipping students with technical skills and confidence.",
-              },
-              {
-                icon: Eye,
-                title: "Our Vision",
-                desc: "To become the most impactful student-run placement community in the region.",
-              },
-              {
-                icon: Heart,
-                title: "What Sets Us Apart",
-                desc: "Seniors mentor juniors, sharing real experiences and roadmaps so no student has to figure it out alone.",
-              },
-              {
-                icon: Users,
-                title: "College CRM",
-                desc: "We utilize College CRM, a dedicated internal task tracking and operations system, to keep records of team members' contributions, tasks performed, and remaining work.",
-              },
-            ].map((detail, idx) => {
-              const Icon = detail.icon;
-              return (
-                <motion.div
-                  key={idx}
-                  variants={itemVariants}
-                  whileHover={{
-                    scale: 1.02,
-                    borderColor: "rgba(0, 229, 204, 0.4)",
-                    backgroundColor: "rgba(255, 255, 255, 0.02)",
-                    boxShadow: "0 8px 30px -10px rgba(0, 229, 204, 0.12)",
-                  }}
-                  className="p-5 rounded-xl border transition-all duration-300 flex gap-4 items-start"
-                  style={{
-                    background: "rgba(255, 255, 255, 0.01)",
-                    borderColor: "rgba(255, 255, 255, 0.05)",
-                  }}
-                >
-                  <div
-                    className="p-2 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  fontSize: "clamp(14.5px, 1.4vw, 16px)",
+                  lineHeight: 1.8,
+                  marginBottom: "16px",
+                  maxWidth: "540px",
+                }}
+              >
+                We&apos;re a student-driven community established in 2022 to bridge the gap
+                between college academics and real-world tech industry demands.
+              </p>
+
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  fontSize: "clamp(14px, 1.3vw, 15.5px)",
+                  lineHeight: 1.75,
+                  marginBottom: "32px",
+                  maxWidth: "540px",
+                }}
+              >
+                From hands-on coding bootcamps and aptitude preparation to internal task management systems and placed senior mentorship — Nexus empowers every student to crack their dream role.
+              </p>
+            </div>
+
+            {/* Dynamic Ecosystem Badges (Fills empty vertical space!) */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "12px",
+                marginTop: "12px",
+              }}
+            >
+              {ecosystemBadges.map((b, i) => {
+                const Icon = b.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    whileHover={{ scale: 1.02, borderColor: "rgba(0,229,204,0.3)" }}
                     style={{
-                      background: "rgba(0, 229, 204, 0.06)",
-                      border: "1px solid rgba(0, 229, 204, 0.12)",
+                      padding: "14px 16px",
+                      borderRadius: "12px",
+                      border: "1px solid var(--border)",
+                      background: "rgba(255,255,255,0.02)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      transition: "all 0.2s ease",
                     }}
                   >
-                    <Icon className="w-4 h-4 text-[#00e5cc]" />
-                  </div>
-                  <div>
-                    <h3
-                      className="text-xs font-bold uppercase tracking-widest text-white mb-1.5"
-                      style={{ letterSpacing: "0.15em", fontFamily: "'Space Grotesk', sans-serif" }}
+                    <div
+                      style={{
+                        width: "34px",
+                        height: "34px",
+                        borderRadius: "8px",
+                        background: "rgba(0,229,204,0.08)",
+                        border: "1px solid rgba(0,229,204,0.15)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
                     >
-                      {detail.title}
+                      <Icon style={{ width: "16px", height: "16px", color: "var(--accent)" }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "12.5px", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.2 }}>
+                        {b.label}
+                      </div>
+                      <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
+                        {b.count}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* ── Right Column: 2x2 Pillar Cards Grid ── */}
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "14px",
+              alignContent: "stretch",
+            }}
+          >
+            {pillars.map((p) => {
+              const Icon = p.icon;
+              return (
+                <motion.div
+                  key={p.title}
+                  variants={fadeUp}
+                  whileHover={{
+                    y: -4,
+                    borderColor: "rgba(0,229,204,0.3)",
+                    boxShadow: "0 12px 30px rgba(0,229,204,0.08)",
+                  }}
+                  style={{
+                    padding: "24px",
+                    borderRadius: "14px",
+                    border: "1px solid var(--border)",
+                    background: "var(--bg-card)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    transition: "all 0.22s ease",
+                  }}
+                >
+                  <div>
+                    {/* Header: icon + badge */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+                      <div
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          borderRadius: "10px",
+                          background: "rgba(0,229,204,0.08)",
+                          border: "1px solid rgba(0,229,204,0.18)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Icon style={{ width: "18px", height: "18px", color: "var(--accent)" }} />
+                      </div>
+
+                      <span
+                        style={{
+                          fontSize: "9.5px",
+                          fontWeight: 700,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          padding: "4px 10px",
+                          borderRadius: "999px",
+                          background: "rgba(255,255,255,0.04)",
+                          color: "var(--text-muted)",
+                          border: "1px solid var(--border)",
+                        }}
+                      >
+                        {p.badge}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: "16px",
+                        fontWeight: 700,
+                        color: "var(--text-primary)",
+                        marginBottom: "10px",
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {p.title}
                     </h3>
-                    <p className="text-xs leading-relaxed" style={{ color: "#a0a0a0" }}>
-                      {detail.desc}
+
+                    {/* Desc */}
+                    <p style={{ fontSize: "13px", lineHeight: 1.65, color: "var(--text-secondary)" }}>
+                      {p.desc}
                     </p>
                   </div>
                 </motion.div>
@@ -187,110 +297,120 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* Thin divider */}
-        <div className="section-divider mb-24" />
+        {/* ── Section Divider ── */}
+        <div className="section-divider" style={{ marginBottom: "64px" }} />
 
-        {/* Core Values */}
+        {/* ── Core Values Section ── */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="section-tag mb-10"
+            transition={{ duration: 0.45 }}
+            className="section-tag"
+            style={{ marginBottom: "32px" }}
           >
             Core Values
           </motion.div>
 
           <motion.div
-            variants={containerVariants}
+            variants={stagger}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            viewport={{ once: true }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: "14px",
+            }}
           >
-            {coreValues.map((v, i) => {
+            {coreValues.map((v) => {
               const Icon = v.icon;
               return (
                 <motion.div
                   key={v.label}
-                  variants={cardVariants}
+                  variants={fadeUp}
                   whileHover={{
-                    y: -8,
-                    scale: 1.02,
-                    borderColor: "rgba(0, 229, 204, 0.5)",
-                    backgroundColor: "rgba(0, 229, 204, 0.02)",
-                    boxShadow: "0 15px 35px -10px rgba(0, 229, 204, 0.2)",
+                    y: -5,
+                    borderColor: "rgba(0, 229, 204, 0.35)",
+                    boxShadow: "0 12px 32px -8px rgba(0, 229, 204, 0.15)",
                   }}
-                  className="p-8 rounded-2xl border transition-all duration-300 group relative overflow-hidden"
                   style={{
-                    background: "rgba(255,255,255,0.01)",
-                    borderColor: "rgba(255,255,255,0.06)",
+                    padding: "24px 20px",
+                    borderRadius: "14px",
+                    border: "1px solid var(--border)",
+                    background: "var(--bg-card)",
+                    transition: "all 0.25s ease",
+                    cursor: "default",
                   }}
                 >
-                  {/* Subtle inner hover glow */}
                   <div
-                    className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{
-                      background: "radial-gradient(circle at top left, rgba(0, 229, 204, 0.04) 0%, transparent 60%)",
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "10px",
+                      background: "rgba(0,229,204,0.07)",
+                      border: "1px solid rgba(0,229,204,0.15)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "16px",
                     }}
-                  />
+                  >
+                    <Icon style={{ width: "16px", height: "16px", color: "var(--accent)" }} />
+                  </div>
 
                   <div
-                    className="w-10 h-10 mb-6 flex items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110"
                     style={{
-                      background: "rgba(0,229,204,0.08)",
-                      border: "1px solid rgba(0,229,204,0.15)",
-                      boxShadow: "0 4px 12px rgba(0, 229, 204, 0.05)",
+                      fontFamily: "var(--font-display)",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                      color: "var(--text-primary)",
+                      marginBottom: "8px",
                     }}
                   >
-                    <Icon className="w-5 h-5 text-[#00e5cc]" />
+                    {v.num} — {v.label}
                   </div>
-                  <div
-                    className="text-xs font-semibold uppercase tracking-widest text-white mb-3"
-                    style={{ letterSpacing: "0.12em", fontSize: "11px", fontFamily: "'Space Grotesk', sans-serif" }}
-                  >
-                    {String(i + 1).padStart(2, "0")} — {v.label}
-                  </div>
-                  <p className="text-sm leading-relaxed" style={{ color: "#a0a0a0" }}>{v.desc}</p>
+
+                  <p style={{ fontSize: "12.5px", lineHeight: 1.6, color: "var(--text-secondary)" }}>
+                    {v.desc}
+                  </p>
                 </motion.div>
               );
             })}
           </motion.div>
         </div>
 
-        {/* CTA */}
+        {/* ── Bottom CTA ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-20 flex justify-start"
+          transition={{ duration: 0.5, delay: 0.15 }}
+          style={{ marginTop: "48px" }}
         >
           <a
             href="https://vexta.collegecrm.in"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold rounded-full transition-all duration-200"
-            style={{
-              borderColor: "rgba(255,255,255,0.15)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.borderColor = "#00e5cc";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(0,229,204,0.15)";
-              (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "none";
-              (e.currentTarget as HTMLElement).style.transform = "none";
-            }}
+            className="btn-primary"
+            style={{ gap: "10px" }}
           >
-            <Users className="w-4 h-4 text-[#00e5cc]" />
+            <Users style={{ width: "15px", height: "15px" }} />
             Join Our Community
           </a>
         </motion.div>
       </div>
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .about-main-grid {
+            grid-template-columns: 1.1fr 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

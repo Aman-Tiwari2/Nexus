@@ -1,449 +1,481 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { Github, Mail, ExternalLink } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Github, Mail, ArrowRight, Sparkles, UserCheck } from "lucide-react";
 import { teamMembers } from "@/data/team";
 
-/* ─── LinkedIn SVG icon (branded blue) ─────────────────── */
-function LinkedInIcon({ size = 14 }: { size?: number }) {
+function LinkedInIcon({ size = 13 }: { size?: number }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-    >
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
     </svg>
   );
 }
 
-/* ─── Individual card ───────────────────────────────────── */
-function TeamCard({
-  member,
-  index,
-  visible,
-}: {
-  member: (typeof teamMembers)[0];
-  index: number;
-  visible: boolean;
-}) {
-  const initials = member.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
+const categories = [
+  { id: "all", name: "All Members", color: "#00e5cc" },
+  { id: "leadership", name: "Leadership & Core", color: "#fbbf24" },
+  { id: "technical", name: "Technical Team", color: "#60a5fa" },
+  { id: "content_pr", name: "Content & PR", color: "#ec4899" },
+  { id: "social_media", name: "Social Media", color: "#10b981" },
+];
 
-  return (
-    <div
-      className="team-card"
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(24px)",
-        transition: `opacity 0.5s ease ${index * 0.055}s, transform 0.5s ease ${index * 0.055}s`,
-      }}
-    >
-      {/* ── Avatar + name row ── */}
-      <div className="team-card__header">
-        {/* Avatar */}
-        <div className="team-card__avatar-wrap">
-          {member.photo && (
-            <img
-              src={member.photo}
-              alt={member.name}
-              className="team-card__avatar-img"
-              onError={(e) => {
-                (e.currentTarget as HTMLElement).style.display = "none";
-                const fb = e.currentTarget
-                  .nextElementSibling as HTMLElement | null;
-                if (fb) fb.style.display = "flex";
-              }}
-            />
-          )}
-          <div
-            className="team-card__avatar-fallback"
-            style={{ display: member.photo ? "none" : "flex" }}
-          >
-            {initials}
-          </div>
-        </div>
-
-        {/* Name + role */}
-        <div className="team-card__meta">
-          <h3 className="team-card__name">{member.name}</h3>
-          <p className="team-card__role">{member.role}</p>
-          <p className="team-card__branch">
-            {member.branch} · {member.year}
-          </p>
-        </div>
-      </div>
-
-      {/* ── Bio ── */}
-      {member.bio && <p className="team-card__bio">{member.bio}</p>}
-
-      {/* ── Skills ── */}
-      <div className="team-card__skills">
-        {member.skills.slice(0, 4).map((skill) => (
-          <span key={skill} className="team-card__skill-tag">
-            {skill}
-          </span>
-        ))}
-        {member.skills.length > 4 && (
-          <span className="team-card__skill-more">
-            +{member.skills.length - 4}
-          </span>
-        )}
-      </div>
-
-      {/* ── Social + profile link ── */}
-      <div className="team-card__footer">
-        <div className="team-card__socials">
-          {member.social.linkedin && (
-            <a
-              href={member.social.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${member.name} LinkedIn`}
-              className="team-card__social-btn team-card__social-btn--linkedin"
-            >
-              <LinkedInIcon size={14} />
-            </a>
-          )}
-          {member.social.github && (
-            <a
-              href={member.social.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${member.name} GitHub`}
-              className="team-card__social-btn"
-            >
-              <Github size={14} />
-            </a>
-          )}
-          {member.social.email && (
-            <a
-              href={`mailto:${member.social.email}`}
-              aria-label={`Email ${member.name}`}
-              className="team-card__social-btn"
-            >
-              <Mail size={14} />
-            </a>
-          )}
-        </div>
-
-        <Link href={`/team/${member.slug}`} className="team-card__profile-link">
-          Profile →
-        </Link>
-      </div>
-    </div>
-  );
+function getMemberCategory(role: string) {
+  const r = role.toLowerCase();
+  if (r.includes("founder") || r.includes("community")) return { id: "leadership", name: "Leadership & Core", color: "#fbbf24" };
+  if (r.includes("technical")) return { id: "technical", name: "Technical Team", color: "#60a5fa" };
+  if (r.includes("content") || r.includes("event")) return { id: "content_pr", name: "Content & PR", color: "#ec4899" };
+  if (r.includes("social")) return { id: "social_media", name: "Social Media", color: "#10b981" };
+  return { id: "technical", name: "Core Team", color: "#00e5cc" };
 }
 
-/* ─── Section ───────────────────────────────────────────── */
 export default function Team() {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState("all");
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.05 }
-    );
-    if (sectionRef.current) obs.observe(sectionRef.current);
-    return () => obs.disconnect();
-  }, []);
-
-  const categories = [
-    { name: "Leadership & Core", key: "leadership" as const },
-    { name: "Technical Team", key: "technical" as const },
-    { name: "Content & PR Team", key: "content_pr" as const },
-    { name: "Social Media Team", key: "social_media" as const },
-  ];
-
-  const grouped = {
-    leadership: teamMembers.filter((m) => {
-      const r = m.role.toLowerCase();
-      return r.includes("founder") || r.includes("community");
-    }),
-    technical: teamMembers.filter((m) =>
-      m.role.toLowerCase().includes("technical")
-    ),
-    content_pr: teamMembers.filter((m) => {
-      const r = m.role.toLowerCase();
-      return r.includes("content") || r.includes("event");
-    }),
-    social_media: teamMembers.filter((m) =>
-      m.role.toLowerCase().includes("social")
-    ),
-  };
+  const filteredMembers = activeTab === "all"
+    ? teamMembers
+    : teamMembers.filter((m) => getMemberCategory(m.role).id === activeTab);
 
   return (
-    <>
-      {/* ── Scoped styles ─────────────────────────────────── */}
-      <style>{`
-        /* ── Card ── */
-        .team-card {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px;
-          padding: 20px;
-          display: flex;
-          flex-direction: column;
-          gap: 14px;
-          transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .team-card:hover {
-          border-color: rgba(0,229,204,0.2);
-          box-shadow: 0 0 24px rgba(0,229,204,0.05);
-        }
+    <section id="team" className="section-padding relative overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
+      {/* Background ambient radial glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "30%",
+          right: "-10%",
+          width: "600px",
+          height: "600px",
+          background: "radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 65%)",
+          filter: "blur(90px)",
+          pointerEvents: "none",
+        }}
+      />
 
-        /* ── Avatar + name row ── */
-        .team-card__header {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-        }
-        .team-card__avatar-wrap {
-          position: relative;
-          flex-shrink: 0;
-          width: 48px;
-          height: 48px;
-        }
-        .team-card__avatar-img {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 1px solid rgba(255,255,255,0.1);
-        }
-        .team-card__avatar-fallback {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: #1e1e1e;
-          border: 1px solid rgba(255,255,255,0.1);
-          align-items: center;
-          justify-content: center;
-          font-size: 14px;
-          font-weight: 700;
-          color: #fff;
-        }
-        .team-card__meta {
-          flex: 1;
-          min-width: 0;
-        }
-        .team-card__name {
-          font-family: 'Space Grotesk', sans-serif;
-          font-size: 15px;
-          font-weight: 700;
-          color: #fff;
-          line-height: 1.2;
-          margin: 0 0 3px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .team-card__role {
-          font-size: 12px;
-          color: #00e5cc;
-          margin: 0 0 2px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .team-card__branch {
-          font-size: 11px;
-          color: #666;
-          margin: 0;
-        }
-
-        /* ── Bio ── */
-        .team-card__bio {
-          font-size: 12px;
-          line-height: 1.6;
-          color: #888;
-          margin: 0;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        /* ── Skills ── */
-        .team-card__skills {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 6px;
-        }
-        .team-card__skill-tag {
-          font-size: 11px;
-          padding: 3px 9px;
-          border-radius: 999px;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
-          color: #999;
-          line-height: 1.5;
-        }
-        .team-card__skill-more {
-          font-size: 11px;
-          padding: 3px 6px;
-          color: #555;
-        }
-
-        /* ── Footer ── */
-        .team-card__footer {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding-top: 12px;
-          border-top: 1px solid rgba(255,255,255,0.06);
-          margin-top: auto;
-        }
-        .team-card__socials {
-          display: flex;
-          gap: 6px;
-        }
-        .team-card__social-btn {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.08);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #666;
-          transition: color 0.2s, border-color 0.2s, background 0.2s;
-          /* larger hit area on mobile */
-          -webkit-tap-highlight-color: transparent;
-        }
-        .team-card__social-btn:hover,
-        .team-card__social-btn:focus-visible {
-          color: #fff;
-          border-color: rgba(255,255,255,0.25);
-        }
-        .team-card__social-btn--linkedin:hover,
-        .team-card__social-btn--linkedin:focus-visible {
-          color: #0A66C2;
-          border-color: rgba(10,102,194,0.5);
-          background: rgba(10,102,194,0.1);
-        }
-        .team-card__profile-link {
-          margin-left: auto;
-          font-size: 12px;
-          color: #555;
-          transition: color 0.2s;
-          padding: 6px 10px;          /* bigger touch target */
-          border-radius: 6px;
-          -webkit-tap-highlight-color: transparent;
-        }
-        .team-card__profile-link:hover,
-        .team-card__profile-link:focus-visible {
-          color: #fff;
-        }
-
-        /* ── Category grid ── */
-        .team-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 14px;
-        }
-        @media (min-width: 480px) {
-          .team-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (min-width: 900px) {
-          .team-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
-        @media (min-width: 1200px) {
-          .team-grid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-        }
-
-        /* ── Category header ── */
-        .team-cat-header {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          margin-bottom: 4px;
-        }
-        .team-cat-label {
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #555;
-          white-space: nowrap;
-        }
-        .team-cat-line {
-          flex: 1;
-          height: 1px;
-          background: rgba(255,255,255,0.06);
-        }
-
-        /* ── Section header on small screens ── */
-        @media (max-width: 640px) {
-          .team-section-title {
-            font-size: clamp(32px, 10vw, 52px) !important;
-          }
-        }
-      `}</style>
-
-      <section id="team" className="section-padding" style={{ background: "#111111" }}>
-        <div className="section-container">
-          {/* Header */}
-          <div style={{ marginBottom: "48px" }}>
-            <div className="section-tag">The Team</div>
+      <div className="section-container relative" style={{ zIndex: 1 }}>
+        {/* ── Header ── */}
+        <div style={{ marginBottom: "40px" }}>
+          <div className="section-tag">Community Builders</div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "flex-end",
+              justifyContent: "space-between",
+              gap: "24px",
+              marginTop: "8px",
+            }}
+          >
             <h2
-              className="team-section-title font-black text-white leading-[0.95] mt-3"
-              style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(36px, 6vw, 72px)",
-                letterSpacing: "-0.03em",
-              }}
+              className="heading-display"
+              style={{ fontSize: "clamp(36px, 5.5vw, 68px)" }}
             >
-              Meet the
-              <br />
-              <span style={{ color: "#00e5cc" }}>People</span>
+              Meet the<br />
+              <span style={{ color: "var(--accent)" }}>People Behind Nexus</span>
             </h2>
-          </div>
 
-          {/* Categories */}
-          <div ref={sectionRef} style={{ display: "flex", flexDirection: "column", gap: "52px" }}>
-            {categories.map((cat) => {
-              const list = grouped[cat.key];
-              if (list.length === 0) return null;
-              return (
-                <div key={cat.key}>
-                  {/* Category label */}
-                  <div className="team-cat-header">
-                    <span className="team-cat-label">{cat.name}</span>
-                    <div className="team-cat-line" />
-                  </div>
-
-                  {/* Cards */}
-                  <div className="team-grid" style={{ marginTop: "20px" }}>
-                    {list.map((member, i) => (
-                      <TeamCard
-                        key={member.id}
-                        member={member}
-                        index={i}
-                        visible={visible}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+            <div style={{ fontSize: "13px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
+              <UserCheck style={{ width: "16px", height: "16px", color: "var(--accent)" }} />
+              <span>{teamMembers.length} Active Team Members</span>
+            </div>
           </div>
         </div>
-      </section>
-    </>
+
+        {/* ── Interactive Category Filter Pills ── */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            marginBottom: "40px",
+            paddingBottom: "12px",
+            borderBottom: "1px solid var(--border)",
+          }}
+        >
+          {categories.map((cat) => {
+            const isActive = activeTab === cat.id;
+            const count = cat.id === "all"
+              ? teamMembers.length
+              : teamMembers.filter((m) => getMemberCategory(m.role).id === cat.id).length;
+
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveTab(cat.id)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 18px",
+                  borderRadius: "999px",
+                  fontSize: "12.5px",
+                  fontWeight: isActive ? 700 : 500,
+                  background: isActive ? `${cat.color}18` : "rgba(255,255,255,0.02)",
+                  color: isActive ? cat.color : "var(--text-secondary)",
+                  border: `1px solid ${isActive ? `${cat.color}50` : "var(--border)"}`,
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  boxShadow: isActive ? `0 4px 16px ${cat.color}20` : "none",
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border-hover)";
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                  }
+                }}
+              >
+                <span
+                  style={{
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "50%",
+                    background: cat.color,
+                    display: "inline-block",
+                  }}
+                />
+                {cat.name}
+                <span
+                  style={{
+                    fontSize: "10px",
+                    padding: "1px 7px",
+                    borderRadius: "999px",
+                    background: "rgba(255,255,255,0.06)",
+                    color: isActive ? cat.color : "var(--text-muted)",
+                  }}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ── Scroll & Staggered Reveal Team Grid ── */}
+        <motion.div
+          layout
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
+            gap: "20px",
+          }}
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredMembers.map((member, idx) => {
+              const catInfo = getMemberCategory(member.role);
+              const initials = member.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .slice(0, 2);
+
+              return (
+                <motion.div
+                  key={member.id}
+                  layout
+                  initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{ duration: 0.4, delay: (idx % 6) * 0.06, ease: "easeOut" }}
+                  whileHover={{
+                    y: -6,
+                    borderColor: `${catInfo.color}50`,
+                    boxShadow: `0 16px 36px ${catInfo.color}15`,
+                  }}
+                  style={{
+                    background: "var(--bg-card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "16px",
+                    padding: "24px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: "16px",
+                    transition: "border-color 0.25s, box-shadow 0.25s, transform 0.25s",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  {/* Top: Header with Avatar & Category Badge */}
+                  <div>
+                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "12px", marginBottom: "16px" }}>
+                      {/* Avatar with Glow Ring */}
+                      <div style={{ position: "relative", flexShrink: 0 }}>
+                        <div
+                          style={{
+                            position: "absolute",
+                            inset: "-2px",
+                            borderRadius: "50%",
+                            background: `linear-gradient(135deg, ${catInfo.color}, transparent)`,
+                            opacity: 0.6,
+                          }}
+                        />
+                        <div
+                          style={{
+                            position: "relative",
+                            width: "52px",
+                            height: "52px",
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            background: "var(--bg-elevated)",
+                            border: "1px solid rgba(255,255,255,0.1)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "16px",
+                            fontWeight: 800,
+                            color: "var(--text-primary)",
+                          }}
+                        >
+                          {member.photo ? (
+                            <img
+                              src={member.photo}
+                              alt={member.name}
+                              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            />
+                          ) : (
+                            <span>{initials}</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Domain Badge */}
+                      <span
+                        style={{
+                          fontSize: "9.5px",
+                          fontWeight: 700,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          padding: "4px 10px",
+                          borderRadius: "999px",
+                          background: `${catInfo.color}15`,
+                          color: catInfo.color,
+                          border: `1px solid ${catInfo.color}30`,
+                        }}
+                      >
+                        {catInfo.name.split(" ")[0]}
+                      </span>
+                    </div>
+
+                    {/* Member Name */}
+                    <h3
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontSize: "17px",
+                        fontWeight: 700,
+                        color: "var(--text-primary)",
+                        lineHeight: 1.25,
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {member.name}
+                    </h3>
+
+                    {/* Role */}
+                    <p
+                      style={{
+                        fontSize: "12.5px",
+                        fontWeight: 600,
+                        color: catInfo.color,
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {member.role}
+                    </p>
+
+                    {/* Branch & Year */}
+                    <p style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "14px" }}>
+                      {member.branch} · {member.year}
+                    </p>
+
+                    {/* Bio */}
+                    {member.bio && (
+                      <p
+                        style={{
+                          fontSize: "12.5px",
+                          lineHeight: 1.6,
+                          color: "var(--text-secondary)",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          marginBottom: "16px",
+                        } as React.CSSProperties}
+                      >
+                        {member.bio}
+                      </p>
+                    )}
+
+                    {/* Skill Tags */}
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                      {member.skills.slice(0, 3).map((skill) => (
+                        <span
+                          key={skill}
+                          style={{
+                            fontSize: "10.5px",
+                            padding: "3px 9px",
+                            borderRadius: "999px",
+                            background: "rgba(255,255,255,0.03)",
+                            border: "1px solid var(--border)",
+                            color: "var(--text-secondary)",
+                          }}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                      {member.skills.length > 3 && (
+                        <span style={{ fontSize: "10.5px", padding: "3px 6px", color: "var(--text-muted)" }}>
+                          +{member.skills.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Footer: Social Links + Profile Button */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      paddingTop: "14px",
+                      borderTop: "1px solid var(--border)",
+                      marginTop: "12px",
+                    }}
+                  >
+                    {/* Social icons */}
+                    <div style={{ display: "flex", gap: "6px" }}>
+                      {member.social.linkedin && (
+                        <a
+                          href={member.social.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${member.name} LinkedIn`}
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            borderRadius: "50%",
+                            border: "1px solid var(--border)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "var(--text-muted)",
+                            transition: "all 0.18s ease",
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLElement).style.color = "#0A66C2";
+                            (e.currentTarget as HTMLElement).style.borderColor = "rgba(10,102,194,0.4)";
+                            (e.currentTarget as HTMLElement).style.background = "rgba(10,102,194,0.1)";
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLElement).style.color = "var(--text-muted)";
+                            (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                            (e.currentTarget as HTMLElement).style.background = "transparent";
+                          }}
+                        >
+                          <LinkedInIcon size={12} />
+                        </a>
+                      )}
+                      {member.social.github && (
+                        <a
+                          href={member.social.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${member.name} GitHub`}
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            borderRadius: "50%",
+                            border: "1px solid var(--border)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "var(--text-muted)",
+                            transition: "all 0.18s ease",
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                            (e.currentTarget as HTMLElement).style.borderColor = "var(--border-hover)";
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLElement).style.color = "var(--text-muted)";
+                            (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                          }}
+                        >
+                          <Github size={12} />
+                        </a>
+                      )}
+                      {member.social.email && (
+                        <a
+                          href={`mailto:${member.social.email}`}
+                          aria-label={`Email ${member.name}`}
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            borderRadius: "50%",
+                            border: "1px solid var(--border)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "var(--text-muted)",
+                            transition: "all 0.18s ease",
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                            (e.currentTarget as HTMLElement).style.borderColor = "var(--border-hover)";
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLElement).style.color = "var(--text-muted)";
+                            (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                          }}
+                        >
+                          <Mail size={12} />
+                        </a>
+                      )}
+                    </div>
+
+                    {/* View Profile link */}
+                    <Link
+                      href={`/team/${member.slug}`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        fontSize: "11.5px",
+                        fontWeight: 600,
+                        color: catInfo.color,
+                        padding: "6px 12px",
+                        borderRadius: "8px",
+                        background: `${catInfo.color}10`,
+                        border: `1px solid ${catInfo.color}25`,
+                        transition: "all 0.18s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.background = catInfo.color;
+                        (e.currentTarget as HTMLElement).style.color = "#0c0c0c";
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.background = `${catInfo.color}10`;
+                        (e.currentTarget as HTMLElement).style.color = catInfo.color;
+                      }}
+                    >
+                      Profile
+                      <ArrowRight style={{ width: "11px", height: "11px" }} />
+                    </Link>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
   );
 }

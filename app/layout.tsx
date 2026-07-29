@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import GlobalParticles from "@/components/ui/GlobalParticles";
 
 export const metadata: Metadata = {
   title: "Nexus | Student Placement Community",
@@ -44,8 +45,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen antialiased" style={{ background: "#0d0d0d", color: "#ffffff", fontFamily: "'Inter', sans-serif" }}>
-        {children}
+      <body className="min-h-screen antialiased" style={{ background: "var(--bg-primary)", color: "var(--text-primary)", fontFamily: "var(--font-body)", position: "relative" }}>
+        <GlobalParticles />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          {children}
+        </div>
       </body>
     </html>
   );

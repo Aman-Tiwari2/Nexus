@@ -6,18 +6,27 @@ import { Terminal, Smartphone, LayoutGrid } from "lucide-react";
 const products = [
   {
     icon: Terminal,
+    color: "#00e5cc",
+    borderColor: "rgba(0, 229, 204, 0.3)",
+    glowColor: "rgba(0, 229, 204, 0.12)",
     title: "Vextra Assessment App",
     desc: "Our proprietary online evaluation platform. It conducts comprehensive tests across Aptitude, English Communication, and Coding logic, handling thousands of student submissions dynamically.",
     stats: ["Aptitude & Coding rounds", "All-India live leaderboards", "5,000+ test attempts completed"]
   },
   {
     icon: Smartphone,
+    color: "#ec4899",
+    borderColor: "rgba(236, 72, 153, 0.3)",
+    glowColor: "rgba(236, 72, 153, 0.12)",
     title: "Nexus Mobile App",
     desc: "An innovative mobile learning app where students can enhance their placement prep by playing competitive games. Practice technical concepts, DSA, and aptitude topics in a gamified environment.",
     stats: ["Play & Enhance performance", "Interactive skill quizzes", "1,200+ game challenges completed"]
   },
   {
     icon: LayoutGrid,
+    color: "#8b5cf6",
+    borderColor: "rgba(139, 92, 246, 0.3)",
+    glowColor: "rgba(139, 92, 246, 0.12)",
     title: "Task Tracking Portal (College CRM)",
     desc: "Our dedicated internal operations portal used to maintain full visibility of contributions. Tracks team members' tasks performed, deadlines, and remaining workflow items seamlessly.",
     stats: ["Team progress dashboards", "Monitor task performance", "100% operational accountability"]
@@ -49,21 +58,17 @@ const cardVariants = {
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="section-padding" style={{ background: "#0d0d0d" }}>
+    <section id="achievements" className="section-padding" style={{ background: "var(--bg-primary)" }}>
       <div className="section-container">
         {/* Header */}
-        <div className="flex flex-col mb-16">
-          <div className="section-tag" style={{ color: "#00e5cc" }}>Ecosystem</div>
+        <div style={{ marginBottom: "52px" }}>
+          <div className="section-tag">Ecosystem</div>
           <h2
-            className="font-black text-white leading-[0.95] mt-3"
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(36px, 6vw, 72px)",
-              letterSpacing: "-0.03em",
-            }}
+            className="heading-display"
+            style={{ fontSize: "clamp(36px, 5.5vw, 68px)", marginTop: "8px" }}
           >
             Flagship Platforms<br />
-            <span style={{ color: "#00e5cc" }}>& Applications</span>
+            <span style={{ color: "var(--accent)" }}>& Applications</span>
           </h2>
         </div>
 
@@ -83,25 +88,34 @@ export default function Achievements() {
                 variants={cardVariants}
                 whileHover={{
                   y: -8,
-                  scale: 1.02,
-                  borderColor: "rgba(0, 229, 204, 0.4)",
-                  backgroundColor: "rgba(0, 229, 204, 0.01)",
-                  boxShadow: "0 15px 35px -10px rgba(0, 229, 204, 0.15)",
+                  borderColor: p.borderColor,
+                  boxShadow: `0 16px 36px ${p.glowColor}`,
                 }}
-                className="p-8 rounded-2xl border transition-all duration-300 relative overflow-hidden flex flex-col h-full"
                 style={{
-                  background: "rgba(255,255,255,0.01)",
-                  borderColor: "rgba(255,255,255,0.06)",
+                  padding: "28px",
+                  borderRadius: "16px",
+                  border: `1px solid var(--border)`,
+                  background: "var(--bg-card)",
+                  display: "flex",
+                  flexDirection: "column" as const,
+                  height: "100%",
+                  transition: "all 0.25s ease",
                 }}
               >
                 <div
-                  className="w-10 h-10 mb-6 flex items-center justify-center rounded-xl"
                   style={{
-                    background: "rgba(0,229,204,0.08)",
-                    border: "1px solid rgba(0,229,204,0.15)",
+                    width: "42px",
+                    height: "42px",
+                    borderRadius: "12px",
+                    background: `${p.color}15`,
+                    border: `1px solid ${p.color}35`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "20px",
                   }}
                 >
-                  <Icon className="w-5 h-5 text-[#00e5cc]" />
+                  <Icon style={{ width: "20px", height: "20px", color: p.color }} />
                 </div>
 
                 <h3
@@ -111,14 +125,14 @@ export default function Achievements() {
                   {p.title}
                 </h3>
 
-                <p className="text-sm leading-relaxed mb-6 flex-grow" style={{ color: "#a0a0a0" }}>
+                <p style={{ fontSize: "13px", lineHeight: 1.7, color: "var(--text-secondary)", marginBottom: "24px", flex: 1 }}>
                   {p.desc}
                 </p>
 
-                <div className="flex flex-col gap-2 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                <div style={{ display: "flex", flexDirection: "column" as const, gap: "10px", paddingTop: "16px", borderTop: "1px solid var(--border)" }}>
                   {p.stats.map((stat, sIdx) => (
-                    <div key={sIdx} className="flex items-center gap-2 text-xs" style={{ color: "#808080" }}>
-                      <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: "#00e5cc" }} />
+                    <div key={sIdx} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "var(--text-secondary)" }}>
+                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: p.color, flexShrink: 0 }} />
                       {stat}
                     </div>
                   ))}
