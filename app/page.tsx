@@ -7,11 +7,8 @@ import BackToTop from "@/components/ui/BackToTop";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Timeline from "@/components/sections/Timeline";
-import WhatWeDo from "@/components/sections/WhatWeDo";
-import Events from "@/components/sections/Events";
 import Achievements from "@/components/sections/Achievements";
-import UpcomingEvent from "@/components/sections/UpcomingEvent";
-import Gallery from "@/components/sections/Gallery";
+import EventSection from "@/components/sections/EventSection";
 import Team from "@/components/sections/Team";
 import WhyJoin from "@/components/sections/WhyJoin";
 import Roadmap from "@/components/sections/Roadmap";
@@ -35,11 +32,8 @@ export default function Home() {
         <Hero />
         <About />
         <Timeline />
-        <WhatWeDo />
-        <Events />
-        <UpcomingEvent />
         <Achievements />
-        <Gallery />
+        <EventSection />
         <Team />
         <WhyJoin />
         <Roadmap />

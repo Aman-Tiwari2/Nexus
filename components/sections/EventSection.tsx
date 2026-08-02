@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { X, ZoomIn } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const galleryItems = [
+const eventItems = [
   { id: 1, title: "Registration Desk", category: "Community", image: "/images/gallery/moment1.jpg" },
   { id: 2, title: "Bootcamp Session", category: "Workshop", image: "/images/gallery/moment2.jpg" },
   { id: 3, title: "Achievement & Awards", category: "Celebration", image: "/images/gallery/moment3.jpg" },
@@ -16,13 +16,13 @@ const galleryItems = [
 
 const categories = ["All", "Community", "Workshop", "Event", "Celebration"];
 
-export default function Gallery() {
+export default function EventSection() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [lightboxItem, setLightboxItem] = useState<typeof galleryItems[0] | null>(null);
+  const [lightboxItem, setLightboxItem] = useState<typeof eventItems[0] | null>(null);
 
   const filteredItems = activeCategory === "All"
-    ? galleryItems
-    : galleryItems.filter((item) => item.category.toLowerCase() === activeCategory.toLowerCase());
+    ? eventItems
+    : eventItems.filter((item) => item.category.toLowerCase() === activeCategory.toLowerCase());
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightboxItem(null); };
@@ -31,7 +31,7 @@ export default function Gallery() {
   }, []);
 
   return (
-    <section id="gallery" className="section-padding relative overflow-hidden" style={{ background: "var(--bg-primary)" }}>
+    <section id="events" className="section-padding relative overflow-hidden" style={{ background: "var(--bg-primary)" }}>
       {/* Background radial glow */}
       <div
         style={{
@@ -50,7 +50,7 @@ export default function Gallery() {
       <div className="section-container relative" style={{ zIndex: 1 }}>
         {/* Header & Filter Pills */}
         <div style={{ marginBottom: "48px" }}>
-          <div className="section-tag">Gallery</div>
+          <div className="section-tag">Event Highlights</div>
           <div
             style={{
               display: "flex",
@@ -65,8 +65,8 @@ export default function Gallery() {
               className="heading-display"
               style={{ fontSize: "clamp(36px, 5.5vw, 68px)" }}
             >
-              Community<br />
-              <span style={{ color: "var(--accent)" }}>Moments</span>
+              Event<br />
+              <span style={{ color: "var(--accent)" }}>Highlights</span>
             </h2>
 
             {/* Filter buttons */}

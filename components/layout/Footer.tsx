@@ -5,7 +5,7 @@ import { Github, Instagram, Linkedin, Mail, ArrowUpRight } from "lucide-react";
 const quickLinks = [
   { href: "#home", label: "Home" },
   { href: "#about", label: "About" },
-  { href: "#events", label: "Events" },
+  { href: "#events", label: "Event Highlights" },
   { href: "#team", label: "Team" },
   { href: "#roadmap", label: "Roadmap" },
   { href: "#contact", label: "Contact" },
@@ -13,7 +13,6 @@ const quickLinks = [
 
 const communityLinks = [
   { href: "https://vexta.collegecrm.in", label: "Join Community", external: true },
-  { href: "#upcoming", label: "Upcoming Events" },
   { href: "#achievements", label: "Achievements" },
   { href: "#faq", label: "FAQ" },
 ];
