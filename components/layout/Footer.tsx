@@ -13,7 +13,6 @@ const quickLinks = [
 
 const communityLinks = [
   { href: "https://vexta.collegecrm.in", label: "Join Community", external: true },
-  { href: "#achievements", label: "Achievements" },
   { href: "#faq", label: "FAQ" },
 ];
 

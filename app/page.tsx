@@ -7,7 +7,6 @@ import BackToTop from "@/components/ui/BackToTop";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Timeline from "@/components/sections/Timeline";
-import Achievements from "@/components/sections/Achievements";
 import EventSection from "@/components/sections/EventSection";
 import Team from "@/components/sections/Team";
 import WhyJoin from "@/components/sections/WhyJoin";
@@ -32,7 +31,6 @@ export default function Home() {
         <Hero />
         <About />
         <Timeline />
-        <Achievements />
         <EventSection />
         <Team />
         <WhyJoin />
