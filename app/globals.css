@@ -2,7 +2,7 @@
 
 /* ============================================================
    NEXUS COMMUNITY — GLOBAL STYLES
-   Editorial Dark Theme (Crisp White + Neon Green Accent)
+   Editorial Dark Theme (Crisp White + Neon Orange Accent)
    ============================================================ */
 
 :root {
@@ -13,10 +13,10 @@
   --bg-elevated: #1a1a1a;
   --bg-hover: #1f1f1f;
 
-  /* Primary Accent: Neon Green / Cyan */
-  --accent: #00e5cc;
-  --accent-dim: rgba(0, 229, 204, 0.12);
-  --accent-glow: rgba(0, 229, 204, 0.08);
+  /* Primary Accent: Neon Orange */
+  --accent: #f97316;
+  --accent-dim: rgba(249, 115, 22, 0.12);
+  --accent-glow: rgba(249, 115, 22, 0.08);
 
   /* Multi-Accents for badges & tags */
   --accent-purple: #8b5cf6;
@@ -34,7 +34,7 @@
   /* Borders */
   --border: rgba(255, 255, 255, 0.08);
   --border-hover: rgba(255, 255, 255, 0.2);
-  --border-accent: rgba(0, 229, 204, 0.3);
+  --border-accent: rgba(249, 115, 22, 0.3);
 
   /* Spacing scale */
   --sp-1: 8px;
@@ -106,7 +106,7 @@ button {
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 ::selection {
-  background: rgba(0, 229, 204, 0.25);
+  background: rgba(249, 115, 22, 0.25);
   color: #fff;
 }
 
@@ -178,7 +178,7 @@ button {
   justify-content: center;
   gap: 8px;
   padding: 12px 28px;
-  background: var(--accent); /* Solid Neon Green #00e5cc */
+  background: var(--accent); /* Solid Neon Orange #f97316 */
   color: #0c0c0c;
   font-family: var(--font-body);
   font-weight: 700;
@@ -191,13 +191,13 @@ button {
   text-decoration: none;
   white-space: nowrap;
   min-height: 44px;
-  box-shadow: 0 4px 20px rgba(0, 229, 204, 0.25);
+  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.35);
 }
 
 .btn-primary:hover {
-  background: #00c7b2;
+  background: #ea6a0a;
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0, 229, 204, 0.4);
+  box-shadow: 0 8px 28px rgba(249, 115, 22, 0.5);
 }
 
 .btn-primary:active {
@@ -227,8 +227,8 @@ button {
 }
 
 .btn-secondary:hover {
-  border-color: rgba(0, 229, 204, 0.4);
-  background: rgba(0, 229, 204, 0.08);
+  border-color: rgba(249, 115, 22, 0.4);
+  background: rgba(249, 115, 22, 0.08);
   color: var(--accent);
 }
 
@@ -261,9 +261,9 @@ button {
 }
 
 .skill-tag:hover {
-  border-color: rgba(0, 229, 204, 0.4);
+  border-color: rgba(249, 115, 22, 0.4);
   color: var(--accent);
-  background: rgba(0, 229, 204, 0.06);
+  background: rgba(249, 115, 22, 0.06);
 }
 
 .section-divider {

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
+import CodeCube from "./CodeCube";
 
 function StarField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -62,8 +63,10 @@ export default function Hero() {
       if (charIdx > 0) {
         timer = setTimeout(() => setCharIdx((c) => c - 1), 32);
       } else {
-        setDeleting(false);
-        setWordIdx((i) => (i + 1) % rotatingWords.length);
+        timer = setTimeout(() => {
+          setDeleting(false);
+          setWordIdx((i) => (i + 1) % rotatingWords.length);
+        }, 0);
       }
     }
     return () => clearTimeout(timer);
@@ -217,7 +220,7 @@ export default function Hero() {
             >
               {[
                 { value: "1500+", label: "Active Members", color: "#8b5cf6" },
-                { value: "50+", label: "Events Hosted", color: "#00e5cc" },
+                { value: "50+", label: "Events Hosted", color: "#f97316" },
                 { value: "3+", label: "Years Running", color: "#ec4899" },
               ].map((s) => (
                 <div key={s.label}>
@@ -248,78 +251,9 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── Right: Logo visual ── */}
-          <div
-            className="hidden lg:flex items-center justify-center"
-            style={{ position: "relative", width: "280px", height: "280px", flexShrink: 0 }}
-          >
-            {/* Rotating gradient ring */}
-            <div
-              style={{
-                position: "absolute",
-                inset: "-8px",
-                borderRadius: "50%",
-                background: "linear-gradient(45deg, #00e5cc, #8b5cf6, #00e5cc, #8b5cf6)",
-                backgroundSize: "300% 300%",
-                filter: "blur(10px)",
-                opacity: 0.7,
-                animation: "rotate-glow 10s linear infinite, sparkling-glow 3s ease infinite",
-                zIndex: 0,
-              }}
-            />
-
-            {/* Logo circle */}
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                borderRadius: "50%",
-                background: "#ffffff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "20px",
-                boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
-                zIndex: 1,
-                animation: "float 7s ease-in-out infinite",
-              }}
-            >
-              <img
-                src="/images/logo.png"
-                alt="Nexus Community Logo"
-                style={{ width: "82%", height: "82%", objectFit: "contain" }}
-              />
-            </div>
-
-            {/* Sparkles */}
-            {[
-              { top: "2%", right: "-6%", size: "22px", color: "#00e5cc", delay: "0s", dur: "4s" },
-              { bottom: "4%", left: "-8%", size: "18px", color: "#8b5cf6", delay: "1.5s", dur: "5s" },
-              { top: "60%", right: "-8%", size: "16px", color: "#00e5cc", delay: "2.8s", dur: "6s" },
-              { top: "-6%", left: "22%", size: "20px", color: "#ffffff", delay: "0.8s", dur: "3.5s" },
-            ].map((sp, i) => (
-              <div
-                key={i}
-                style={{
-                  position: "absolute",
-                  top: sp.top,
-                  bottom: (sp as any).bottom,
-                  left: (sp as any).left,
-                  right: (sp as any).right,
-                  fontSize: sp.size,
-                  color: sp.color,
-                  filter: `drop-shadow(0 0 6px ${sp.color})`,
-                  animation: `sparkle-star ${sp.dur} ease-in-out infinite`,
-                  animationDelay: sp.delay,
-                  pointerEvents: "none",
-                  userSelect: "none",
-                  zIndex: 2,
-                }}
-              >
-                ✦
-              </div>
-            ))}
+          {/* ── Right: Code Cube visual ── */}
+          <div className="hidden lg:flex items-center justify-center flex-shrink-0">
+            <CodeCube />
           </div>
         </div>
       </div>
@@ -335,10 +269,10 @@ export default function Hero() {
         }}
       >
         <span style={{ color: "var(--text-muted)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.06em" }}>
-          ©2025 Nexus Community
+          
         </span>
         <span style={{ color: "var(--text-faint)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-          Building Since 2022
+          
         </span>
       </div>
 

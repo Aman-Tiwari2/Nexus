@@ -4,14 +4,21 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
+import { Home, Info, CalendarClock, CalendarDays, Images, Users, Map, Star, HelpCircle, Mail } from "lucide-react";
+
 const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#events", label: "Event Highlights" },
-  { href: "#team", label: "Team" },
-  { href: "#faq", label: "FAQ" },
-  { href: "#contact", label: "Contact" },
+  { href: "#home",           label: "Home",         icon: Home },
+  { href: "#about",          label: "About",        icon: Info },
+  { href: "#timeline",       label: "Evolution",    icon: CalendarClock },
+  { href: "#events-overview",label: "Events",       icon: CalendarDays },
+  { href: "#events",         label: "Gallery",      icon: Images },
+  { href: "#team",           label: "Team",         icon: Users },
+  { href: "#roadmap",        label: "Roadmap",      icon: Map },
+  { href: "#why-join",       label: "Why Join",     icon: Star },
+  { href: "#faq",            label: "FAQ",          icon: HelpCircle },
+  { href: "#contact",        label: "Contact",      icon: Mail },
 ];
+
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -101,39 +108,48 @@ export default function Navbar() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     style={{
                       position: "relative",
-                      padding: "6px 12px",
-                      fontSize: "13px",
+                      padding: "6px 10px",
+                      fontSize: "12px",
                       fontWeight: isActive ? 600 : 400,
-                      color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
+                      color: isActive ? "#ffffff" : "var(--text-secondary)",
                       borderRadius: "6px",
-                      transition: "color 0.18s",
+                      transition: "color 0.18s, background 0.18s",
+                      whiteSpace: "nowrap",
+                      background: isActive ? "rgba(249,115,22,0.08)" : "transparent",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "3px",
                     }}
                     onMouseEnter={(e) => {
-                      if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                      if (!isActive) {
+                        (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                        (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                      if (!isActive) {
+                        (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                        (e.currentTarget as HTMLElement).style.background = "transparent";
+                      }
                     }}
                   >
-                    {link.label}
-                    {/* Active dot indicator */}
-                    {isActive && (
-                      <span
-                        style={{
-                          position: "absolute",
-                          bottom: "2px",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          width: "3px",
-                          height: "3px",
-                          borderRadius: "50%",
-                          background: "var(--accent)",
-                        }}
-                      />
-                    )}
+                    <span>{link.label}</span>
+                    {/* Active underline bar — sits INSIDE the element */}
+                    <span
+                      style={{
+                        display: "block",
+                        height: "2px",
+                        width: isActive ? "100%" : "0%",
+                        borderRadius: "2px",
+                        background: "var(--accent)",
+                        transition: "width 0.25s ease",
+                      }}
+                    />
                   </a>
                 );
               })}
+
             </div>
 
             {/* Desktop CTA */}
@@ -232,14 +248,15 @@ export default function Navbar() {
           <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginBottom: "24px" }}>
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.replace("#", "");
+              const Icon = link.icon;
               return (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   style={{
-                    padding: "13px 16px",
-                    fontSize: "15px",
+                    padding: "12px 16px",
+                    fontSize: "14.5px",
                     fontWeight: isActive ? 600 : 400,
                     color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
                     borderRadius: "8px",
@@ -247,12 +264,16 @@ export default function Navbar() {
                     transition: "color 0.18s, background 0.18s",
                     display: "flex",
                     alignItems: "center",
-                    gap: "10px",
+                    gap: "12px",
+                    borderLeft: isActive ? "2px solid var(--accent)" : "2px solid transparent",
                   }}
                 >
-                  {isActive && (
-                    <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
-                  )}
+                  <Icon style={{
+                    width: "16px", height: "16px",
+                    color: isActive ? "var(--accent)" : "var(--text-muted)",
+                    flexShrink: 0,
+                    transition: "color 0.18s",
+                  }} />
                   {link.label}
                 </a>
               );
@@ -271,7 +292,7 @@ export default function Navbar() {
       </div>
 
       <style>{`
-        @media (min-width: 1024px) {
+        @media (min-width: 1200px) {
           .nav-desktop { display: flex !important; }
           .nav-cta { display: flex !important; }
           .nav-burger { display: none !important; }

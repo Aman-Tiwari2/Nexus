@@ -47,7 +47,7 @@ export default function PageLoader() {
           <div
             style={{
               height: "100%",
-              background: "#00e5cc",
+              background: "#f97316",
               animation: "loading-bar 1.8s ease-out forwards",
             }}
           />

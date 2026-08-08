@@ -37,9 +37,9 @@ const milestones = [
     id: "vexta",
     year: "2025",
     icon: Rocket,
-    color: "#00e5cc",
-    glowColor: "rgba(0,229,204,0.15)",
-    borderColor: "rgba(0,229,204,0.3)",
+    color: "#f97316",
+    glowColor: "rgba(249,115,22,0.15)",
+    borderColor: "rgba(249,115,22,0.3)",
     title: "Website Launch: Vexta Platform",
     description: "Built and launched our proprietary portal, Vexta. A specialized online testing suite where students compete in real-time Aptitude, English, and Coding rounds.",
     subtitle: "Proprietary Testing Suite",
@@ -95,7 +95,7 @@ const impactStats = [
   { label: "Active Members", value: "1,500+", color: "#8b5cf6", icon: Users2 },
   { label: "Events Hosted", value: "50+", color: "#3b82f6", icon: Sparkles },
   { label: "Years Growing", value: "3+ Yrs", color: "#ec4899", icon: TrendingUp },
-  { label: "Placement Success", value: "98%", color: "#00e5cc", icon: ShieldCheck },
+  { label: "Placement Success", value: "98%", color: "#f97316", icon: ShieldCheck },
 ];
 
 export default function Timeline() {

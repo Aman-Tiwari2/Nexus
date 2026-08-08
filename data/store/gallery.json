@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "title": "Registration Desk",
+    "category": "Community",
+    "image": "/images/gallery/moment1.jpg",
+    "sub": "01 / COMMUNITY",
+    "caption": "Welcoming peers, matching frequencies.",
+    "number": "01 / 07",
+    "date": "Aug 2025"
+  },
+  {
+    "id": "2",
+    "title": "Bootcamp Session",
+    "category": "Workshop",
+    "image": "/images/gallery/moment2.jpg",
+    "sub": "02 / WORKSHOP",
+    "caption": "Learning · Collaboration · Growth",
+    "number": "02 / 07",
+    "date": "Nov 2025"
+  },
+  {
+    "id": "3",
+    "title": "Achievement & Awards",
+    "category": "Celebration",
+    "image": "/images/gallery/moment3.jpg",
+    "sub": "03 / ACHIEVEMENT",
+    "caption": "Celebrating milestones and persistence.",
+    "number": "03 / 07",
+    "date": "Dec 2025"
+  },
+  {
+    "id": "4",
+    "title": "Core Team Meet",
+    "category": "Community",
+    "image": "/images/gallery/moment4.jpg",
+    "sub": "04 / CORE TEAM",
+    "caption": "Building people. Building ideas.",
+    "number": "04 / 07",
+    "date": "Jan 2026"
+  },
+  {
+    "id": "5",
+    "title": "Speaker Session",
+    "category": "Event",
+    "image": "/images/gallery/moment5.jpg",
+    "sub": "05 / SPEAKER SESSION",
+    "caption": "Insights and industry perspectives.",
+    "number": "05 / 07",
+    "date": "Feb 2026"
+  },
+  {
+    "id": "6",
+    "title": "Orientation Session",
+    "category": "Event",
+    "image": "/images/gallery/moment6.jpg",
+    "sub": "06 / ORIENTATION",
+    "caption": "Stepping into a bigger technical world.",
+    "number": "06 / 07",
+    "date": "Oct 2025"
+  },
+  {
+    "id": "7",
+    "title": "Interactive Lab",
+    "category": "Workshop",
+    "image": "/images/gallery/moment7.jpg",
+    "sub": "07 / WORKSHOP",
+    "caption": "Translating code into solutions.",
+    "number": "07 / 07",
+    "date": "Jan 2026"
+  }
+]

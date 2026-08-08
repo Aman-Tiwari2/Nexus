@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const numberColors = ["#8b5cf6", "#00e5cc", "#3b82f6", "#fbbf24", "#ec4899", "#10b981"];
+const numberColors = ["#8b5cf6", "#f97316", "#3b82f6", "#fbbf24", "#ec4899", "#10b981"];
 
 const faqs = [
   { q: "Who can join Nexus?", a: "Any college student from any year or branch can join Nexus. We welcome everyone from first-year freshers to final-year students. The earlier you join, the more you benefit from our structured roadmaps." },

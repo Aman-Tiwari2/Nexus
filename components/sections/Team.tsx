@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Mail, ArrowRight, Sparkles, UserCheck } from "lucide-react";
+import { Github, Mail, ArrowRight, UserCheck } from "lucide-react";
 import { teamMembers } from "@/data/team";
 
 function LinkedInIcon({ size = 13 }: { size?: number }) {
@@ -15,7 +15,7 @@ function LinkedInIcon({ size = 13 }: { size?: number }) {
 }
 
 const categories = [
-  { id: "all", name: "All Members", color: "#00e5cc" },
+  { id: "all", name: "All Members", color: "#f97316" },
   { id: "leadership", name: "Leadership & Core", color: "#fbbf24" },
   { id: "technical", name: "Technical Team", color: "#60a5fa" },
   { id: "content_pr", name: "Content & PR", color: "#ec4899" },
@@ -28,15 +28,27 @@ function getMemberCategory(role: string) {
   if (r.includes("technical")) return { id: "technical", name: "Technical Team", color: "#60a5fa" };
   if (r.includes("content") || r.includes("event")) return { id: "content_pr", name: "Content & PR", color: "#ec4899" };
   if (r.includes("social")) return { id: "social_media", name: "Social Media", color: "#10b981" };
-  return { id: "technical", name: "Core Team", color: "#00e5cc" };
+  return { id: "technical", name: "Core Team", color: "#f97316" };
 }
 
 export default function Team() {
   const [activeTab, setActiveTab] = useState("all");
+  const [members, setMembers] = useState(teamMembers);
+
+  useEffect(() => {
+    fetch("/api/admin/team")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setMembers(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const filteredMembers = activeTab === "all"
-    ? teamMembers
-    : teamMembers.filter((m) => getMemberCategory(m.role).id === activeTab);
+    ? members
+    : members.filter((m) => getMemberCategory(m.role).id === activeTab);
 
   return (
     <section id="team" className="section-padding relative overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
@@ -78,7 +90,7 @@ export default function Team() {
 
             <div style={{ fontSize: "13px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
               <UserCheck style={{ width: "16px", height: "16px", color: "var(--accent)" }} />
-              <span>{teamMembers.length} Active Team Members</span>
+              <span>{members.length} Active Team Members</span>
             </div>
           </div>
         </div>
@@ -97,8 +109,8 @@ export default function Team() {
           {categories.map((cat) => {
             const isActive = activeTab === cat.id;
             const count = cat.id === "all"
-              ? teamMembers.length
-              : teamMembers.filter((m) => getMemberCategory(m.role).id === cat.id).length;
+              ? members.length
+              : members.filter((m) => getMemberCategory(m.role).id === cat.id).length;
 
             return (
               <button

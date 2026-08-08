@@ -2,17 +2,36 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Github, ExternalLink, Instagram, Mail, ArrowLeft, Trophy, Folder } from "lucide-react";
 import { teamMembers } from "@/data/team";
+import type { TeamMember } from "@/data/team";
 import type { Metadata } from "next";
+import fs from "fs";
+import path from "path";
+
+export const dynamic = "force-dynamic";
 
 type Props = { params: Promise<{ slug: string }> };
 
+function getTeamMembers(): TeamMember[] {
+  try {
+    const filePath = path.join(process.cwd(), "data", "store", "team.json");
+    if (fs.existsSync(filePath)) {
+      return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return teamMembers;
+}
+
 export async function generateStaticParams() {
-  return teamMembers.map((m) => ({ slug: m.slug }));
+  const members = getTeamMembers();
+  return members.map((m: TeamMember) => ({ slug: m.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const member = teamMembers.find((m) => m.slug === slug);
+  const members = getTeamMembers();
+  const member = members.find((m: TeamMember) => m.slug === slug);
   if (!member) return { title: "Member Not Found" };
   return {
     title: `${member.name} — Nexus Community`,
@@ -30,7 +49,8 @@ function LinkedInIcon() {
 
 export default async function MemberProfile({ params }: Props) {
   const { slug } = await params;
-  const member = teamMembers.find((m) => m.slug === slug);
+  const members = getTeamMembers();
+  const member = members.find((m: TeamMember) => m.slug === slug);
   if (!member) notFound();
 
   const initials = member.name
@@ -39,7 +59,7 @@ export default async function MemberProfile({ params }: Props) {
     .join("")
     .slice(0, 2);
 
-  const accentColors = ["#00e5cc", "#8b5cf6", "#60a5fa", "#f472b6", "#34d399", "#fbbf24"];
+  const accentColors = ["#f97316", "#fb923c", "#60a5fa", "#f472b6", "#34d399", "#fbbf24"];
 
   return (
     <div
@@ -112,7 +132,7 @@ export default async function MemberProfile({ params }: Props) {
             left: "10%",
             width: "500px",
             height: "500px",
-            background: "radial-gradient(circle, rgba(0,229,204,0.07) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 65%)",
             filter: "blur(80px)",
             pointerEvents: "none",
           }}
@@ -146,7 +166,7 @@ export default async function MemberProfile({ params }: Props) {
                   position: "absolute",
                   inset: "-3px",
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg, #00e5cc, #8b5cf6)",
+                  background: "linear-gradient(135deg, #f97316, #fb923c)",
                   opacity: 0.7,
                   filter: "blur(6px)",
                 }}
