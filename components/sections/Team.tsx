@@ -15,7 +15,7 @@ function LinkedInIcon({ size = 13 }: { size?: number }) {
 }
 
 const categories = [
-  { id: "all", name: "All Members", color: "#f97316" },
+  { id: "all", name: "All Members", color: "#60a5fa" },
   { id: "leadership", name: "Leadership & Core", color: "#fbbf24" },
   { id: "technical", name: "Technical Team", color: "#60a5fa" },
   { id: "content_pr", name: "Content & PR", color: "#ec4899" },
@@ -28,7 +28,7 @@ function getMemberCategory(role: string) {
   if (r.includes("technical")) return { id: "technical", name: "Technical Team", color: "#60a5fa" };
   if (r.includes("content") || r.includes("event")) return { id: "content_pr", name: "Content & PR", color: "#ec4899" };
   if (r.includes("social")) return { id: "social_media", name: "Social Media", color: "#10b981" };
-  return { id: "technical", name: "Core Team", color: "#f97316" };
+  return { id: "technical", name: "Core Team", color: "#60a5fa" };
 }
 
 export default function Team() {

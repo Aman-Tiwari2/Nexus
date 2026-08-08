@@ -9,6 +9,7 @@ const NAV = [
   { href: "/admin/events", label: "Events", icon: "📅" },
   { href: "/admin/gallery", label: "Gallery", icon: "🖼" },
   { href: "/admin/team", label: "Team", icon: "👥" },
+  { href: "/admin/blogs", label: "Blogs", icon: "📰" },
 ];
 
 function Sidebar({ active }: { active: string }) {
@@ -28,7 +29,7 @@ function Sidebar({ active }: { active: string }) {
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{
             width: "34px", height: "34px", borderRadius: "10px",
-            background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.25)",
+            background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)",
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px",
           }}>⬡</div>
           <div>
@@ -45,11 +46,11 @@ function Sidebar({ active }: { active: string }) {
             <Link key={item.href} href={item.href} style={{
               display: "flex", alignItems: "center", gap: "10px",
               padding: "10px 12px", borderRadius: "8px", marginBottom: "2px",
-              background: isActive ? "rgba(249,115,22,0.1)" : "transparent",
-              color: isActive ? "#f97316" : "#899393",
+              background: isActive ? "rgba(96,165,250,0.1)" : "transparent",
+              color: isActive ? "#60a5fa" : "#899393",
               fontSize: "13px", fontWeight: isActive ? 600 : 400,
               textDecoration: "none",
-              borderLeft: isActive ? "2px solid #f97316" : "2px solid transparent",
+              borderLeft: isActive ? "2px solid #60a5fa" : "2px solid transparent",
               transition: "all 0.15s",
             }}>
               <span style={{ fontSize: "15px" }}>{item.icon}</span>
@@ -158,8 +159,8 @@ export default function DashboardPage() {
             ].map((q) => (
               <Link key={q.label} href={q.href} style={{
                 padding: "8px 16px", borderRadius: "8px",
-                background: "rgba(249,115,22,0.08)", border: "1px solid rgba(249,115,22,0.2)",
-                color: "#f97316", fontSize: "12px", fontWeight: 600,
+                background: "rgba(96,165,250,0.08)", border: "1px solid rgba(96,165,250,0.2)",
+                color: "#60a5fa", fontSize: "12px", fontWeight: 600,
                 textDecoration: "none", transition: "background 0.15s",
               }}>
                 {q.label}

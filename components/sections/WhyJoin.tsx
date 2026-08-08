@@ -15,14 +15,14 @@ const withoutCommunity = [
 ];
 
 const withCommunity = [
-  "Structured year-wise placement roadmap",
-  "Expert guidance on in-demand technical skills",
-  "Weekly coding contests & aptitude practice",
-  "Supportive community of 1,500+ active peers",
-  "Timely event alerts & placement drive notifications",
-  "Real mock interviews & 1-on-1 resume reviews",
-  "Hands-on hackathons to build real projects",
-  "Direct connections & referrals from placed seniors",
+  "Career & Placement Support — Guidance, preparation resources, and peer learning for students preparing for opportunities.",
+  "Peer Mentorship — Learn from seniors through shared experiences, preparation strategies, and guidance.",
+  "Technical Activities — Coding challenges, technical activities, and opportunities to practise problem-solving.",
+  "Structured year-wise learning roadmap and guidance",
+  "Supportive community of active peers and learners",
+  "Timely event alerts and community notifications",
+  "Hands-on technical activities and project building",
+  "Direct connections and guidance from senior members",
 ];
 
 const containerVariants = {

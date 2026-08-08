@@ -123,10 +123,10 @@ export default function Hero() {
         className="section-container relative flex-1 flex flex-col justify-center"
         style={{ zIndex: 2, paddingTop: "clamp(96px, 12vw, 136px)", paddingBottom: "clamp(48px, 6vw, 72px)" }}
       >
-        <div className="grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-16 items-center w-full">
+        <div className="grid lg:grid-cols-[1fr_520px] gap-8 lg:gap-12 items-center w-full">
 
           {/* ── Left: Content ── */}
-          <div className="flex flex-col max-w-2xl">
+          <div className="flex flex-col max-w-xl">
             {/* Eyebrow label */}
             <div
               className="section-tag"
@@ -145,30 +145,34 @@ export default function Hero() {
               </span>
             </div>
 
-            {/* Main heading — typewriter with crisp white + neon green accent */}
-            <h1
-              className="heading-display"
-              style={{
-                fontSize: "clamp(34px, 7vw, 104px)",
-                marginBottom: "24px",
-                color: "#ffffff",
-              }}
-            >
-              {rotatingWords[wordIdx].slice(0, charIdx)}
-              <span
+            {/* Main heading — crisp typewriter with fixed container height */}
+            <div style={{ height: "clamp(60px, 8vw, 110px)", display: "flex", alignItems: "center", marginBottom: "24px" }}>
+              <h1
+                className="heading-display"
                 style={{
-                  display: "inline-block",
-                  width: "4px",
-                  height: "0.82em",
-                  background: "var(--accent)",
-                  verticalAlign: "middle",
-                  marginLeft: "6px",
-                  borderRadius: "2px",
-                  animation: "blink 1s step-end infinite",
-                  WebkitTextFillColor: "initial",
+                  fontSize: "clamp(32px, 4.5vw, 68px)",
+                  lineHeight: 1.1,
+                  color: "#ffffff",
+                  margin: 0,
+                  whiteSpace: "nowrap",
                 }}
-              />
-            </h1>
+              >
+                {rotatingWords[wordIdx].slice(0, charIdx)}
+                <span
+                  style={{
+                    display: "inline-block",
+                    width: "4px",
+                    height: "0.82em",
+                    background: "var(--accent)",
+                    verticalAlign: "middle",
+                    marginLeft: "6px",
+                    borderRadius: "2px",
+                    animation: "blink 1s step-end infinite",
+                    WebkitTextFillColor: "initial",
+                  }}
+                />
+              </h1>
+            </div>
 
             {/* Description */}
             <p
@@ -180,9 +184,7 @@ export default function Hero() {
                 marginBottom: "36px",
               }}
             >
-              A student-driven community helping college students master coding,
-              aptitude, hackathons, and real-world skills — so you can crack
-              your dream placement.
+              A student-driven community where students learn, collaborate, build skills, and explore opportunities beyond the classroom.
             </p>
 
             {/* CTA row */}
@@ -208,7 +210,7 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* Stats row with vibrant multi-colors */}
+            {/* Stats row */}
             <div
               style={{
                 display: "flex",
@@ -219,16 +221,16 @@ export default function Hero() {
               }}
             >
               {[
-                { value: "1500+", label: "Active Members", color: "#8b5cf6" },
-                { value: "50+", label: "Events Hosted", color: "#f97316" },
-                { value: "3+", label: "Years Running", color: "#ec4899" },
+                { value: "Growing", label: "Community", color: "#818cf8" },
+                { value: "Student-Led", label: "Initiatives", color: "#38bdf8" },
+                { value: "Since 2022", label: "Established", color: "#2dd4bf" },
               ].map((s) => (
                 <div key={s.label}>
                   <div
                     style={{
                       fontFamily: "var(--font-display)",
                       fontWeight: 800,
-                      fontSize: "clamp(20px, 2.5vw, 26px)",
+                      fontSize: "clamp(18px, 2.2vw, 24px)",
                       color: s.color,
                       lineHeight: 1.1,
                       letterSpacing: "-0.02em",

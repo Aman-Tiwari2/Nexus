@@ -56,12 +56,12 @@ export default function AdminLoginPage() {
           <div style={{
             display: "inline-flex", alignItems: "center", justifyContent: "center",
             width: "56px", height: "56px", borderRadius: "16px",
-            background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.25)",
+            background: "rgba(96,165,250,0.1)", border: "1px solid rgba(96,165,250,0.25)",
             marginBottom: "16px",
           }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7v10l10 5 10-5V7L12 2z" stroke="#f97316" strokeWidth="1.5" strokeLinejoin="round"/>
-              <path d="M12 2v20M2 7l10 5 10-5" stroke="#f97316" strokeWidth="1.5" strokeLinejoin="round"/>
+              <path d="M12 2L2 7v10l10 5 10-5V7L12 2z" stroke="#60a5fa" strokeWidth="1.5" strokeLinejoin="round"/>
+              <path d="M12 2v20M2 7l10 5 10-5" stroke="#60a5fa" strokeWidth="1.5" strokeLinejoin="round"/>
             </svg>
           </div>
           <h1 style={{
@@ -95,7 +95,7 @@ export default function AdminLoginPage() {
                 boxSizing: "border-box", marginBottom: "8px",
                 transition: "border-color 0.2s",
               }}
-              onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(249,115,22,0.5)"; }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(96,165,250,0.5)"; }}
               onBlur={(e) => { e.currentTarget.style.borderColor = error ? "rgba(239,68,68,0.4)" : "rgba(255,255,255,0.1)"; }}
             />
 
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
               disabled={loading}
               style={{
                 width: "100%", padding: "13px", borderRadius: "10px",
-                background: loading ? "rgba(249,115,22,0.5)" : "#f97316",
+                background: loading ? "rgba(96,165,250,0.5)" : "#60a5fa",
                 color: "#0c0c0c", fontWeight: 700, fontSize: "14px",
                 border: "none", cursor: loading ? "not-allowed" : "pointer",
                 marginTop: error ? "0" : "8px",
@@ -116,7 +116,7 @@ export default function AdminLoginPage() {
                 letterSpacing: "0.02em",
               }}
               onMouseEnter={(e) => { if (!loading) (e.currentTarget as HTMLElement).style.background = "#ea6a0a"; }}
-              onMouseLeave={(e) => { if (!loading) (e.currentTarget as HTMLElement).style.background = "#f97316"; }}
+              onMouseLeave={(e) => { if (!loading) (e.currentTarget as HTMLElement).style.background = "#60a5fa"; }}
             >
               {loading ? "Signing in…" : "Sign In →"}
             </button>

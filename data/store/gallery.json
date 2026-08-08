@@ -1,7 +1,7 @@
 [
   {
     "id": "1",
-    "title": "Registration Desk",
+    "title": "Freshers' Orientation — Registration Desk",
     "category": "Community",
     "image": "/images/gallery/moment1.jpg",
     "sub": "01 / COMMUNITY",
@@ -11,7 +11,7 @@
   },
   {
     "id": "2",
-    "title": "Bootcamp Session",
+    "title": "Java Bootcamp",
     "category": "Workshop",
     "image": "/images/gallery/moment2.jpg",
     "sub": "02 / WORKSHOP",
@@ -21,7 +21,7 @@
   },
   {
     "id": "3",
-    "title": "Achievement & Awards",
+    "title": "Annual Tech Awards Ceremony",
     "category": "Celebration",
     "image": "/images/gallery/moment3.jpg",
     "sub": "03 / ACHIEVEMENT",

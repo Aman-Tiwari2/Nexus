@@ -4,17 +4,18 @@ import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const numberColors = ["#8b5cf6", "#f97316", "#3b82f6", "#fbbf24", "#ec4899", "#10b981"];
+const numberColors = ["#2f81ff", "#3b82f6", "#60a5fa", "#2f81ff", "#3b82f6", "#60a5fa"];
 
 const faqs = [
-  { q: "Who can join Nexus?", a: "Any college student from any year or branch can join Nexus. We welcome everyone from first-year freshers to final-year students. The earlier you join, the more you benefit from our structured roadmaps." },
-  { q: "Is there a membership fee?", a: "Nexus is completely free to join. We believe every student deserves access to quality placement preparation resources regardless of their financial background." },
-  { q: "How are events conducted?", a: "Events are conducted both online and offline depending on the format. Coding contests and aptitude tests use our platform at vexta.collegecrm.in, while hackathons and workshops are usually in-person at college." },
-  { q: "What if I'm a complete beginner?", a: "Perfect! We specifically cater to students who don't know where to start. Our roadmaps begin from the basics and we pair beginners with senior mentors for personalized guidance." },
-  { q: "How are mock interviews conducted?", a: "Mock interviews are scheduled sessions with senior Nexus members who have already been placed. They simulate real technical and HR rounds, provide detailed feedback, and suggest areas to improve." },
-  { q: "Do you provide certificates?", a: "Yes! Participants in our coding contests, bootcamps, and hackathons receive digital certificates that can be added to resumes and LinkedIn profiles." },
-  { q: "Can I contribute to Nexus as a senior?", a: "Absolutely! Placed students and seniors are our backbone. You can mentor juniors, conduct sessions, set contest problems, or serve on our core team. Your experience is invaluable." },
-  { q: "How do I register for events?", a: "Events are announced on our community channels and you can register through our platform at vexta.collegecrm.in. Make sure to follow our social media for timely updates." },
+  { q: "What is Nexus Community?", a: "Nexus Community is a student-led community where students connect, learn, collaborate, participate in activities, and explore opportunities beyond the classroom." },
+  { q: "Who can join Nexus?", a: "Students who meet the community's actual membership requirements can join." },
+  { q: "How does Nexus help students?", a: "Nexus provides opportunities for learning, peer interaction, technical activities, mentorship, events, and community participation." },
+  { q: "What if I am a beginner?", a: "You can start with the activities and sessions suitable for your current level and learn alongside other students." },
+  { q: "Why should I join Nexus?", a: "Nexus gives students a space to learn with peers, participate in activities, build skills, and explore new opportunities." },
+  { q: "How can I contribute to Nexus?", a: "Students can contribute by participating in events, volunteering for initiatives, sharing ideas, creating content, or taking up responsibilities within the community." },
+  { q: "Do you provide placement support?", a: "Nexus can support students through learning resources, peer guidance, preparation activities, and mentorship. It does not guarantee placement." },
+  { q: "Can I join Nexus as a fresher?", a: "Yes, if freshers are eligible under the community's membership rules. Nexus can help new students connect with peers and explore community activities." },
+  { q: "How can I get started?", a: "Join the community through the official link and take part in the upcoming activities, sessions, and initiatives." },
 ];
 
 function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {

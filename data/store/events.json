@@ -1,8 +1,8 @@
 {
   "upcoming": {
     "title": "HackNexus 2026",
-    "date": "2026-03-15T09:00:00",
-    "displayDate": "Mar 15, 2026",
+    "date": "2026-09-01T09:00:00",
+    "displayDate": "Sep 01, 2026",
     "time": "09:00 AM — 24 Hour Sprint",
     "location": "Main Campus Auditorium & Labs",
     "prize": "₹50,000+ Prize Pool + Goodies",
@@ -16,7 +16,7 @@
       "type": "Coding Challenge",
       "description": "Proprietary testing portal launch with live leaderboards, Aptitude, English & Coding rounds — all in real-time.",
       "stat": "800+ Competitors",
-      "tagColor": "#00E5CC",
+      "tagColor": "#2f81ff",
       "iconType": "Zap"
     },
     {
@@ -26,7 +26,7 @@
       "type": "Mock Interview Drive",
       "description": "3-day intensive resume reviews, mock HR rounds, and live senior referral programs for final-year students.",
       "stat": "300+ Students",
-      "tagColor": "#00A8FF",
+      "tagColor": "#60a5fa",
       "iconType": "Trophy"
     },
     {
@@ -36,7 +36,7 @@
       "type": "Community Event",
       "description": "Welcome session for juniors featuring interactive technical roadmaps, domain showcases & peer networking.",
       "stat": "400+ Attendees",
-      "tagColor": "#8B5CF6",
+      "tagColor": "#3b82f6",
       "iconType": "Users"
     }
   ]

@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
-import { Home, Info, CalendarClock, CalendarDays, Images, Users, Map, Star, HelpCircle, Mail } from "lucide-react";
+import { Home, Info, CalendarClock, CalendarDays, Images, Users, Map, Star, HelpCircle, Mail, BookOpen } from "lucide-react";
 
 const navLinks = [
   { href: "#home",           label: "Home",         icon: Home },
   { href: "#about",          label: "About",        icon: Info },
   { href: "#timeline",       label: "Evolution",    icon: CalendarClock },
   { href: "#events-overview",label: "Events",       icon: CalendarDays },
+  { href: "#blog",           label: "News",         icon: BookOpen },
   { href: "#events",         label: "Gallery",      icon: Images },
   { href: "#team",           label: "Team",         icon: Users },
   { href: "#roadmap",        label: "Roadmap",      icon: Map },
@@ -115,7 +116,7 @@ export default function Navbar() {
                       borderRadius: "6px",
                       transition: "color 0.18s, background 0.18s",
                       whiteSpace: "nowrap",
-                      background: isActive ? "rgba(249,115,22,0.08)" : "transparent",
+                      background: isActive ? "rgba(96,165,250,0.08)" : "transparent",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",

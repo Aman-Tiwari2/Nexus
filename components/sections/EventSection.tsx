@@ -19,7 +19,7 @@ export default function EventSection() {
   const [eventItems, setEventItems] = useState<GalleryItem[]>([
     {
       id: "1",
-      title: "Registration Desk",
+      title: "Freshers' Orientation — Registration Desk",
       category: "Community",
       image: "/images/gallery/moment1.jpg",
       sub: "01 / COMMUNITY",
@@ -29,7 +29,7 @@ export default function EventSection() {
     },
     {
       id: "2",
-      title: "Bootcamp Session",
+      title: "Java Bootcamp",
       category: "Workshop",
       image: "/images/gallery/moment2.jpg",
       sub: "02 / WORKSHOP",
@@ -39,7 +39,7 @@ export default function EventSection() {
     },
     {
       id: "3",
-      title: "Achievement & Awards",
+      title: "Annual Tech Awards Ceremony",
       category: "Celebration",
       image: "/images/gallery/moment3.jpg",
       sub: "03 / ACHIEVEMENT",
@@ -350,67 +350,23 @@ export default function EventSection() {
           </p>
         </div>
 
-        {/* Asymmetric Editorial Magazine Layout */}
+        {/* Equal-sized Grid Layout */}
         <div 
-          className="magazine-layout"
+          className="magazine-layout-grid"
           style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 340px), 1fr))",
+            gap: "40px 32px",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(24px)",
             transition: "opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
           }}
         >
-          {/* Row 1: Featured Large + Stacked Right */}
-          {eventItems[0] && (
-            <div className="magazine-row r1">
-              <div className="item-large">
-                {renderCard(eventItems[0])}
-              </div>
-              <div className="col-stacked">
-                {eventItems[1] && (
-                  <div className="item-stacked">
-                    {renderCard(eventItems[1])}
-                  </div>
-                )}
-                {eventItems[2] && (
-                  <div className="item-stacked">
-                    {renderCard(eventItems[2])}
-                  </div>
-                )}
-              </div>
+          {eventItems.map((item) => (
+            <div key={item.id}>
+              {renderCard(item)}
             </div>
-          )}
-
-          {/* Row 2: Small Left + Large Right */}
-          {(eventItems[3] || eventItems[4]) && (
-            <div className="magazine-row r2">
-              {eventItems[3] && (
-                <div className="item-small">
-                  {renderCard(eventItems[3])}
-                </div>
-              )}
-              {eventItems[4] && (
-                <div className="item-large">
-                  {renderCard(eventItems[4])}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Row 3: Large Left + Small Right */}
-          {(eventItems[5] || eventItems[6]) && (
-            <div className="magazine-row r3">
-              {eventItems[5] && (
-                <div className="item-large">
-                  {renderCard(eventItems[5])}
-                </div>
-              )}
-              {eventItems[6] && (
-                <div className="item-small">
-                  {renderCard(eventItems[6])}
-                </div>
-              )}
-            </div>
-          )}
+          ))}
         </div>
 
 
@@ -584,9 +540,9 @@ export default function EventSection() {
           font-weight: 700;
           letter-spacing: 0.15em;
           text-transform: uppercase;
-          color: #00E5CC;
-          background: rgba(0, 229, 204, 0.08);
-          border: 1px solid rgba(0, 229, 204, 0.2);
+          color: var(--accent);
+          background: var(--accent-dim);
+          border: 1px solid var(--border-accent);
           padding: 4px 10px;
           border-radius: 4px;
         }

@@ -152,19 +152,6 @@ export default function Footer() {
         >
           {/* Brand Column */}
           <div>
-            <div style={{ marginBottom: "16px" }}>
-              <span
-                style={{
-                  fontFamily: "var(--font-display), sans-serif",
-                  fontSize: "24px",
-                  fontWeight: 900,
-                  color: "#ffffff",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                NEXUS<span style={{ color: "var(--accent)" }}>.</span>
-              </span>
-            </div>
             <p
               style={{
                 fontSize: "13px",
@@ -174,8 +161,7 @@ export default function Footer() {
                 marginBottom: "20px",
               }}
             >
-              A student-driven community helping college students master coding,
-              aptitude, and placement skills.
+              Nexus Community — Connect. Learn. Create. Grow.
             </p>
             <div style={{ display: "flex", gap: "8px" }}>
               {socials.map(({ icon: Icon, href, label }) => (
@@ -310,33 +296,6 @@ export default function Footer() {
               Contact Us
             </a>
           </div>
-        </div>
-
-        {/* ── Giant Stylized NEXUS Text (Screenshot brand style) ── */}
-        <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            overflow: "hidden",
-            marginTop: "16px",
-            marginBottom: "-12px",
-            userSelect: "none",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-display), sans-serif",
-              fontSize: "clamp(70px, 17vw, 220px)",
-              fontWeight: 900,
-              color: "#ffffff",
-              letterSpacing: "-0.06em",
-              lineHeight: 0.8,
-              textTransform: "lowercase",
-              display: "block",
-            }}
-          >
-            nexus
-          </span>
         </div>
 
         {/* ── Bottom bar ── */}

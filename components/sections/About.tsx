@@ -4,8 +4,19 @@ import { motion } from "framer-motion";
 import { Target, Eye, Heart, ShieldCheck, Users } from "lucide-react";
 import { useEffect, useRef } from "react";
 
-// ── Canvas: Matrix-style code rain (for COMMUNITY block) ────────────────────
-function CodeRainCanvas() {
+// Helper to convert hex colors to RGBA
+function hexToRgba(hex: string, alpha: number): string {
+  let c = hex.replace("#", "");
+  if (c.length === 3) c = c.split("").map((x) => x + x).join("");
+  const num = parseInt(c, 16);
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// ── Canvas: Matrix-style code rain ─────────────────────────────────────────
+function CodeRainCanvas({ color = "#38bdf8" }: { color?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -16,29 +27,29 @@ function CodeRainCanvas() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    const fontSize = 13;
+    const fontSize = 12;
     const cols = Math.floor(canvas.width / fontSize);
     const drops: number[] = Array(cols).fill(1);
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&<>{}[]()".split("");
 
     const draw = () => {
-      ctx.fillStyle = "rgba(10, 10, 10, 0.06)";
+      ctx.fillStyle = "rgba(12, 12, 14, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = `${fontSize}px monospace`;
 
       drops.forEach((y, i) => {
         const char = chars[Math.floor(Math.random() * chars.length)];
-        const alpha = Math.random() > 0.7 ? 1 : 0.65;
-        ctx.fillStyle = `rgba(249, 115, 22, ${alpha})`;
+        const alpha = Math.random() > 0.7 ? 0.45 : 0.25;
+        ctx.fillStyle = hexToRgba(color, alpha);
         ctx.fillText(char, i * fontSize, y * fontSize);
         if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
       });
     };
 
-    const id = setInterval(draw, 55);
+    const id = setInterval(draw, 50);
     return () => clearInterval(id);
-  }, []);
+  }, [color]);
 
   return (
     <canvas
@@ -48,15 +59,16 @@ function CodeRainCanvas() {
         inset: 0,
         width: "100%",
         height: "100%",
-        opacity: 0.6,
+        opacity: 0.7,
         borderRadius: "16px",
+        pointerEvents: "none",
       }}
     />
   );
 }
 
-// ── Canvas: Floating network nodes (for TECH block) ─────────────────────────
-function NetworkCanvas() {
+// ── Canvas: Floating network nodes ──────────────────────────────────────────
+function NetworkCanvas({ color = "#60a5fa" }: { color?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,14 +79,14 @@ function NetworkCanvas() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    const NUM = 32;
+    const NUM = 28;
     type Dot = { x: number; y: number; vx: number; vy: number; r: number };
     const dots: Dot[] = Array.from({ length: NUM }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      r: 2 + Math.random() * 2,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: 2 + Math.random() * 1.5,
     }));
 
     const draw = () => {
@@ -89,7 +101,7 @@ function NetworkCanvas() {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(251, 146, 60, ${0.25 * (1 - dist / 110)})`;
+            ctx.strokeStyle = hexToRgba(color, 0.3 * (1 - dist / 110));
             ctx.lineWidth = 0.8;
             ctx.stroke();
           }
@@ -100,7 +112,7 @@ function NetworkCanvas() {
       dots.forEach((d) => {
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(249, 115, 22, 0.55)";
+        ctx.fillStyle = hexToRgba(color, 0.6);
         ctx.fill();
 
         d.x += d.vx;
@@ -112,7 +124,7 @@ function NetworkCanvas() {
 
     const id = setInterval(draw, 30);
     return () => clearInterval(id);
-  }, []);
+  }, [color]);
 
   return (
     <canvas
@@ -122,8 +134,9 @@ function NetworkCanvas() {
         inset: 0,
         width: "100%",
         height: "100%",
-        opacity: 0.7,
+        opacity: 0.75,
         borderRadius: "16px",
+        pointerEvents: "none",
       }}
     />
   );
@@ -135,48 +148,44 @@ const pillars = [
     icon: Target,
     title: "Our Mission",
     badge: "PURPOSE",
-    color: "#f97316",
-    bg: "video" as const,
-    videoSrc: "/videos/cyberpunk.mp4",
+    color: "#38bdf8", // Electric Cyan
+    bg: "rain" as const,
     desc1:
-      "We bridge the gap between academic education and industry requirements by equipping students with technical skills, aptitude training, and placement confidence.",
+      "To help students develop practical skills, confidence, and awareness of opportunities through learning, mentorship, and community activities.",
     desc2:
-      "From structured DSA roadmaps to mock interview sessions — every resource is built to get you placed.",
-    tags: ["DSA Roadmaps", "Aptitude Prep", "Mock Interviews", "Resume Reviews", "Referrals"],
+      "Through workshops, hands-on practice, and mentorship — every resource is built to support your growth.",
+    tags: ["Practical Skills", "Mentorship", "Community Activities", "Learning"],
   },
   {
     icon: Eye,
     title: "Our Vision",
     badge: "GOAL",
-    color: "#fb923c",
-    bg: "video" as const,
-    videoSrc: "/videos/coding.mp4",
+    color: "#818cf8", // Futuristic Indigo-Blue
+    bg: "network" as const,
     desc1:
-      "Becoming the most impactful student-run tech and placement ecosystem across colleges — where every student has a clear, actionable path to their dream company.",
+      "To build a strong student community where learners can connect, collaborate, and grow through shared experiences and opportunities.",
     desc2:
-      "Whether you have 2 months or 12, we give you a structured step-by-step roadmap that keeps you on track.",
-    tags: ["Structured Learning", "Focused Practice", "Expert Feedback", "Dream Offer"],
+      "Creating a structured path where every student gets guidance and support.",
+    tags: ["Connect & Collaborate", "Shared Experiences", "Growth", "Opportunities"],
   },
   {
     icon: Heart,
     title: "Peer Mentorship",
     badge: "COMMUNITY",
-    color: "#f97316",
+    color: "#2dd4bf", // Glowing Teal
     bg: "rain" as const,
-    videoSrc: "",
     desc1:
-      "Placed seniors directly mentor juniors — sharing real interview experiences, company-specific roadmaps, and honest referral opportunities.",
+      "Seniors share their experiences, preparation strategies, and guidance to help juniors navigate their academic and career journey.",
     desc2:
-      "Train with guidance from people who cracked Google, Amazon, Microsoft, Flipkart and more.",
-    tags: ["Google", "Amazon", "Microsoft", "Flipkart", "Infosys", "TCS", "Wipro"],
+      "Learn directly from peers and seniors who have walked the path before.",
+    tags: ["Senior Guidance", "Prep Strategies", "Academic Support", "Peer Learning"],
   },
   {
     icon: ShieldCheck,
     title: "College CRM Integration",
     badge: "TECH",
-    color: "#fb923c",
+    color: "#60a5fa", // Vivid Sky Blue
     bg: "network" as const,
-    videoSrc: "",
     desc1:
       "We run entirely on College CRM — our proprietary task-tracking system ensuring total operational transparency and real-time team performance tracking.",
     desc2:
@@ -205,60 +214,57 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
-      whileHover={{ scale: 1.015, transition: { duration: 0.2 } }}
+      whileHover={{ y: -4, borderColor: `${p.color}60`, transition: { duration: 0.2 } }}
       style={{
         position: "relative",
         overflow: "hidden",
         borderRadius: "16px",
-        border: `1px solid ${p.color}25`,
-        background: "var(--bg-card)",
+        border: `1px solid ${p.color}35`,
+        background: "rgba(16, 18, 24, 0.92)",
+        backdropFilter: "blur(12px)",
+        boxShadow: `0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 ${p.color}20`,
         display: "flex",
         flexDirection: "column",
-        minHeight: "440px",
+        minHeight: "260px",
       }}
     >
+      {/* ── Top Subtle Accent Gradient Line ── */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "2px",
+          background: `linear-gradient(90deg, ${p.color}, transparent 80%)`,
+        }}
+      />
+
       {/* ── Animated Background Layer ── */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0, borderRadius: "16px", overflow: "hidden" }}>
-        {p.bg === "video" && (
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: 0.5,
-              filter: "saturate(0.75) brightness(0.75)",
-            }}
-          >
-            <source src={p.videoSrc} type="video/mp4" />
-          </video>
-        )}
-        {p.bg === "rain" && <CodeRainCanvas />}
-        {p.bg === "network" && <NetworkCanvas />}
+        {p.bg === "rain" && <CodeRainCanvas color={p.color} />}
+        {p.bg === "network" && <NetworkCanvas color={p.color} />}
 
-        {/* Bottom-to-top dark fade so text is always legible */}
+        {/* Dark subtle gradient overlay */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(to bottom, rgba(8,8,8,0.05) 0%, rgba(8,8,8,0.45) 50%, rgba(8,8,8,0.88) 100%)",
+              "linear-gradient(to bottom, rgba(12,14,20,0.5) 0%, rgba(12,14,20,0.85) 60%, rgba(12,14,20,0.98) 100%)",
           }}
         />
 
-        {/* Top-left corner accent glow */}
+        {/* Corner Glow */}
         <div
           style={{
             position: "absolute",
-            top: "-50px",
-            left: "-50px",
-            width: "220px",
-            height: "220px",
+            top: "-40px",
+            left: "-40px",
+            width: "180px",
+            height: "180px",
             borderRadius: "50%",
-            background: `radial-gradient(circle, ${p.color}20 0%, transparent 65%)`,
+            background: `radial-gradient(circle, ${hexToRgba(p.color, 0.15)} 0%, transparent 70%)`,
             pointerEvents: "none",
           }}
         />
@@ -269,32 +275,32 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
         style={{
           position: "relative",
           zIndex: 1,
-          padding: "30px 26px 26px",
+          padding: "24px 22px 22px",
           display: "flex",
           flexDirection: "column",
           flex: 1,
         }}
       >
-        {/* Badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "18px" }}>
+        {/* Badge Header */}
+        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
           <div
             style={{
-              width: "30px",
-              height: "30px",
+              width: "32px",
+              height: "32px",
               borderRadius: "8px",
-              background: `${p.color}15`,
-              border: `1px solid ${p.color}38`,
+              background: `${p.color}18`,
+              border: `1px solid ${p.color}40`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
             }}
           >
-            <Icon style={{ width: "14px", height: "14px", color: p.color }} />
+            <Icon style={{ width: "15px", height: "15px", color: p.color }} />
           </div>
           <span
             style={{
-              fontSize: "9px",
+              fontSize: "10px",
               fontWeight: 800,
               letterSpacing: "0.2em",
               textTransform: "uppercase" as const,
@@ -309,9 +315,9 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
         <h3
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(15px, 1.6vw, 19px)",
+            fontSize: "clamp(16px, 1.6vw, 20px)",
             fontWeight: 800,
-            color: "var(--text-primary)",
+            color: "#ffffff",
             letterSpacing: "0.01em",
             textTransform: "uppercase" as const,
             marginBottom: "12px",
@@ -321,41 +327,43 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
           {p.title}
         </h3>
 
-        {/* Thin orange divider */}
-        <div
-          style={{
-            width: "36px",
-            height: "2px",
-            borderRadius: "2px",
-            background: `linear-gradient(to right, ${p.color}, transparent)`,
-            marginBottom: "14px",
-          }}
-        />
-
         {/* Desc 1 */}
-        <p style={{ fontSize: "13px", lineHeight: 1.72, color: "var(--text-secondary)", marginBottom: "10px" }}>
+        <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#d1d5db", marginBottom: "14px" }}>
           {p.desc1}
         </p>
 
-        {/* Desc 2 */}
-        <p style={{ fontSize: "12.5px", lineHeight: 1.65, color: `${p.color}aa`, fontWeight: 500, marginBottom: "20px" }}>
+        {/* Desc 2 Quote Box (High Contrast) */}
+        <div
+          style={{
+            fontSize: "12.5px",
+            lineHeight: 1.6,
+            color: "#f8fafc",
+            fontWeight: 500,
+            padding: "10px 14px",
+            borderRadius: "0 8px 8px 0",
+            background: "rgba(255, 255, 255, 0.035)",
+            borderLeft: `3px solid ${p.color}`,
+            marginBottom: "20px",
+          }}
+        >
           {p.desc2}
-        </p>
+        </div>
 
-        {/* Tags */}
+        {/* High-Contrast Tags */}
         <div style={{ display: "flex", flexWrap: "wrap" as const, gap: "6px", marginTop: "auto" }}>
           {p.tags.map((tag) => (
             <span
               key={tag}
               style={{
-                padding: "4px 10px",
+                padding: "5px 11px",
                 borderRadius: "6px",
-                fontSize: "10.5px",
+                fontSize: "11px",
                 fontWeight: 600,
-                border: `1px solid ${p.color}28`,
-                color: `${p.color}bb`,
-                background: `${p.color}08`,
+                border: `1px solid ${p.color}45`,
+                color: "#ffffff",
+                background: `${p.color}18`,
                 letterSpacing: "0.02em",
+                backdropFilter: "blur(4px)",
               }}
             >
               {tag}
@@ -383,7 +391,7 @@ export default function About() {
           left: "-8%",
           width: "600px",
           height: "600px",
-          background: "radial-gradient(circle, rgba(249,115,22,0.04) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(96,165,250,0.05) 0%, transparent 65%)",
           filter: "blur(90px)",
           zIndex: 0,
         }}
@@ -430,9 +438,7 @@ export default function About() {
               marginBottom: "14px",
             }}
           >
-            We&apos;re a student-driven community established in{" "}
-            <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>2022</span> to bridge
-            the gap between college academics and real-world tech industry demands.
+            Nexus Community is a student-led community focused on helping students learn, collaborate, and explore opportunities beyond the classroom.
           </p>
 
           <p
@@ -442,17 +448,12 @@ export default function About() {
               lineHeight: 1.75,
             }}
           >
-            From hands-on coding bootcamps and aptitude preparation to internal task management
-            systems and placed senior mentorship —{" "}
-            <span style={{ color: "var(--accent)", fontWeight: 600 }}>
-              Nexus empowers every student
-            </span>{" "}
-            to crack their dream role.
+            Through workshops, peer learning, technical activities, mentorship, and community initiatives, Nexus provides students with opportunities to learn and grow together.
           </p>
         </motion.div>
 
         {/* Divider */}
-        <div className="section-divider" style={{ marginBottom: "48px" }} />
+        <div className="section-divider" style={{ marginBottom: "32px" }} />
 
         {/* 2×2 Pillar Grid */}
         <div
@@ -460,7 +461,7 @@ export default function About() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "20px",
+            gap: "16px",
           }}
         >
           {pillars.map((p, i) => (
