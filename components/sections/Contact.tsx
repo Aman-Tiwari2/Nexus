@@ -11,7 +11,10 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.08 }
+    );
     if (sectionRef.current) obs.observe(sectionRef.current);
     return () => obs.disconnect();
   }, []);
@@ -19,92 +22,138 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    await new Promise((r) => setTimeout(r, 1500));
+    await new Promise((r) => setTimeout(r, 1400));
     setSending(false);
     setSent(true);
     setTimeout(() => setSent(false), 4000);
     setForm({ name: "", email: "", subject: "", message: "" });
   };
 
-  const inputStyle = {
-    background: "rgba(255,255,255,0.03)",
-    border: "1px solid rgba(255,255,255,0.08)",
+  const inputBase: React.CSSProperties = {
+    background: "rgba(255,255,255,0.025)",
+    border: "1px solid var(--border)",
     borderRadius: "8px",
-    color: "#ffffff",
-    padding: "12px 16px",
-    fontSize: "14px",
+    color: "var(--text-primary)",
+    padding: "11px 14px",
+    fontSize: "13.5px",
     outline: "none",
     width: "100%",
-    transition: "border-color 0.2s ease",
+    transition: "border-color 0.18s",
+    fontFamily: "var(--font-body)",
   };
 
-  const labelStyle = {
+  const labelStyle: React.CSSProperties = {
     display: "block",
     fontSize: "10px",
-    fontWeight: 600,
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.15em",
-    color: "#808080",
-    marginBottom: "8px",
+    fontWeight: 700,
+    textTransform: "uppercase",
+    letterSpacing: "0.14em",
+    color: "var(--text-muted)",
+    marginBottom: "7px",
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,229,204,0.4)";
+    (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 3px rgba(0,229,204,0.07)";
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+    (e.currentTarget as HTMLElement).style.boxShadow = "none";
   };
 
   return (
-    <section id="contact" className="section-padding" style={{ background: "#111111" }}>
+    <section id="contact" className="section-padding" style={{ background: "var(--bg-secondary)" }}>
       <div className="section-container">
+
+        {/* ── Header ── */}
         <div className="section-tag">Contact</div>
         <h2
-          className="font-black text-white leading-[0.95] mb-16 mt-3"
-          style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(36px, 6vw, 72px)",
-            letterSpacing: "-0.03em",
-          }}
+          className="heading-display"
+          style={{ fontSize: "clamp(36px, 5.5vw, 68px)", marginTop: "8px", marginBottom: "52px" }}
         >
           Get In<br />
-          <span style={{ color: "#00e5cc" }}>Touch</span>
+          <span style={{ color: "var(--accent)" }}>Touch</span>
         </h2>
 
+        {/* ── Content grid ── */}
         <div
           ref={sectionRef}
-          className="grid lg:grid-cols-2 gap-16 max-w-5xl"
           style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "48px",
             opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(20px)",
-            transition: "opacity 0.7s ease, transform 0.7s ease",
+            transform: visible ? "translateY(0)" : "translateY(16px)",
+            transition: "opacity 0.65s ease, transform 0.65s ease",
           }}
+          className="contact-grid"
         >
-          {/* Left: Info */}
+          {/* ── Left: Info ── */}
           <div>
-            <p className="text-sm leading-relaxed mb-10" style={{ color: "#a0a0a0", maxWidth: "400px" }}>
-              Whether you&apos;re a student looking to join, a company interested in collaborating, or a senior wanting to mentor — we&apos;d love to hear from you.
+            <p style={{ fontSize: "14px", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: "36px", maxWidth: "380px" }}>
+              Whether you&apos;re a student looking to join, a company interested in
+              collaborating, or a senior wanting to mentor — we&apos;d love to hear from you.
             </p>
 
-            {/* Contact info */}
-            <div className="flex flex-col gap-6 mb-12">
+            {/* Contact details */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginBottom: "36px" }}>
               {[
-                { icon: Mail, label: "Email", value: "nexus@college.edu" },
-                { icon: MapPin, label: "Location", value: "SRMCEM, Lucknow" },
-                { icon: Phone, label: "WhatsApp", value: "+91 XXXXXXXXXX" },
-              ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex items-center gap-4">
+                { icon: Mail, label: "Email", value: "nexus@college.edu", color: "#00e5cc" },
+                { icon: MapPin, label: "Location", value: "SRMCEM, Lucknow", color: "#fbbf24" },
+                { icon: Phone, label: "WhatsApp", value: "+91 XXXXXXXXXX", color: "#8b5cf6" },
+              ].map(({ icon: Icon, label, value, color }) => (
+                <div key={label} style={{ display: "flex", alignItems: "center", gap: "14px" }}>
                   <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ border: "1px solid rgba(255,255,255,0.15)", color: "#a0a0a0" }}
+                    style={{
+                      width: "38px",
+                      height: "38px",
+                      borderRadius: "10px",
+                      background: `${color}15`,
+                      border: `1px solid ${color}35`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      color: color,
+                    }}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon style={{ width: "15px", height: "15px" }} />
                   </div>
                   <div>
-                    <div style={{ fontSize: "10px", color: "#808080", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>{label}</div>
-                    <div className="text-sm text-white mt-0.5">{value}</div>
+                    <div
+                      style={{
+                        fontSize: "9.5px",
+                        fontWeight: 700,
+                        letterSpacing: "0.14em",
+                        textTransform: "uppercase",
+                        color: "var(--text-muted)",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {label}
+                    </div>
+                    <div style={{ fontSize: "13.5px", color: "var(--text-primary)" }}>{value}</div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Socials */}
+            {/* Social links */}
             <div>
-              <div style={{ fontSize: "10px", color: "#808080", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, marginBottom: "12px" }}>Follow Us</div>
-              <div className="flex gap-3">
+              <div
+                style={{
+                  fontSize: "9.5px",
+                  fontWeight: 700,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                  marginBottom: "12px",
+                }}
+              >
+                Follow Us
+              </div>
+              <div style={{ display: "flex", gap: "10px" }}>
                 {[
                   { icon: Instagram, href: "https://www.instagram.com/nexuscommunity___?igsh=MXNmZW5xYXk1ZmoyeQ==", label: "Instagram" },
                   { icon: Github, href: "https://github.com", label: "GitHub" },
@@ -117,21 +166,39 @@ export default function Contact() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
-                    style={{ border: "1px solid rgba(255,255,255,0.15)", color: "#a0a0a0" }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.35)"; (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)"; (e.currentTarget as HTMLElement).style.color = "#a0a0a0"; }}
+                    style={{
+                      width: "36px",
+                      height: "36px",
+                      borderRadius: "50%",
+                      border: "1px solid var(--border)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "var(--text-secondary)",
+                      transition: "color 0.18s, border-color 0.18s",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                      (e.currentTarget as HTMLElement).style.borderColor = "var(--border-hover)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                      (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                    }}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon style={{ width: "14px", height: "14px" }} />
                   </a>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right: Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="grid sm:grid-cols-2 gap-4">
+          {/* ── Right: Form ── */}
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+          >
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
               <div>
                 <label style={labelStyle}>Your Name</label>
                 <input
@@ -140,9 +207,9 @@ export default function Contact() {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="Aryan Sharma"
                   required
-                  style={inputStyle}
-                  onFocus={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.2)"; }}
-                  onBlur={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}
+                  style={inputBase}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                 />
               </div>
               <div>
@@ -153,9 +220,9 @@ export default function Contact() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder="aryan@email.com"
                   required
-                  style={inputStyle}
-                  onFocus={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.2)"; }}
-                  onBlur={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}
+                  style={inputBase}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                 />
               </div>
             </div>
@@ -168,9 +235,9 @@ export default function Contact() {
                 onChange={(e) => setForm({ ...form, subject: e.target.value })}
                 placeholder="How can we help?"
                 required
-                style={inputStyle}
-                onFocus={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.2)"; }}
-                onBlur={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}
+                style={inputBase}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               />
             </div>
 
@@ -181,26 +248,56 @@ export default function Contact() {
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 placeholder="Tell us more..."
                 required
-                rows={5}
-                style={{ ...inputStyle, resize: "none" }}
-                onFocus={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.2)"; }}
-                onBlur={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}
+                rows={6}
+                style={{ ...inputBase, resize: "none" }}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
               />
             </div>
 
-            <button type="submit" disabled={sending || sent} className="btn-primary justify-center mt-2">
-              {sent ? "✓ Message Sent!" : sending ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor: "rgba(0,0,0,0.2)", borderTopColor: "#000" }} />
+            <button
+              type="submit"
+              disabled={sending || sent}
+              className="btn-primary"
+              style={{ alignSelf: "flex-start", marginTop: "4px" }}
+            >
+              {sent ? (
+                "✓ Message Sent!"
+              ) : sending ? (
+                <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span
+                    style={{
+                      width: "14px",
+                      height: "14px",
+                      border: "2px solid rgba(0,0,0,0.15)",
+                      borderTopColor: "#000",
+                      borderRadius: "50%",
+                      animation: "spin 0.7s linear infinite",
+                    }}
+                  />
                   Sending...
                 </span>
               ) : (
-                <>Send Message <Send className="w-4 h-4" /></>
+                <>
+                  Send Message
+                  <Send style={{ width: "14px", height: "14px" }} />
+                </>
               )}
             </button>
           </form>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 900px) {
+          .contact-grid {
+            grid-template-columns: 1fr 1.2fr !important;
+          }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </section>
   );
 }

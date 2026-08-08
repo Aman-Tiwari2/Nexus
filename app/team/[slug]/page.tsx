@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Github, ExternalLink, Instagram, Mail, ArrowLeft, Trophy, Folder, Award } from "lucide-react";
+import { Github, ExternalLink, Instagram, Mail, ArrowLeft, Trophy, Folder } from "lucide-react";
 import { teamMembers } from "@/data/team";
 import type { Metadata } from "next";
 
@@ -20,218 +20,483 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+function LinkedInIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+    </svg>
+  );
+}
+
 export default async function MemberProfile({ params }: Props) {
   const { slug } = await params;
   const member = teamMembers.find((m) => m.slug === slug);
   if (!member) notFound();
 
-  const skillColors = ["#8B5CF6", "#3B82F6", "#06B6D4", "#EC4899", "#F59E0B"];
+  const initials = member.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2);
+
+  const accentColors = ["#00e5cc", "#8b5cf6", "#60a5fa", "#f472b6", "#34d399", "#fbbf24"];
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white">
-      {/* Hero Banner */}
-      <div className="relative flex items-end" style={{ minHeight: "clamp(180px, 32vw, 260px)" }}>
-        {/* Background */}
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0c0c0c",
+        backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",
+        backgroundSize: "28px 28px",
+        color: "var(--text-primary)",
+      }}
+    >
+      {/* ── Top navigation bar ── */}
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+          background: "rgba(12,12,12,0.85)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
         <div
-          className="absolute inset-0 overflow-hidden"
+          className="section-container"
           style={{
-            background: "linear-gradient(135deg, rgba(139,92,246,0.3) 0%, rgba(59,130,246,0.2) 50%, #0d0d0d 100%)",
+            height: "56px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <div className="absolute inset-0 animated-grid opacity-20" />
-          <div
-            className="absolute inset-0 pointer-events-none"
+          <Link
+            href="/#team"
             style={{
-              background: "radial-gradient(circle at 30% 50%, rgba(139,92,246,0.2) 0%, transparent 60%)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "13px",
+              color: "var(--text-secondary)",
+              transition: "color 0.18s",
             }}
+          >
+            <ArrowLeft style={{ width: "14px", height: "14px" }} />
+            Back to Team
+          </Link>
+          <img
+            src="/images/logo.png"
+            alt="Nexus"
+            style={{ height: "28px", objectFit: "contain" }}
           />
         </div>
+      </div>
 
-        <div className="section-container relative z-10 w-full" style={{ paddingBottom: "clamp(20px, 4vw, 32px)", paddingTop: "clamp(20px, 4vw, 32px)" }}>
-          <div className="flex flex-wrap items-end gap-4">
+      {/* ── Hero banner ── */}
+      <div
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          paddingTop: "clamp(48px, 7vw, 80px)",
+          paddingBottom: "clamp(40px, 6vw, 64px)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
+        {/* Ambient glow based on first accent color */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-30%",
+            left: "10%",
+            width: "500px",
+            height: "500px",
+            background: "radial-gradient(circle, rgba(0,229,204,0.07) 0%, transparent 65%)",
+            filter: "blur(80px)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "-20%",
+            right: "5%",
+            width: "400px",
+            height: "400px",
+            background: "radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%)",
+            filter: "blur(80px)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div className="section-container" style={{ position: "relative", zIndex: 1 }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "28px",
+              alignItems: "center",
+            }}
+          >
             {/* Avatar */}
-            <div
-              className="rounded-2xl overflow-hidden flex items-center justify-center font-bold border-4 flex-shrink-0"
-              style={{
-                width: "clamp(72px, 14vw, 112px)",
-                height: "clamp(72px, 14vw, 112px)",
-                fontSize: "clamp(22px, 4vw, 36px)",
-                background: "linear-gradient(135deg, rgba(139,92,246,0.4), rgba(59,130,246,0.4))",
-                borderColor: "rgba(139,92,246,0.5)",
-                boxShadow: "0 0 40px rgba(139,92,246,0.4)",
-              }}
-            >
-              {member.photo ? (
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span>
-                  {member.name.split(" ").map((n) => n[0]).join("")}
-                </span>
-              )}
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div
+                style={{
+                  position: "absolute",
+                  inset: "-3px",
+                  borderRadius: "50%",
+                  background: "linear-gradient(135deg, #00e5cc, #8b5cf6)",
+                  opacity: 0.7,
+                  filter: "blur(6px)",
+                }}
+              />
+              <div
+                style={{
+                  position: "relative",
+                  width: "clamp(80px, 14vw, 120px)",
+                  height: "clamp(80px, 14vw, 120px)",
+                  borderRadius: "50%",
+                  border: "2px solid rgba(255,255,255,0.1)",
+                  overflow: "hidden",
+                  background: "var(--bg-elevated)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "clamp(22px, 4vw, 36px)",
+                  fontWeight: 800,
+                  color: "var(--text-primary)",
+                }}
+              >
+                {member.photo ? (
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  <span>{initials}</span>
+                )}
+              </div>
             </div>
-            {/* Name + role */}
-            <div style={{ paddingBottom: "2px", flex: "1 1 180px", minWidth: 0 }}>
-              <div className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "#A78BFA" }}>
+
+            {/* Name + meta */}
+            <div style={{ flex: "1 1 200px", minWidth: 0 }}>
+              <div
+                style={{
+                  fontSize: "9.5px",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "var(--accent)",
+                  marginBottom: "8px",
+                }}
+              >
                 {member.branch} · {member.year}
               </div>
               <h1
-                className="font-bold text-white"
-                style={{ fontSize: "clamp(20px, 5vw, 30px)", lineHeight: 1.15 }}
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(28px, 5vw, 44px)",
+                  fontWeight: 800,
+                  color: "var(--text-primary)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.025em",
+                  marginBottom: "8px",
+                }}
               >
                 {member.name}
               </h1>
-              <p style={{ color: "#A78BFA", fontSize: "clamp(13px, 2.5vw, 16px)" }}>{member.role}</p>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "var(--text-secondary)",
+                  marginBottom: "20px",
+                }}
+              >
+                {member.role}
+              </p>
+
+              {/* Social links */}
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                {member.social.linkedin && (
+                  <a
+                    href={member.social.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="LinkedIn"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "7px 14px",
+                      borderRadius: "999px",
+                      border: "1px solid var(--border)",
+                      fontSize: "12.5px",
+                      color: "var(--text-secondary)",
+                      transition: "all 0.18s",
+                    }}
+                  >
+                    <LinkedInIcon />
+                    LinkedIn
+                  </a>
+                )}
+                {member.social.github && (
+                  <a
+                    href={member.social.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="GitHub"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "7px 14px",
+                      borderRadius: "999px",
+                      border: "1px solid var(--border)",
+                      fontSize: "12.5px",
+                      color: "var(--text-secondary)",
+                      transition: "all 0.18s",
+                    }}
+                  >
+                    <Github style={{ width: "13px", height: "13px" }} />
+                    GitHub
+                  </a>
+                )}
+                {member.social.email && (
+                  <a
+                    href={`mailto:${member.social.email}`}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "7px 14px",
+                      borderRadius: "999px",
+                      border: "1px solid var(--border)",
+                      fontSize: "12.5px",
+                      color: "var(--text-secondary)",
+                      transition: "all 0.18s",
+                    }}
+                  >
+                    <Mail style={{ width: "13px", height: "13px" }} />
+                    Email
+                  </a>
+                )}
+                {member.social.instagram && (
+                  <a
+                    href={member.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "7px 14px",
+                      borderRadius: "999px",
+                      border: "1px solid var(--border)",
+                      fontSize: "12.5px",
+                      color: "var(--text-secondary)",
+                      transition: "all 0.18s",
+                    }}
+                  >
+                    <Instagram style={{ width: "13px", height: "13px" }} />
+                    Instagram
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="section-container pt-12 pb-16">
-        {/* Back link */}
-        <Link
-          href="/#team"
-          className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-10 text-sm"
+      {/* ── Main content ── */}
+      <div
+        className="section-container"
+        style={{ paddingTop: "clamp(32px, 5vw, 56px)", paddingBottom: "clamp(48px, 6vw, 80px)" }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "20px",
+          }}
+          className="profile-grid"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Team
-        </Link>
-
-        <style>{`
-            .member-profile-grid { display: grid; gap: 2rem; grid-template-columns: 1fr; }
-            @media (min-width: 1024px) {
-              .member-profile-grid { grid-template-columns: 1fr 2fr; }
-            }
-          `}</style>
-        <div className="member-profile-grid">
-          {/* Left sidebar */}
-          <div className="flex flex-col gap-6">
+          {/* ── About & Skills column ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {/* Bio */}
-            <div className="glass-card p-6">
-              <h2 className="text-lg font-bold text-white mb-4">About</h2>
-              <p className="text-slate-400 leading-relaxed text-sm">{member.bio}</p>
+            <div
+              style={{
+                padding: "24px",
+                borderRadius: "14px",
+                border: "1px solid var(--border)",
+                background: "var(--bg-card)",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                  marginBottom: "14px",
+                }}
+              >
+                About
+              </h2>
+              <p style={{ fontSize: "14px", lineHeight: 1.75, color: "var(--text-secondary)" }}>
+                {member.bio}
+              </p>
             </div>
 
-            {/* Social links */}
-            <div className="glass-card p-6">
-              <h2 className="text-lg font-bold text-white mb-4">Connect</h2>
-              <div className="flex flex-col gap-3">
-                {member.social.linkedin && (
-                  <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-sm text-slate-400 hover:text-white transition-colors group">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: "rgba(59,130,246,0.15)", border: "1px solid rgba(59,130,246,0.3)" }}>
-                      <ExternalLink className="w-4 h-4 text-blue-400" />
-                    </div>
-                    LinkedIn Profile
-                  </a>
-                )}
-
-                {member.social.github && (
-                  <a href={member.social.github} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-sm text-slate-400 hover:text-white transition-colors">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                      <Github className="w-4 h-4 text-slate-300" />
-                    </div>
-                    GitHub Profile
-                  </a>
-                )}
-
-                {member.social.instagram && (
-                  <a href={member.social.instagram} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-sm text-slate-400 hover:text-white transition-colors">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: "rgba(236,72,153,0.15)", border: "1px solid rgba(236,72,153,0.3)" }}>
-                      <Instagram className="w-4 h-4 text-pink-400" />
-                    </div>
-                    Instagram
-                  </a>
-                )}
-                {member.social.email && (
-                  <a href={`mailto:${member.social.email}`}
-                    className="flex items-center gap-3 text-sm text-slate-400 hover:text-white transition-colors">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)" }}>
-                      <Mail className="w-4 h-4 text-purple-400" />
-                    </div>
-                    {member.social.email}
-                  </a>
-                )}
+            {/* Skills */}
+            <div
+              style={{
+                padding: "24px",
+                borderRadius: "14px",
+                border: "1px solid var(--border)",
+                background: "var(--bg-card)",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                  marginBottom: "16px",
+                }}
+              >
+                Skills & Expertise
+              </h2>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {member.skills.map((skill, i) => (
+                  <span
+                    key={skill}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      fontSize: "12px",
+                      padding: "5px 14px",
+                      borderRadius: "999px",
+                      border: `1px solid ${accentColors[i % accentColors.length]}30`,
+                      background: `${accentColors[i % accentColors.length]}0a`,
+                      color: accentColors[i % accentColors.length],
+                      fontWeight: 500,
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Main content */}
-          <div className="lg:col-span-2 flex flex-col gap-6">
-            {/* Skills */}
-            <div className="glass-card p-6">
-              <h2 className="text-lg font-bold text-white mb-6">Skills & Expertise</h2>
-              <div className="flex flex-col gap-4">
-                {member.skills.map((skill, i) => (
-                  <div key={skill}>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-slate-300">{skill}</span>
-                      <span style={{ color: skillColors[i % skillColors.length] }}>
-                        {[85, 90, 78, 92, 88, 80][i % 6]}%
-                      </span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${[85, 90, 78, 92, 88, 80][i % 6]}%`,
-                          background: `linear-gradient(90deg, ${skillColors[i % skillColors.length]}, ${skillColors[(i + 1) % skillColors.length]})`,
-                          boxShadow: `0 0 8px ${skillColors[i % skillColors.length]}60`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
+          {/* ── Projects & Achievements column ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {/* Projects */}
-            <div className="glass-card p-6">
-              <h2 className="text-lg font-bold text-white mb-6">
-                <span className="mr-2">🗂️</span> Projects
+            <div
+              style={{
+                padding: "24px",
+                borderRadius: "14px",
+                border: "1px solid var(--border)",
+                background: "var(--bg-card)",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                  marginBottom: "16px",
+                }}
+              >
+                Projects
               </h2>
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {member.projects.map((project, i) => (
                   <div
                     key={i}
-                    className="p-4 rounded-xl transition-all duration-300 hover:border-purple-500/30"
-                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    style={{
+                      padding: "16px",
+                      borderRadius: "10px",
+                      border: "1px solid var(--border)",
+                      background: "rgba(255,255,255,0.015)",
+                      transition: "border-color 0.2s",
+                    }}
                   >
-                    <div className="flex items-start gap-3 mb-2">
-                      <Folder className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#A78BFA" }} />
-                      <h3 className="font-semibold text-white text-sm">{project.title}</h3>
+                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "8px", marginBottom: "8px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <Folder style={{ width: "13px", height: "13px", color: "#a78bfa", flexShrink: 0 }} />
+                        <h3 style={{ fontSize: "13.5px", fontWeight: 600, color: "var(--text-primary)" }}>
+                          {project.title}
+                        </h3>
+                      </div>
+                      {project.link && project.link !== "#" && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "var(--text-muted)", flexShrink: 0 }}
+                        >
+                          <ExternalLink style={{ width: "12px", height: "12px" }} />
+                        </a>
+                      )}
                     </div>
-                    <p className="text-xs text-slate-500 leading-relaxed ml-7">{project.description}</p>
-                    {project.link && project.link !== "#" && (
-                      <a href={project.link} target="_blank" rel="noopener noreferrer"
-                        className="ml-7 mt-2 inline-block text-xs hover:underline" style={{ color: "#60A5FA" }}>
-                        View Project →
-                      </a>
-                    )}
+                    <p style={{ fontSize: "12px", lineHeight: 1.65, color: "var(--text-secondary)" }}>
+                      {project.description}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Achievements */}
-            <div className="glass-card p-6">
-              <h2 className="text-lg font-bold text-white mb-6">
-                <span className="mr-2">🏆</span> Achievements
+            <div
+              style={{
+                padding: "24px",
+                borderRadius: "14px",
+                border: "1px solid var(--border)",
+                background: "var(--bg-card)",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                  marginBottom: "16px",
+                }}
+              >
+                Achievements
               </h2>
-              <div className="flex flex-col gap-3">
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {member.achievements.map((achievement, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    <Trophy className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "#F59E0B" }} />
-                    <span className="text-slate-300 text-sm">{achievement}</span>
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "12px",
+                      padding: "12px 14px",
+                      borderRadius: "8px",
+                      background: "rgba(251,191,36,0.04)",
+                      border: "1px solid rgba(251,191,36,0.1)",
+                    }}
+                  >
+                    <Trophy
+                      style={{ width: "13px", height: "13px", color: "#fbbf24", flexShrink: 0, marginTop: "2px" }}
+                    />
+                    <span style={{ fontSize: "13px", lineHeight: 1.55, color: "var(--text-secondary)" }}>
+                      {achievement}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -239,6 +504,14 @@ export default async function MemberProfile({ params }: Props) {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .profile-grid {
+            grid-template-columns: 1fr 1.4fr !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

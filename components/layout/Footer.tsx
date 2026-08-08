@@ -5,7 +5,7 @@ import { Github, Instagram, Linkedin, Mail, ArrowUpRight } from "lucide-react";
 const quickLinks = [
   { href: "#home", label: "Home" },
   { href: "#about", label: "About" },
-  { href: "#events", label: "Events" },
+  { href: "#events", label: "Event Highlights" },
   { href: "#team", label: "Team" },
   { href: "#roadmap", label: "Roadmap" },
   { href: "#contact", label: "Contact" },
@@ -13,17 +13,28 @@ const quickLinks = [
 
 const communityLinks = [
   { href: "https://vexta.collegecrm.in", label: "Join Community", external: true },
-  { href: "#upcoming", label: "Upcoming Events" },
-  { href: "#achievements", label: "Achievements" },
   { href: "#faq", label: "FAQ" },
 ];
 
 const socials = [
   { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Instagram, href: "https://www.instagram.com/nexuscommunity___?igsh=MXNmZW5xYXk1ZmoyeQ==", label: "Instagram" },
+  {
+    icon: Instagram,
+    href: "https://www.instagram.com/nexuscommunity___?igsh=MXNmZW5xYXk1ZmoyeQ==",
+    label: "Instagram",
+  },
   { icon: Linkedin, href: "https://www.linkedin.com/company/nexus-23176/", label: "LinkedIn" },
   { icon: Mail, href: "mailto:nexus@college.edu", label: "Email" },
 ];
+
+const linkStyle: React.CSSProperties = {
+  fontSize: "13px",
+  color: "var(--text-secondary)",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "4px",
+  transition: "color 0.18s",
+};
 
 export default function Footer() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -35,17 +46,32 @@ export default function Footer() {
   };
 
   return (
-    <footer style={{ background: "#111111", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      {/* Scrolling marquee */}
+    <footer
+      style={{
+        background: "var(--bg-secondary)",
+        borderTop: "1px solid var(--border)",
+      }}
+    >
+      {/* ── Marquee ticker (now actually visible) ── */}
       <div
-        className="marquee-wrapper py-3"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        className="marquee-wrapper"
+        style={{
+          borderBottom: "1px solid var(--border)",
+          paddingBlock: "10px",
+        }}
       >
         <div className="marquee-track">
-          {Array.from({ length: 16 }).map((_, i) => (
+          {Array.from({ length: 12 }).map((_, i) => (
             <span
               key={i}
-              style={{ color: "#2a2a2a", fontSize: "11px", fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase" }}
+              style={{
+                color: "#3d3d3d",
+                fontSize: "10.5px",
+                fontWeight: 700,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                userSelect: "none",
+              }}
             >
               Nexus Community&nbsp;·&nbsp;Build Skills&nbsp;·&nbsp;Crack Placements&nbsp;·&nbsp;Shape Your Future&nbsp;·&nbsp;
             </span>
@@ -53,63 +79,95 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="section-container py-16">
-        <div className="grid lg:grid-cols-4 gap-12 mb-16">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="mb-4">
-              <img 
-                src="/images/logo.png" 
-                alt="Nexus Community" 
-                className="h-11 w-auto object-contain"
+      {/* ── Main footer content ── */}
+      <div className="section-container" style={{ paddingTop: "56px", paddingBottom: "56px" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gap: "40px",
+            marginBottom: "40px",
+          }}
+          className="footer-grid"
+        >
+          {/* Brand column */}
+          <div>
+            <div style={{ marginBottom: "16px" }}>
+              <img
+                src="/images/logo.png"
+                alt="Nexus Community"
+                style={{ height: "40px", width: "auto", objectFit: "contain" }}
               />
             </div>
-            <p className="text-sm leading-relaxed mb-8" style={{ color: "#a0a0a0" }}>
-              A student-driven community helping college students master coding, aptitude, and placement skills.
+            <p
+              style={{
+                fontSize: "13px",
+                lineHeight: 1.75,
+                color: "var(--text-secondary)",
+                maxWidth: "260px",
+                marginBottom: "24px",
+              }}
+            >
+              A student-driven community helping college students master coding,
+              aptitude, and placement skills.
             </p>
-            <div className="flex gap-3">
-              {socials.map((s) => {
-                const Icon = s.icon;
-                return (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200"
-                    style={{ border: "1px solid rgba(255,255,255,0.15)", color: "#a0a0a0" }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.35)";
-                      (e.currentTarget as HTMLElement).style.color = "#ffffff";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.1)";
-                      (e.currentTarget as HTMLElement).style.color = "#a0a0a0";
-                    }}
-                  >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                );
-              })}
+            <div style={{ display: "flex", gap: "8px" }}>
+              {socials.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  style={{
+                    width: "34px",
+                    height: "34px",
+                    borderRadius: "50%",
+                    border: "1px solid var(--border)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--text-secondary)",
+                    transition: "color 0.18s, border-color 0.18s",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border-hover)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                    (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+                  }}
+                >
+                  <Icon style={{ width: "14px", height: "14px" }} />
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: "#808080", letterSpacing: "0.2em" }}>
+            <h4
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--text-muted)",
+                marginBottom: "20px",
+              }}
+            >
               Quick Links
             </h4>
-            <ul className="flex flex-col gap-3">
+            <ul style={{ display: "flex", flexDirection: "column", gap: "10px", listStyle: "none" }}>
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-sm transition-colors duration-200"
-                    style={{ color: "#a0a0a0" }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#a0a0a0"; }}
+                    style={linkStyle}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-primary)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"; }}
                   >
                     {link.label}
                   </a>
@@ -120,10 +178,19 @@ export default function Footer() {
 
           {/* Community */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: "#808080", letterSpacing: "0.2em" }}>
+            <h4
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--text-muted)",
+                marginBottom: "20px",
+              }}
+            >
               Community
             </h4>
-            <ul className="flex flex-col gap-3">
+            <ul style={{ display: "flex", flexDirection: "column", gap: "10px", listStyle: "none" }}>
               {communityLinks.map((link) => (
                 <li key={link.label}>
                   <a
@@ -131,13 +198,12 @@ export default function Footer() {
                     onClick={(e) => !link.external && handleNavClick(e, link.href)}
                     target={link.external ? "_blank" : undefined}
                     rel={link.external ? "noopener noreferrer" : undefined}
-                    className="text-sm transition-colors duration-200 inline-flex items-center gap-1"
-                    style={{ color: "#a0a0a0" }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#a0a0a0"; }}
+                    style={linkStyle}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-primary)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"; }}
                   >
                     {link.label}
-                    {link.external && <ArrowUpRight className="w-3 h-3" />}
+                    {link.external && <ArrowUpRight style={{ width: "11px", height: "11px" }} />}
                   </a>
                 </li>
               ))}
@@ -146,46 +212,83 @@ export default function Footer() {
 
           {/* Get in touch */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest mb-6" style={{ color: "#808080", letterSpacing: "0.2em" }}>
+            <h4
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--text-muted)",
+                marginBottom: "20px",
+              }}
+            >
               Get In Touch
             </h4>
-            <p className="text-sm leading-relaxed mb-6" style={{ color: "#a0a0a0" }}>
+            <p
+              style={{
+                fontSize: "13px",
+                lineHeight: 1.7,
+                color: "var(--text-secondary)",
+                marginBottom: "20px",
+                maxWidth: "220px",
+              }}
+            >
               Want to collaborate, sponsor, or join? Reach out to us.
             </p>
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, "#contact")}
-              className="btn-secondary text-sm"
-              style={{ padding: "10px 22px" }}
+              className="btn-secondary"
+              style={{ fontSize: "12.5px", padding: "8px 18px" }}
             >
               Contact Us
             </a>
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* ── Bottom bar ── */}
         <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+            paddingTop: "24px",
+            borderTop: "1px solid var(--border)",
+          }}
         >
-          <p className="text-xs" style={{ color: "#666666" }}>
+          <p style={{ fontSize: "11.5px", color: "var(--text-muted)" }}>
             © 2025 Nexus Community. All rights reserved.
           </p>
-          <p className="text-xs" style={{ color: "#666666" }}>
+          <p style={{ fontSize: "11.5px", color: "var(--text-muted)" }}>
             Built with care by the Nexus Team ·{" "}
             <a
               href="https://vexta.collegecrm.in"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#808080" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#808080"; }}
+              style={{ color: "var(--text-secondary)", transition: "color 0.18s" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-primary)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"; }}
             >
               Powered by Vexta
             </a>
           </p>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .footer-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (min-width: 1024px) {
+          .footer-grid {
+            grid-template-columns: 1.4fr 1fr 1fr 1fr !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const roadmap = [
   {
@@ -42,98 +43,185 @@ const roadmap = [
   },
 ];
 
-function RoadmapYear({ item, index, visible }: { item: typeof roadmap[0]; index: number; visible: boolean }) {
-  const [expanded, setExpanded] = useState(index === 0);
+function RoadmapYear({ item, index }: { item: typeof roadmap[0]; index: number }) {
+  const [expanded, setExpanded] = useState(index < 2);
 
   return (
-    <div
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(20px)",
-        transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.4, delay: index * 0.07 }}
+      style={{ borderBottom: "1px solid var(--border)" }}
     >
       <button
-        className="w-full flex items-center justify-between py-5 text-left gap-4"
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "22px 0",
+          textAlign: "left",
+          gap: "16px",
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+        }}
         onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
       >
-        <div className="flex items-center gap-4">
-          <span className="text-xs font-mono flex-shrink-0" style={{ color: "#808080", width: "24px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <span
+            style={{
+              fontFamily: "monospace",
+              fontSize: "10.5px",
+              color: "var(--text-muted)",
+              flexShrink: 0,
+              width: "22px",
+            }}
+          >
             {String(index + 1).padStart(2, "0")}
           </span>
           <div>
-            <div className="text-xs uppercase tracking-widest mb-1" style={{ color: "#00e5cc", letterSpacing: "0.12em", fontSize: "10px", fontWeight: 600 }}>{item.year}</div>
-            <div className="text-base font-bold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{item.title}</div>
+            <div
+              style={{
+                fontSize: "9.5px",
+                fontWeight: 700,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: "var(--accent)",
+                marginBottom: "5px",
+              }}
+            >
+              {item.year}
+            </div>
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(15px, 2vw, 18px)",
+                fontWeight: 700,
+                color: expanded ? "var(--text-primary)" : "rgba(240,240,240,0.85)",
+                lineHeight: 1.2,
+                transition: "color 0.2s",
+              }}
+            >
+              {item.title}
+            </div>
           </div>
         </div>
+
         <div
-          className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200"
           style={{
-            border: `1px solid ${expanded ? "rgba(0,229,204,0.2)" : "rgba(255,255,255,0.15)"}`,
-            color: expanded ? "#00e5cc" : "#a0a0a0",
+            width: "26px",
+            height: "26px",
+            borderRadius: "50%",
+            border: `1px solid ${expanded ? "rgba(0,229,204,0.25)" : "var(--border)"}`,
+            color: expanded ? "var(--accent)" : "var(--text-muted)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            transition: "all 0.2s",
           }}
         >
-          {expanded ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+          {expanded ? <Minus style={{ width: "12px", height: "12px" }} /> : <Plus style={{ width: "12px", height: "12px" }} />}
         </div>
       </button>
 
-      <div style={{ maxHeight: expanded ? "600px" : "0", overflow: "hidden", transition: "max-height 0.4s ease" }}>
-        <div className="pb-6 grid sm:grid-cols-3 gap-6" style={{ paddingLeft: "40px" }}>
-          {item.items.map((section) => (
-            <div key={section.category}>
-              <h4 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#c0c0c0", letterSpacing: "0.12em" }}>
-                {section.category}
-              </h4>
-              <ul className="flex flex-col gap-2">
-                {section.tasks.map((task, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs" style={{ color: "#a0a0a0" }}>
-                    <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ background: "#555555" }} />
-                    {task}
-                  </li>
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            <div
+              style={{
+                paddingBottom: "24px",
+                paddingLeft: "clamp(12px, 4vw, 42px)",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 220px), 1fr))",
+                  gap: "24px",
+                  paddingTop: "4px",
+                }}
+              >
+                {item.items.map((section) => (
+                  <div key={section.category}>
+                    <h4
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: 700,
+                        letterSpacing: "0.16em",
+                        textTransform: "uppercase",
+                        color: "var(--text-primary)",
+                        marginBottom: "14px",
+                        paddingBottom: "8px",
+                        borderBottom: "1px solid var(--border)",
+                      }}
+                    >
+                      {section.category}
+                    </h4>
+                    <ul style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                      {section.tasks.map((task, i) => (
+                        <li
+                          key={i}
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: "10px",
+                            fontSize: "12.5px",
+                            lineHeight: 1.55,
+                            color: "var(--text-secondary)",
+                          }}
+                        >
+                          <span
+                            style={{
+                              width: "4px",
+                              height: "4px",
+                              borderRadius: "50%",
+                              background: "var(--accent)",
+                              flexShrink: 0,
+                              marginTop: "7px",
+                            }}
+                          />
+                          {task}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
 export default function Roadmap() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
-    if (sectionRef.current) obs.observe(sectionRef.current);
-    return () => obs.disconnect();
-  }, []);
-
   return (
-    <section id="roadmap" className="section-padding" style={{ background: "#0d0d0d" }}>
+    <section id="roadmap" className="section-padding" style={{ background: "var(--bg-secondary)" }}>
       <div className="section-container">
         <div className="section-tag">Learning Path</div>
         <h2
-          className="font-black text-white leading-[0.95] mb-16 mt-3"
-          style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: "clamp(36px, 6vw, 72px)",
-            letterSpacing: "-0.03em",
-          }}
+          className="heading-display"
+          style={{ fontSize: "clamp(36px, 5.5vw, 68px)", marginTop: "8px", marginBottom: "52px" }}
         >
           Year-wise<br />
-          <span style={{ color: "#00e5cc" }}>Roadmap</span>
+          <span style={{ color: "var(--accent)" }}>Roadmap</span>
         </h2>
 
-        <div
-          ref={sectionRef}
-          className="max-w-4xl"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-        >
+        <div style={{ borderTop: "1px solid var(--border)" }}>
           {roadmap.map((item, i) => (
-            <RoadmapYear key={item.year} item={item} index={i} visible={visible} />
+            <RoadmapYear key={item.year} item={item} index={i} />
           ))}
         </div>
       </div>
