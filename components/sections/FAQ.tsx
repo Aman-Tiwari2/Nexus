@@ -50,7 +50,7 @@ function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
 
       <div
         style={{
-          maxHeight: open ? "300px" : "0",
+          maxHeight: open ? "480px" : "0",
           overflow: "hidden",
           transition: "max-height 0.35s ease",
         }}
@@ -79,7 +79,7 @@ export default function FAQ() {
   return (
     <section id="faq" className="section-padding" style={{ background: "#111111" }}>
       <div className="section-container">
-        <div className="flex flex-col lg:flex-row gap-16">
+        <div className="flex flex-col lg:flex-row gap-16 max-w-5xl mx-auto">
           {/* Left */}
           <div className="lg:w-80 flex-shrink-0">
             <div className="section-tag">FAQ</div>

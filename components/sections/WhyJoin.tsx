@@ -70,7 +70,7 @@ export default function WhyJoin() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="section-tag"
+          className="section-tag text-center block w-full"
         >
           Why Join
         </motion.div>
@@ -81,7 +81,7 @@ export default function WhyJoin() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="font-black text-white leading-[0.95] mb-16 mt-3"
+          className="font-black text-white leading-[0.95] mb-10 mt-3 text-center"
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: "clamp(36px, 6vw, 72px)",
@@ -98,7 +98,7 @@ export default function WhyJoin() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          className="grid md:grid-cols-2 gap-10 max-w-5xl mb-16"
+          className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-10"
         >
           {/* Without Nexus */}
           <motion.div
@@ -108,7 +108,7 @@ export default function WhyJoin() {
               borderColor: "rgba(255,80,80,0.25)",
               boxShadow: "0 15px 35px -10px rgba(255,80,80,0.06)",
             }}
-            className="card p-10 transition-all duration-300 relative overflow-hidden"
+            className="card p-10 transition-all duration-300 relative overflow-hidden flex flex-col"
             style={{
               background: "linear-gradient(180deg, rgba(255,80,80,0.01) 0%, rgba(0,0,0,0) 100%)",
               borderColor: "rgba(255,80,80,0.08)",
@@ -140,7 +140,7 @@ export default function WhyJoin() {
               borderColor: "rgba(0,229,204,0.3)",
               boxShadow: "0 15px 35px -10px rgba(0,229,204,0.12)",
             }}
-            className="card p-10 transition-all duration-300 relative overflow-hidden"
+            className="card p-10 transition-all duration-300 relative overflow-hidden flex flex-col"
             style={{
               background: "linear-gradient(180deg, rgba(0,229,204,0.02) 0%, rgba(0,0,0,0) 100%)",
               borderColor: "rgba(0,229,204,0.12)",
@@ -171,6 +171,7 @@ export default function WhyJoin() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-center"
         >
           <a
             href="https://vexta.collegecrm.in"

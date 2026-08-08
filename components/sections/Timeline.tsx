@@ -83,7 +83,7 @@ export default function Timeline() {
 
       <div className="section-container relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col mb-16">
+        <div className="flex flex-col mb-10">
           <div className="section-tag" style={{ color: "#00e5cc" }}>Our Journey</div>
           <h2
             className="font-black text-white leading-[0.95] mt-3"
@@ -93,12 +93,12 @@ export default function Timeline() {
               letterSpacing: "-0.03em",
             }}
           >
-            Where I&apos;ve <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: "normal" }}>worked</span>
+            Where We&apos;ve <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: "normal" }}>been</span>
           </h2>
         </div>
 
         {/* Clean, Cardless Timeline Layout */}
-        <div className="relative max-w-3xl" style={{ paddingLeft: "8px" }}>
+        <div className="relative max-w-3xl mx-auto" style={{ paddingLeft: "8px" }}>
           {/* Glowing vertical timeline line */}
           <div
             style={{

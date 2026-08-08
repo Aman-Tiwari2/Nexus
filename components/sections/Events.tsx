@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Calendar, MapPin, ExternalLink, Clock } from "lucide-react";
+import { Calendar, MapPin, ExternalLink } from "lucide-react";
 import { events } from "@/data/events";
 
 const typeLabels: Record<string, string> = {
@@ -15,10 +15,12 @@ const typeLabels: Record<string, string> = {
 
 function EventCard({ event, index, visible }: { event: typeof events[0]; index: number; visible: boolean }) {
   const date = new Date(event.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  // An event only counts as upcoming while its date hasn't passed
+  const isUpcoming = event.isUpcoming && new Date(`${event.date}T23:59:59`).getTime() >= Date.now();
 
   return (
     <div
-      className="card p-6 group"
+      className="card p-6 group flex flex-col h-full"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(20px)",
@@ -30,14 +32,14 @@ function EventCard({ event, index, visible }: { event: typeof events[0]; index: 
         <span
           className="text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full"
           style={{
-            background: event.isUpcoming ? "rgba(0,229,204,0.1)" : "rgba(255,255,255,0.05)",
-            color: event.isUpcoming ? "#00e5cc" : "#555555",
-            border: `1px solid ${event.isUpcoming ? "rgba(0,229,204,0.2)" : "rgba(255,255,255,0.08)"}`,
+            background: isUpcoming ? "rgba(0,229,204,0.1)" : "rgba(255,255,255,0.05)",
+            color: isUpcoming ? "#00e5cc" : "#555555",
+            border: `1px solid ${isUpcoming ? "rgba(0,229,204,0.2)" : "rgba(255,255,255,0.08)"}`,
             letterSpacing: "0.1em",
             fontSize: "10px",
           }}
         >
-          {event.isUpcoming ? "● Upcoming" : typeLabels[event.type] || event.type}
+          {isUpcoming ? "● Upcoming" : typeLabels[event.type] || event.type}
         </span>
         {event.prize && (
           <span className="text-xs" style={{ color: "#808080" }}>🏆 {event.prize}</span>
@@ -67,7 +69,7 @@ function EventCard({ event, index, visible }: { event: typeof events[0]; index: 
       </div>
 
       {/* Description */}
-      <p className="text-sm leading-relaxed mb-6 line-clamp-2" style={{ color: "#a0a0a0" }}>
+      <p className="text-sm leading-relaxed mb-6 line-clamp-2 flex-grow" style={{ color: "#a0a0a0" }}>
         {event.description}
       </p>
 
@@ -77,11 +79,11 @@ function EventCard({ event, index, visible }: { event: typeof events[0]; index: 
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
-        style={{ color: event.isUpcoming ? "#00e5cc" : "#808080" }}
+        style={{ color: isUpcoming ? "#00e5cc" : "#808080" }}
         onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = event.isUpcoming ? "#00e5cc" : "#808080"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = isUpcoming ? "#00e5cc" : "#808080"; }}
       >
-        {event.isUpcoming ? "Register Now" : "View Details"}
+        {isUpcoming ? "Register Now" : "View Details"}
         <ExternalLink className="w-3.5 h-3.5" />
       </a>
     </div>
@@ -106,7 +108,7 @@ export default function Events() {
     <section id="events" className="section-padding" style={{ background: "#111111" }}>
       <div className="section-container">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-16">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10">
           <div>
             <div className="section-tag">Events</div>
             <h2

@@ -51,9 +51,9 @@ export default function Contact() {
   return (
     <section id="contact" className="section-padding" style={{ background: "#111111" }}>
       <div className="section-container">
-        <div className="section-tag">Contact</div>
+        <div className="section-tag text-center block w-full">Contact</div>
         <h2
-          className="font-black text-white leading-[0.95] mb-16 mt-3"
+          className="font-black text-white leading-[0.95] mb-10 mt-3 text-center"
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: "clamp(36px, 6vw, 72px)",
@@ -66,7 +66,7 @@ export default function Contact() {
 
         <div
           ref={sectionRef}
-          className="grid lg:grid-cols-2 gap-16 max-w-5xl"
+          className="grid lg:grid-cols-2 gap-16 max-w-5xl mx-auto"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(20px)",

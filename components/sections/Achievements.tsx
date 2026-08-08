@@ -6,7 +6,7 @@ import { Terminal, Smartphone, LayoutGrid } from "lucide-react";
 const products = [
   {
     icon: Terminal,
-    title: "Vextra Assessment App",
+    title: "Vexta Assessment App",
     desc: "Our proprietary online evaluation platform. It conducts comprehensive tests across Aptitude, English Communication, and Coding logic, handling thousands of student submissions dynamically.",
     stats: ["Aptitude & Coding rounds", "All-India live leaderboards", "5,000+ test attempts completed"]
   },
@@ -52,7 +52,7 @@ export default function Achievements() {
     <section id="achievements" className="section-padding" style={{ background: "#0d0d0d" }}>
       <div className="section-container">
         {/* Header */}
-        <div className="flex flex-col mb-16">
+        <div className="flex flex-col mb-10 text-center items-center">
           <div className="section-tag" style={{ color: "#00e5cc" }}>Ecosystem</div>
           <h2
             className="font-black text-white leading-[0.95] mt-3"

@@ -4,11 +4,11 @@ import { useRef, useState, useEffect } from "react";
 import { Calendar, MapPin, Clock, ExternalLink } from "lucide-react";
 import { events } from "@/data/events";
 
-function CountdownTimer() {
-  const targetDate = 0;
+function CountdownTimer({ date }: { date: string }) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
+    const targetDate = new Date(`${date}T09:00:00`).getTime();
     const updateTimer = () => {
       const now = new Date().getTime();
       const difference = targetDate - now;
@@ -29,7 +29,7 @@ function CountdownTimer() {
     updateTimer();
     const interval = setInterval(updateTimer, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [date]);
 
   const formatNumber = (num: number) => String(num).padStart(2, "0");
 
@@ -91,7 +91,7 @@ export default function UpcomingEvent() {
     <section id="upcoming" className="section-padding" style={{ background: "#0d0d0d" }}>
       <div className="section-container">
         {/* Header */}
-        <div className="flex flex-col mb-12">
+        <div className="flex flex-col mb-10 text-center items-center">
           <div className="section-tag" style={{ color: "#00e5cc" }}>Coming Soon</div>
           <h2
             className="font-black text-white leading-[0.95] mt-3"
@@ -109,7 +109,7 @@ export default function UpcomingEvent() {
         {/* Card */}
         <div
           ref={sectionRef}
-          className="card p-8 md:p-10 max-w-4xl"
+          className="card p-8 md:p-10 max-w-4xl mx-auto"
           style={{
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(20px)",
@@ -154,7 +154,14 @@ export default function UpcomingEvent() {
           <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-8 text-xs" style={{ color: "#808080" }}>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-[#00e5cc]" />
-              <span>Friday, 15 August 2026</span>
+              <span>
+                {new Date(upcomingEvent.date).toLocaleDateString("en-IN", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
             </div>
             {upcomingEvent.venue && (
               <div className="flex items-center gap-2">
@@ -173,7 +180,7 @@ export default function UpcomingEvent() {
 
           {/* Countdown & Button layout */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <CountdownTimer />
+            <CountdownTimer date={upcomingEvent.date} />
 
             <div className="flex flex-col justify-end">
               <a

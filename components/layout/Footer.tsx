@@ -53,8 +53,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="section-container py-16">
-        <div className="grid lg:grid-cols-4 gap-12 mb-16">
+      <div className="section-container py-12">
+        <div className="grid lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="mb-4">
@@ -169,7 +169,7 @@ export default function Footer() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
         >
           <p className="text-xs" style={{ color: "#666666" }}>
-            © 2025 Nexus Community. All rights reserved.
+            © {new Date().getFullYear()} Nexus Community. All rights reserved.
           </p>
           <p className="text-xs" style={{ color: "#666666" }}>
             Built with care by the Nexus Team ·{" "}

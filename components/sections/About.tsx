@@ -75,7 +75,7 @@ export default function About() {
         </motion.div>
 
         {/* Large "Hey!" headline & Details */}
-        <div className="grid lg:grid-cols-3 gap-12 lg:gap-16 items-start mb-24">
+        <div className="grid lg:grid-cols-3 gap-12 lg:gap-16 items-start mb-16">
           {/* Left — big heading */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -188,7 +188,7 @@ export default function About() {
         </div>
 
         {/* Thin divider */}
-        <div className="section-divider mb-24" />
+        <div className="section-divider mb-14" />
 
         {/* Core Values */}
         <div>
@@ -207,7 +207,7 @@ export default function About() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
           >
             {coreValues.map((v, i) => {
               const Icon = v.icon;
@@ -216,43 +216,57 @@ export default function About() {
                   key={v.label}
                   variants={cardVariants}
                   whileHover={{
-                    y: -8,
-                    scale: 1.02,
-                    borderColor: "rgba(0, 229, 204, 0.5)",
-                    backgroundColor: "rgba(0, 229, 204, 0.02)",
-                    boxShadow: "0 15px 35px -10px rgba(0, 229, 204, 0.2)",
+                    y: -6,
+                    borderColor: "rgba(0, 229, 204, 0.35)",
+                    boxShadow: "0 12px 32px -8px rgba(0, 229, 204, 0.15)",
                   }}
-                  className="p-8 rounded-2xl border transition-all duration-300 group relative overflow-hidden"
+                  className="rounded-2xl border transition-all duration-300 group relative overflow-hidden flex flex-col"
                   style={{
-                    background: "rgba(255,255,255,0.01)",
-                    borderColor: "rgba(255,255,255,0.06)",
+                    background: "rgba(255,255,255,0.02)",
+                    borderColor: "rgba(255,255,255,0.07)",
                   }}
                 >
-                  {/* Subtle inner hover glow */}
+                  {/* Accent top strip */}
                   <div
-                    className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background: "radial-gradient(circle at top left, rgba(0, 229, 204, 0.04) 0%, transparent 60%)",
-                    }}
+                    className="w-full h-[3px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ background: "linear-gradient(90deg, #00e5cc, rgba(139,92,246,0.6))" }}
                   />
 
-                  <div
-                    className="w-10 h-10 mb-6 flex items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110"
-                    style={{
-                      background: "rgba(0,229,204,0.08)",
-                      border: "1px solid rgba(0,229,204,0.15)",
-                      boxShadow: "0 4px 12px rgba(0, 229, 204, 0.05)",
-                    }}
-                  >
-                    <Icon className="w-5 h-5 text-[#00e5cc]" />
+                  <div className="p-7 flex flex-col flex-1">
+                    {/* Icon */}
+                    <div
+                      className="w-12 h-12 mb-5 flex items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-105"
+                      style={{
+                        background: "rgba(0,229,204,0.08)",
+                        border: "1px solid rgba(0,229,204,0.15)",
+                        boxShadow: "0 4px 16px rgba(0, 229, 204, 0.06)",
+                      }}
+                    >
+                      <Icon className="w-5 h-5 text-[#00e5cc]" />
+                    </div>
+
+                    {/* Number + Label */}
+                    <div className="mb-3">
+                      <span
+                        className="text-[10px] font-mono block mb-1"
+                        style={{ color: "#555" }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <h3
+                        className="text-sm font-bold uppercase tracking-wide text-white"
+                        style={{ letterSpacing: "0.08em", fontFamily: "'Space Grotesk', sans-serif" }}
+                      >
+                        {v.label}
+                      </h3>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="w-8 h-px mb-4" style={{ background: "rgba(0,229,204,0.25)" }} />
+
+                    {/* Description */}
+                    <p className="text-[13px] leading-relaxed flex-1" style={{ color: "#909090" }}>{v.desc}</p>
                   </div>
-                  <div
-                    className="text-xs font-semibold uppercase tracking-widest text-white mb-3"
-                    style={{ letterSpacing: "0.12em", fontSize: "11px", fontFamily: "'Space Grotesk', sans-serif" }}
-                  >
-                    {String(i + 1).padStart(2, "0")} — {v.label}
-                  </div>
-                  <p className="text-sm leading-relaxed" style={{ color: "#a0a0a0" }}>{v.desc}</p>
                 </motion.div>
               );
             })}
@@ -265,7 +279,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-20 flex justify-start"
+          className="mt-12 flex justify-start"
         >
           <a
             href="https://vexta.collegecrm.in"

@@ -129,9 +129,9 @@ export default function Gallery() {
   return (
     <section id="gallery" className="section-padding" style={{ background: "#0d0d0d" }}>
       <div className="section-container">
-        <div className="section-tag">Gallery</div>
+        <div className="section-tag text-center block w-full">Gallery</div>
         <h2
-          className="font-black text-white leading-[0.95] mb-12 mt-3"
+          className="font-black text-white leading-[0.95] mb-10 mt-3 text-center"
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: "clamp(36px, 6vw, 72px)",
@@ -164,7 +164,7 @@ export default function Gallery() {
       {lightboxItem && (
         <div className="lightbox-overlay" onClick={() => setLightboxItem(null)}>
           <div
-            className="card p-6 max-w-lg w-full mx-4 text-center relative"
+            className="card p-6 max-w-2xl w-full mx-4 text-center relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button

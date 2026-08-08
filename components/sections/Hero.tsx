@@ -114,13 +114,13 @@ export default function Hero() {
       {/* Main content — takes full height */}
       <div
         className="section-container flex-1 flex flex-col justify-center relative"
-        style={{ zIndex: 2, paddingTop: "120px", paddingBottom: "60px" }}
+        style={{ zIndex: 2, paddingTop: "100px", paddingBottom: "40px" }}
       >
         <div className="grid lg:grid-cols-12 gap-12 items-center w-full">
           {/* Left Column (Content) */}
           <div className="lg:col-span-7 flex flex-col">
             {/* Community label */}
-            <div className="section-tag mb-6 align-self-start">
+            <div className="section-tag mb-6 self-start">
               Nexus Community · Est. 2022
             </div>
 
@@ -297,17 +297,17 @@ export default function Hero() {
 
       {/* Footer bar of hero — like reference site (©2025 | /BUILDING SINCE 2022) */}
       <div
-        className="section-container relative flex justify-between items-center py-5"
+        className="section-container w-full relative flex justify-between items-center py-5"
         style={{
           borderTop: "1px solid rgba(255,255,255,0.06)",
           zIndex: 2,
         }}
       >
         <span style={{ color: "#808080", fontSize: "12px", fontWeight: 500, letterSpacing: "0.05em" }}>
-          ©2025
+          ©{new Date().getFullYear()}
         </span>
         <span style={{ color: "#808080", fontSize: "11px", fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-          
+          / Building Since 2022
         </span>
       </div>
 

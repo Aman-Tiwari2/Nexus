@@ -8,8 +8,8 @@ const companies = [
 
 export default function Sponsors() {
   return (
-    <section id="sponsors" style={{ background: "#111111", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "48px 0", overflow: "hidden" }}>
-      <div className="section-container mb-8">
+    <section id="sponsors" style={{ background: "#111111", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "36px 0", overflow: "hidden" }}>
+      <div className="section-container mb-6">
         <p
           className="text-xs uppercase"
           style={{ color: "#808080", letterSpacing: "0.25em", fontWeight: 600 }}

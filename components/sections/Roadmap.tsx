@@ -114,9 +114,9 @@ export default function Roadmap() {
   return (
     <section id="roadmap" className="section-padding" style={{ background: "#0d0d0d" }}>
       <div className="section-container">
-        <div className="section-tag">Learning Path</div>
+        <div className="section-tag text-center block w-full">Learning Path</div>
         <h2
-          className="font-black text-white leading-[0.95] mb-16 mt-3"
+          className="font-black text-white leading-[0.95] mb-10 mt-3 text-center"
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
             fontSize: "clamp(36px, 6vw, 72px)",
@@ -129,7 +129,7 @@ export default function Roadmap() {
 
         <div
           ref={sectionRef}
-          className="max-w-4xl"
+          className="max-w-4xl mx-auto"
           style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
         >
           {roadmap.map((item, i) => (

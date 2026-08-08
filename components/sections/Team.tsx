@@ -398,7 +398,7 @@ export default function Team() {
       <section id="team" className="section-padding" style={{ background: "#111111" }}>
         <div className="section-container">
           {/* Header */}
-          <div style={{ marginBottom: "48px" }}>
+          <div style={{ marginBottom: "36px" }}>
             <div className="section-tag">The Team</div>
             <h2
               className="team-section-title font-black text-white leading-[0.95] mt-3"

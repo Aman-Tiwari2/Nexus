@@ -25,7 +25,7 @@ export default function WhatWeDo() {
     <section id="what-we-do" className="section-padding" style={{ background: "#111111" }}>
       <div className="section-container">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10">
           <div>
             <div className="section-tag">What We Do</div>
             <h2
@@ -61,26 +61,25 @@ export default function WhatWeDo() {
                 transition: `opacity 0.5s ease ${i * 0.07}s, transform 0.5s ease ${i * 0.07}s`,
               }}
             >
-              {/* Number */}
-              <span
-                className="flex-shrink-0 font-mono"
-                style={{ color: "#808080", fontSize: "12px", width: "28px" }}
-              >
-                {item.num}
-              </span>
-
-              {/* Category label */}
-              <span
-                className="font-bold text-white flex-shrink-0"
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: "clamp(16px, 2vw, 22px)",
-                  letterSpacing: "-0.02em",
-                  minWidth: "200px",
-                }}
-              >
-                {item.category}
-              </span>
+              {/* Number + Category */}
+              <div className="flex items-center gap-4 sm:gap-6 flex-shrink-0 sm:min-w-[230px]">
+                <span
+                  className="flex-shrink-0 font-mono"
+                  style={{ color: "#808080", fontSize: "12px", width: "28px" }}
+                >
+                  {item.num}
+                </span>
+                <span
+                  className="font-bold text-white"
+                  style={{
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontSize: "clamp(16px, 2vw, 22px)",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  {item.category}
+                </span>
+              </div>
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 flex-1">
