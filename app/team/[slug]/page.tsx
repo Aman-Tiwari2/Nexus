@@ -59,7 +59,7 @@ export default async function MemberProfile({ params }: Props) {
     .join("")
     .slice(0, 2);
 
-  const accentColors = ["#f97316", "#fb923c", "#60a5fa", "#f472b6", "#34d399", "#fbbf24"];
+  const accentColors = ["#60a5fa", "#2036b3", "#60a5fa", "#60a5fa", "#2036b3", "#60a5fa"];
 
   return (
     <div
@@ -132,7 +132,7 @@ export default async function MemberProfile({ params }: Props) {
             left: "10%",
             width: "500px",
             height: "500px",
-            background: "radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(96,165,250,0.07) 0%, transparent 65%)",
             filter: "blur(80px)",
             pointerEvents: "none",
           }}
@@ -166,7 +166,7 @@ export default async function MemberProfile({ params }: Props) {
                   position: "absolute",
                   inset: "-3px",
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg, #f97316, #fb923c)",
+                  background: "linear-gradient(135deg, #60a5fa, #2036b3)",
                   opacity: 0.7,
                   filter: "blur(6px)",
                 }}

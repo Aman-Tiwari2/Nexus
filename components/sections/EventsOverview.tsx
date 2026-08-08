@@ -119,7 +119,7 @@ export default function EventsOverview() {
       <div style={{
         position: "absolute", top: "10%", left: "-5%",
         width: "500px", height: "500px",
-        background: "radial-gradient(circle, rgba(249,115,22,0.04) 0%, transparent 65%)",
+        background: "radial-gradient(circle, rgba(47,129,255,0.04) 0%, transparent 65%)",
         filter: "blur(80px)", pointerEvents: "none",
       }} />
       <div style={{
@@ -201,13 +201,22 @@ export default function EventsOverview() {
 
               {/* Live Countdown */}
               <div className="eo-countdown-wrap">
-                <div className="eo-countdown-label">Countdown to Launch</div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+                  <div className="eo-countdown-label" style={{ margin: 0 }}>
+                    Live Target Countdown
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#60a5fa", boxShadow: "0 0 8px #60a5fa", animation: "pulse 2s infinite" }} />
+                    <span style={{ fontSize: "10px", fontWeight: 700, color: "#60a5fa", letterSpacing: "0.08em" }}>COUNTING DOWN</span>
+                  </div>
+                </div>
+
                 <div className="eo-countdown-row">
                   {[
                     { val: pad(timeLeft.days), unit: "Days" },
-                    { val: pad(timeLeft.hours), unit: "Hrs" },
-                    { val: pad(timeLeft.minutes), unit: "Min" },
-                    { val: pad(timeLeft.seconds), unit: "Sec" },
+                    { val: pad(timeLeft.hours), unit: "Hours" },
+                    { val: pad(timeLeft.minutes), unit: "Mins" },
+                    { val: pad(timeLeft.seconds), unit: "Secs" },
                   ].map(({ val, unit }, i) => (
                     <div key={i} className="eo-timer-block">
                       <span className="eo-timer-num">{val}</span>
@@ -334,14 +343,14 @@ export default function EventsOverview() {
           transition: border-color 0.3s, box-shadow 0.3s;
         }
         .eo-upcoming-card:hover {
-          border-color: rgba(249,115,22,0.3);
-          box-shadow: 0 12px 40px rgba(249,115,22,0.05);
+          border-color: rgba(96,165,250,0.3);
+          box-shadow: 0 12px 40px rgba(96,165,250,0.05);
         }
         .eo-card-glow {
           position: absolute;
           top: -80px; right: -80px;
           width: 200px; height: 200px;
-          background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%);
+          background: radial-gradient(circle, rgba(96,165,250,0.12) 0%, transparent 70%);
           pointer-events: none;
         }
 
@@ -363,8 +372,8 @@ export default function EventsOverview() {
           letter-spacing: 0.1em;
           text-transform: uppercase;
           color: var(--accent);
-          background: rgba(249,115,22,0.09);
-          border: 1px solid rgba(249,115,22,0.25);
+          background: rgba(47,129,255,0.09);
+          border: 1px solid rgba(47,129,255,0.25);
           padding: 4px 11px;
           border-radius: 999px;
         }
@@ -435,28 +444,30 @@ export default function EventsOverview() {
           gap: 10px;
         }
         .eo-timer-block {
-          background: rgba(0,0,0,0.3);
-          border: 1px solid rgba(255,255,255,0.05);
-          border-radius: 8px;
-          padding: 10px 6px;
+          background: rgba(96, 165, 250, 0.08);
+          border: 1px solid rgba(96, 165, 250, 0.25);
+          border-radius: 10px;
+          padding: 12px 6px;
           text-align: center;
           display: flex;
           flex-direction: column;
-          gap: 2px;
+          gap: 4px;
+          box-shadow: inset 0 0 12px rgba(96, 165, 250, 0.05);
         }
         .eo-timer-num {
           font-family: var(--font-display);
-          font-size: clamp(20px, 2.5vw, 26px);
-          font-weight: 700;
+          font-size: clamp(22px, 2.8vw, 28px);
+          font-weight: 800;
           color: #ffffff;
           line-height: 1;
+          text-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
         }
         .eo-timer-unit {
-          font-size: 9px;
-          font-weight: 600;
+          font-size: 9.5px;
+          font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
-          color: var(--text-muted);
+          letter-spacing: 0.08em;
+          color: #60a5fa;
         }
 
         /* Register CTA */
@@ -469,17 +480,17 @@ export default function EventsOverview() {
           padding: 13px;
           border-radius: 8px;
           background: var(--accent);
-          color: #0c0c0c;
+          color: #ffffff;
           font-size: 13.5px;
           font-weight: 700;
           text-decoration: none;
           transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-          box-shadow: 0 4px 16px rgba(249,115,22,0.28);
+          box-shadow: 0 4px 16px rgba(96,165,250,0.28);
         }
         .eo-register-btn:hover {
           transform: translateY(-2px);
-          background: #ea6a0a;
-          box-shadow: 0 8px 24px rgba(249,115,22,0.45);
+          background: #3b82f6;
+          box-shadow: 0 8px 24px rgba(96,165,250,0.45);
         }
 
         /* ═══════ Past Events Stack ═══════ */

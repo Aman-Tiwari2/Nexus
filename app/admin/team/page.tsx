@@ -9,6 +9,7 @@ const NAV = [
   { href: "/admin/events", label: "Events", icon: "📅" },
   { href: "/admin/gallery", label: "Gallery", icon: "🖼" },
   { href: "/admin/team", label: "Team", icon: "👥" },
+  { href: "/admin/blogs", label: "Blogs", icon: "📰" },
 ];
 
 function Sidebar({ active }: { active: string }) {
@@ -18,7 +19,7 @@ function Sidebar({ active }: { active: string }) {
     <aside style={{ width: "220px", minHeight: "100vh", background: "rgba(255,255,255,0.02)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", flexShrink: 0, position: "sticky", top: 0 }}>
       <div style={{ padding: "24px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
+          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
           <div>
             <div style={{ fontSize: "13px", fontWeight: 700, color: "#F5F5F5", lineHeight: 1.2 }}>NEXUS</div>
             <div style={{ fontSize: "10px", color: "#899393", letterSpacing: "0.1em" }}>ADMIN PANEL</div>
@@ -29,7 +30,7 @@ function Sidebar({ active }: { active: string }) {
         {NAV.map((item) => {
           const isActive = active === item.href;
           return (
-            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(249,115,22,0.1)" : "transparent", color: isActive ? "#f97316" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #f97316" : "2px solid transparent", transition: "all 0.15s" }}>
+            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(96,165,250,0.1)" : "transparent", color: isActive ? "#60a5fa" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #60a5fa" : "2px solid transparent", transition: "all 0.15s" }}>
               <span style={{ fontSize: "15px" }}>{item.icon}</span>{item.label}
             </Link>
           );
@@ -120,15 +121,15 @@ export default function TeamAdminPage() {
       <label style={{ display: "block", fontSize: "10px", fontWeight: 600, letterSpacing: "0.1em", color: "#899393", textTransform: "uppercase", marginBottom: "6px" }}>{label}</label>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "8px" }}>
         {tags.map((t, i) => (
-          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "4px 10px", borderRadius: "6px", background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.2)", color: "#f97316", fontSize: "11px" }}>
+          <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "5px", padding: "4px 10px", borderRadius: "6px", background: "rgba(96,165,250,0.1)", border: "1px solid rgba(96,165,250,0.2)", color: "#60a5fa", fontSize: "11px" }}>
             {t}
-            <button onClick={() => onRemove(i)} style={{ background: "none", border: "none", color: "#f97316", cursor: "pointer", fontSize: "12px", lineHeight: 1, padding: 0 }}>×</button>
+            <button onClick={() => onRemove(i)} style={{ background: "none", border: "none", color: "#60a5fa", cursor: "pointer", fontSize: "12px", lineHeight: 1, padding: 0 }}>×</button>
           </span>
         ))}
       </div>
       <div style={{ display: "flex", gap: "6px" }}>
         <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); onAdd(); } }} placeholder="Type and press Enter" style={{ flex: 1, padding: "8px 12px", borderRadius: "7px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#F5F5F5", fontSize: "12px", outline: "none" }} />
-        <button onClick={onAdd} style={{ padding: "8px 14px", borderRadius: "7px", background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.2)", color: "#f97316", fontSize: "12px", cursor: "pointer" }}>Add</button>
+        <button onClick={onAdd} style={{ padding: "8px 14px", borderRadius: "7px", background: "rgba(96,165,250,0.1)", border: "1px solid rgba(96,165,250,0.2)", color: "#60a5fa", fontSize: "12px", cursor: "pointer" }}>Add</button>
       </div>
     </div>
   );
@@ -190,7 +191,7 @@ export default function TeamAdminPage() {
             <button
               onClick={isEdit ? saveEdit : addMember}
               disabled={saving}
-              style={{ padding: "10px 24px", borderRadius: "8px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}
+              style={{ padding: "10px 24px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}
             >
               {saving ? "Saving…" : isEdit ? "Save Changes" : "Add Member"}
             </button>
@@ -217,7 +218,7 @@ export default function TeamAdminPage() {
             <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "26px", fontWeight: 700, color: "#F5F5F5", margin: "0 0 6px" }}>Team Members</h1>
             <p style={{ fontSize: "13px", color: "#899393", margin: 0 }}>Manage all {members.length} team member profiles.</p>
           </div>
-          <button onClick={() => setShowAdd(true)} style={{ padding: "10px 20px", borderRadius: "9px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>+ Add Member</button>
+          <button onClick={() => setShowAdd(true)} style={{ padding: "10px 20px", borderRadius: "9px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>+ Add Member</button>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -229,7 +230,7 @@ export default function TeamAdminPage() {
                 <div style={{ fontSize: "12px", color: "#899393" }}>{m.role} · {m.branch} · {m.year}</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginTop: "6px" }}>
                   {m.skills.slice(0, 3).map((s) => (
-                    <span key={s} style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "4px", background: "rgba(249,115,22,0.08)", border: "1px solid rgba(249,115,22,0.15)", color: "#f97316" }}>{s}</span>
+                    <span key={s} style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "4px", background: "rgba(96,165,250,0.08)", border: "1px solid rgba(96,165,250,0.15)", color: "#60a5fa" }}>{s}</span>
                   ))}
                   {m.skills.length > 3 && <span style={{ fontSize: "10px", color: "#899393" }}>+{m.skills.length - 3} more</span>}
                 </div>

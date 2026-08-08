@@ -27,21 +27,21 @@ const PLACEMENTS: PlacementCard[] = [
     initials: "AM",
     role: "SDE @ LinkedIn",
     delay: 0,
-    radiusX: 250,
-    radiusY: 140,
-    speed: 0.28,
+    radiusX: 185,
+    radiusY: 100,
+    speed: 0.22,
   },
   {
     name: "Full Stack Developer",
     company: "Amazon",
     logoColor: "#ff9900",
-    avatarBg: "linear-gradient(135deg, #f97316, #d97706)",
+    avatarBg: "linear-gradient(135deg, #2f81ff, #2036b3)",
     initials: "FD",
     role: "Cloud Engineer",
     delay: 1.5,
-    radiusX: 270,
-    radiusY: 120,
-    speed: -0.22,
+    radiusX: 195,
+    radiusY: 90,
+    speed: -0.18,
   },
   {
     name: "Placement Lead",
@@ -51,9 +51,9 @@ const PLACEMENTS: PlacementCard[] = [
     initials: "PL",
     role: "Tech Consultant",
     delay: 3.0,
-    radiusX: 230,
-    radiusY: 150,
-    speed: 0.18,
+    radiusX: 175,
+    radiusY: 110,
+    speed: 0.15,
   },
   {
     name: "Core Tech Lead",
@@ -63,9 +63,9 @@ const PLACEMENTS: PlacementCard[] = [
     initials: "CL",
     role: "SWE Intern",
     delay: 4.5,
-    radiusX: 280,
-    radiusY: 130,
-    speed: -0.15,
+    radiusX: 190,
+    radiusY: 95,
+    speed: -0.12,
   },
 ];
 
@@ -173,19 +173,21 @@ export default function CodeCube() {
       ref={containerRef}
       className="relative flex items-center justify-center"
       style={{
-        width: "600px",
-        height: "600px",
+        width: "520px",
+        height: "500px",
         perspective: "1000px",
+        marginLeft: "auto",
+        marginRight: "-10px",
       }}
     >
       {/* Background glow matrix */}
       <div
         className="absolute pointer-events-none"
         style={{
-          width: "480px",
-          height: "480px",
+          width: "420px",
+          height: "420px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(249,115,22,0.06) 0%, rgba(99,102,241,0.04) 45%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(96,165,250,0.06) 0%, rgba(99,102,241,0.04) 45%, transparent 70%)",
           filter: "blur(65px)",
           zIndex: 0,
         }}
@@ -193,9 +195,8 @@ export default function CodeCube() {
 
       {/* Orbiting Concentric Tracks (Dashed) */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex: 1 }}>
-        <div style={{ width: "380px", height: "200px", border: "1px dashed rgba(255,255,255,0.07)", borderRadius: "50%", transform: "rotateX(72deg)" }} />
-        <div className="absolute" style={{ width: "460px", height: "250px", border: "1px dashed rgba(249,115,22,0.08)", borderRadius: "50%", transform: "rotateX(72deg) rotateY(5deg)" }} />
-        <div className="absolute" style={{ width: "540px", height: "300px", border: "1px dashed rgba(255,255,255,0.05)", borderRadius: "50%", transform: "rotateX(72deg) rotateY(-5deg)" }} />
+        <div style={{ width: "340px", height: "180px", border: "1px dashed rgba(255,255,255,0.07)", borderRadius: "50%", transform: "rotateX(72deg)" }} />
+        <div className="absolute" style={{ width: "420px", height: "220px", border: "1px dashed rgba(96,165,250,0.08)", borderRadius: "50%", transform: "rotateX(72deg) rotateY(5deg)" }} />
       </div>
 
       {/* ── Centerpiece: Interactive IDE Compiler Card ── */}
@@ -204,27 +205,22 @@ export default function CodeCube() {
           width: "360px",
           height: "270px",
           background: "rgba(8, 8, 10, 0.98)",
-          border: "2px solid rgba(249, 115, 22, 0.35)",
+          border: "2px solid rgba(47, 129, 255, 0.35)",
           borderRadius: "18px",
           transformStyle: "preserve-3d" as const,
-          rotateX: 16,
-          rotateY: -18,
+          rotateX: 10,
+          rotateY: -12,
           rotateZ: 1,
           boxShadow: `
-            0 1px 0px rgba(249, 115, 22, 0.35),
-            1px 2px 0px rgba(249, 115, 22, 0.35),
-            2px 3px 0px rgba(249, 115, 22, 0.4),
-            3px 4px 0px rgba(249, 115, 22, 0.4),
-            4px 5px 0px rgba(249, 115, 22, 0.45),
-            5px 6px 0px rgba(249, 115, 22, 0.45),
-            6px 7px 0px rgba(249, 115, 22, 0.5),
-            7px 8px 0px rgba(249, 115, 22, 0.5),
-            8px 9px 0px rgba(249, 115, 22, 0.55),
-            9px 10px 0px rgba(249, 115, 22, 0.55),
-            10px 11px 0px rgba(249, 115, 22, 0.6),
-            11px 12px 1px rgba(249, 115, 22, 0.65),
-            15px 18px 32px rgba(0, 0, 0, 0.95),
-            0 0 40px rgba(249, 115, 22, 0.08)
+            0 1px 0px rgba(47, 129, 255, 0.35),
+            1px 2px 0px rgba(47, 129, 255, 0.35),
+            2px 3px 0px rgba(47, 129, 255, 0.4),
+            3px 4px 0px rgba(47, 129, 255, 0.4),
+            4px 5px 0px rgba(47, 129, 255, 0.45),
+            5px 6px 0px rgba(47, 129, 255, 0.45),
+            6px 7px 0px rgba(47, 129, 255, 0.5),
+            12px 16px 32px rgba(0, 0, 0, 0.92),
+            0 0 35px rgba(47, 129, 255, 0.1)
           `,
           zIndex: 10,
         }}

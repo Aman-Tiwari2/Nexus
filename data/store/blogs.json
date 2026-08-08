@@ -1,0 +1,67 @@
+[
+  {
+    "id": "1",
+    "slug": "deepseek-v3-and-open-source-llm-revolution",
+    "title": "DeepSeek-V3 & The Open-Source LLM Revolution: What Developers Need to Know",
+    "category": "Artificial Intelligence",
+    "date": "Feb 08, 2026",
+    "readTime": "5 min read",
+    "author": "Subid Kant Nigam",
+    "authorRole": "Technical Lead",
+    "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+    "excerpt": "Open-source AI models are challenging proprietary giants. Explore how low-cost inference and mixture-of-experts architecture are reshaping software development.",
+    "content": "The landscape of artificial intelligence is undergoing a seismic shift. The release of open-weight Mixture-of-Experts (MoE) architectures like DeepSeek-V3 has proven that top-tier reasoning and code synthesis no longer require multi-million dollar API costs.\n\n### Key Architectural Breakthroughs\n1. **Multi-Head Latent Attention (MLA)**: Substantially reduces KV-cache memory footprints during long-context generation.\n2. **DeepSeek-MoE Architecture**: Uses fine-grained expert routing, activating only 37B parameters out of 671B per token to slash compute requirements.\n3. **FP8 Mixed-Precision Training**: First large-scale model trained natively using FP8 data formats without numerical destabilization.\n\n### What This Means for College Developers\nAs student developers, having open access to SOTA weights means you can fine-tune specialized models locally or host low-latency endpoints using vLLM or Ollama for your hackathon projects without breaking the bank."
+  },
+  {
+    "id": "2",
+    "slug": "nextjs-15-and-react-19-server-actions-mastery",
+    "title": "Next.js 15 & React 19: Mastering Server Actions & Dynamic Caching",
+    "category": "Web Development",
+    "date": "Jan 28, 2026",
+    "readTime": "6 min read",
+    "author": "Etesh Singh",
+    "authorRole": "Technical Co-Lead",
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
+    "excerpt": "A deep dive into React 19's Async Transitions, useActionState, and Next.js 15 uncached-by-default fetch behavior for production apps.",
+    "content": "Next.js 15 accompanied by React 19 marks a major evolution in web application defaults. With `fetch` requests now uncached by default, developers get predictable runtime behavior without unexpected stale data bugs.\n\n### Highlights of Next.js 15 & React 19\n- **Uncached GET Requests**: Default dynamic behavior eliminates confusing `revalidate` overrides.\n- **React 19 Actions**: Native `useActionState` and `useFormStatus` hooks reduce boilerplate for form submissions and optimistic updates.\n- **React Compiler Support**: Automatic memoization reduces manual `useMemo` and `useCallback` boilerplate.\n- **Async Request API Breaking Changes**: `cookies()`, `headers()`, and `params` are now async Promises, making async layout rendering explicit."
+  },
+  {
+    "id": "3",
+    "slug": "quantum-computing-breakthroughs-2026",
+    "title": "Quantum Computing Breakthroughs: Fault-Tolerant Qubits in 2026",
+    "category": "Quantum Tech",
+    "date": "Jan 15, 2026",
+    "readTime": "4 min read",
+    "author": "Aman Tiwari",
+    "authorRole": "Founder",
+    "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=800&auto=format&fit=crop",
+    "excerpt": "Logical qubit error correction has hit critical thresholds. How hardware developers are building scalable quantum processors for cryptography and research.",
+    "content": "Quantum computing has officially transitioned from noise-dominated NISQ (Noisy Intermediate-Scale Quantum) systems to early fault-tolerant quantum logic systems.\n\n### Major Milestones\n- **Error Threshold Crossing**: Neutral-atom and superconducting processors have achieved physical-to-logical qubit compression ratios under 100:1.\n- **Post-Quantum Cryptography (PQC)**: NIST's PQC standards (ML-KEM and ML-DSA) are now mandatory for federal communication protocols.\n- **Hybrid Classical-Quantum Algorithms**: Qiskit runtime integrations allow classical Python backends to offload matrix diagonalization tasks directly to quantum processing units."
+  },
+  {
+    "id": "4",
+    "slug": "zero-trust-security-architecture-in-cloud-native-era",
+    "title": "Zero Trust Security in 2026: Securing Distributed Cloud Services",
+    "category": "Cybersecurity",
+    "date": "Jan 05, 2026",
+    "readTime": "7 min read",
+    "author": "Ashray Dwivedi",
+    "authorRole": "Community Co-Lead",
+    "image": "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800&auto=format&fit=crop",
+    "excerpt": "Identity is the new perimeter. Learn how zero-trust identity verification, micro-segmentation, and eBPF observability keep modern cloud architectures safe.",
+    "content": "In cloud-native microservices environments, IP-based perimeters are completely dead. Modern security models operate under the strict assumption: 'Never Trust, Always Verify'.\n\n### Pillar Principles of Modern Zero Trust\n1. **eBPF-Powered Micro-segmentation**: Real-time packet filtering directly inside the Linux kernel without sidecar proxy latency overhead.\n2. **Short-Lived Ephemeral Identity Tokens**: SPIFFE/SPIRE automation issues work identity certificates valid for minutes rather than months.\n3. **Continuous Attestation**: Continuous monitoring of container process hashes to catch zero-day exploits before malicious payloads execute."
+  },
+  {
+    "id": "5",
+    "slug": "rust-vs-go-backend-performance-benchmark-2026",
+    "title": "Rust vs Go in 2026: Benchmarking Microservices & Concurrent Runtimes",
+    "category": "Backend & DevOps",
+    "date": "Dec 20, 2025",
+    "readTime": "5 min read",
+    "author": "Chitransh Singh",
+    "authorRole": "Technical Coordinator",
+    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop",
+    "excerpt": "Comparing memory safety, garbage collection overhead, Tokio async runtimes, and Goroutine channels for high-throughput distributed systems.",
+    "content": "The debate between Rust and Go for backend microservices continues to evolve. While Go remains the undisputed champion of developer velocity, Rust has established dominance in low-latency infrastructure.\n\n### Key Comparisons\n- **Concurrency Model**: Go's CSP (Communicating Sequential Processes) with lightweight Goroutines makes web servers trivial to write. Rust's `tokio` async runtime offers raw zero-cost execution control.\n- **Memory Model**: Go relies on a highly optimized concurrent tricolor garbage collector. Rust uses static ownership lifetime tracking at compile time with zero runtime GC pauses.\n- **Throughput**: For high-throughput gRPC services and API gateways handling 100k+ req/sec, Rust delivers lower latency P99 tail distribution."
+  }
+]

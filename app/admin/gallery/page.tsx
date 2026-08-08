@@ -9,6 +9,7 @@ const NAV = [
   { href: "/admin/events", label: "Events", icon: "📅" },
   { href: "/admin/gallery", label: "Gallery", icon: "🖼" },
   { href: "/admin/team", label: "Team", icon: "👥" },
+  { href: "/admin/blogs", label: "Blogs", icon: "📰" },
 ];
 
 function Sidebar({ active }: { active: string }) {
@@ -18,7 +19,7 @@ function Sidebar({ active }: { active: string }) {
     <aside style={{ width: "220px", minHeight: "100vh", background: "rgba(255,255,255,0.02)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", flexShrink: 0, position: "sticky", top: 0 }}>
       <div style={{ padding: "24px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
+          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
           <div>
             <div style={{ fontSize: "13px", fontWeight: 700, color: "#F5F5F5", lineHeight: 1.2 }}>NEXUS</div>
             <div style={{ fontSize: "10px", color: "#899393", letterSpacing: "0.1em" }}>ADMIN PANEL</div>
@@ -29,7 +30,7 @@ function Sidebar({ active }: { active: string }) {
         {NAV.map((item) => {
           const isActive = active === item.href;
           return (
-            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(249,115,22,0.1)" : "transparent", color: isActive ? "#f97316" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #f97316" : "2px solid transparent", transition: "all 0.15s" }}>
+            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(96,165,250,0.1)" : "transparent", color: isActive ? "#60a5fa" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #60a5fa" : "2px solid transparent", transition: "all 0.15s" }}>
               <span style={{ fontSize: "15px" }}>{item.icon}</span>{item.label}
             </Link>
           );
@@ -106,7 +107,7 @@ export default function GalleryAdminPage() {
             <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "26px", fontWeight: 700, color: "#F5F5F5", margin: "0 0 6px" }}>Gallery</h1>
             <p style={{ fontSize: "13px", color: "#899393", margin: 0 }}>Manage the editorial magazine moments shown in the gallery section.</p>
           </div>
-          <button onClick={() => setShowAdd(true)} style={{ padding: "10px 20px", borderRadius: "9px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>+ Add Moment</button>
+          <button onClick={() => setShowAdd(true)} style={{ padding: "10px 20px", borderRadius: "9px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>+ Add Moment</button>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
@@ -143,7 +144,7 @@ export default function GalleryAdminPage() {
                 <div style={{ marginBottom: "14px", borderRadius: "8px", overflow: "hidden", aspectRatio: "16/10", backgroundImage: `url(${editing.image})`, backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "rgba(255,255,255,0.05)" }} />
               )}
               <div style={{ display: "flex", gap: "8px" }}>
-                <button onClick={saveEdit} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Saving…" : "Save"}</button>
+                <button onClick={saveEdit} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Saving…" : "Save"}</button>
                 <button onClick={() => setEditing(null)} style={{ padding: "10px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", color: "#899393", fontSize: "13px", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>Cancel</button>
               </div>
             </div>
@@ -162,7 +163,7 @@ export default function GalleryAdminPage() {
               {F(newItem.date, (v) => setNewItem({ ...newItem, date: v }), "Date")}
               {F(newItem.image, (v) => setNewItem({ ...newItem, image: v }), "Image Path")}
               <div style={{ display: "flex", gap: "8px" }}>
-                <button onClick={addItem} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Adding…" : "Add Moment"}</button>
+                <button onClick={addItem} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Adding…" : "Add Moment"}</button>
                 <button onClick={() => setShowAdd(false)} style={{ padding: "10px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", color: "#899393", fontSize: "13px", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>Cancel</button>
               </div>
             </div>

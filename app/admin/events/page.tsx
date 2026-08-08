@@ -9,6 +9,7 @@ const NAV = [
   { href: "/admin/events", label: "Events", icon: "📅" },
   { href: "/admin/gallery", label: "Gallery", icon: "🖼" },
   { href: "/admin/team", label: "Team", icon: "👥" },
+  { href: "/admin/blogs", label: "Blogs", icon: "📰" },
 ];
 
 function Sidebar({ active }: { active: string }) {
@@ -21,7 +22,7 @@ function Sidebar({ active }: { active: string }) {
     <aside style={{ width: "220px", minHeight: "100vh", background: "rgba(255,255,255,0.02)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", flexShrink: 0, position: "sticky", top: 0 }}>
       <div style={{ padding: "24px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
+          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
           <div>
             <div style={{ fontSize: "13px", fontWeight: 700, color: "#F5F5F5", lineHeight: 1.2 }}>NEXUS</div>
             <div style={{ fontSize: "10px", color: "#899393", letterSpacing: "0.1em" }}>ADMIN PANEL</div>
@@ -32,7 +33,7 @@ function Sidebar({ active }: { active: string }) {
         {NAV.map((item) => {
           const isActive = active === item.href;
           return (
-            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(249,115,22,0.1)" : "transparent", color: isActive ? "#f97316" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #f97316" : "2px solid transparent", transition: "all 0.15s" }}>
+            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(96,165,250,0.1)" : "transparent", color: isActive ? "#60a5fa" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #60a5fa" : "2px solid transparent", transition: "all 0.15s" }}>
               <span style={{ fontSize: "15px" }}>{item.icon}</span>{item.label}
             </Link>
           );
@@ -47,7 +48,7 @@ function Sidebar({ active }: { active: string }) {
 }
 
 const ICON_OPTIONS = ["Zap", "Trophy", "Users", "Star", "Code", "BookOpen", "Award"];
-const TAG_COLORS = ["#00E5CC", "#00A8FF", "#8B5CF6", "#f97316", "#10b981", "#ec4899"];
+const TAG_COLORS = ["#00E5CC", "#00A8FF", "#8B5CF6", "#60a5fa", "#10b981", "#ec4899"];
 
 type PastEvent = { id: string; title: string; date: string; type: string; description: string; stat: string; tagColor: string; iconType: string };
 type UpcomingEvent = { title: string; displayDate: string; date: string; time: string; location: string; prize: string; registrationLink: string };
@@ -154,15 +155,52 @@ export default function EventsAdminPage() {
             </div>
           ) : (
             <div>
-              {inp(upcomingDraft!.title, (v) => setUpcomingDraft({ ...upcomingDraft!, title: v }), "Title")}
-              {inp(upcomingDraft!.displayDate, (v) => setUpcomingDraft({ ...upcomingDraft!, displayDate: v }), "Display Date (e.g. Mar 15, 2026)")}
-              {inp(upcomingDraft!.date, (v) => setUpcomingDraft({ ...upcomingDraft!, date: v }), "ISO Date (e.g. 2026-03-15T09:00:00)")}
-              {inp(upcomingDraft!.time, (v) => setUpcomingDraft({ ...upcomingDraft!, time: v }), "Time Label")}
+              {inp(upcomingDraft!.title, (v) => setUpcomingDraft({ ...upcomingDraft!, title: v }), "Title (e.g. HackNexus 2026)")}
+              
+              {/* Countdown Target Date Picker */}
+              <div style={{ marginBottom: "14px", background: "rgba(96,165,250,0.06)", padding: "14px", borderRadius: "10px", border: "1px solid rgba(96,165,250,0.2)" }}>
+                <label style={{ display: "block", fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#60a5fa", textTransform: "uppercase", marginBottom: "6px" }}>
+                  ⏱ Live Countdown Target Date & Time
+                </label>
+                <input
+                  type="datetime-local"
+                  value={upcomingDraft!.date.slice(0, 16)}
+                  onChange={(e) => {
+                    const iso = e.target.value ? `${e.target.value}:00` : upcomingDraft!.date;
+                    const d = new Date(e.target.value);
+                    const formattedDisplay = isNaN(d.getTime())
+                      ? upcomingDraft!.displayDate
+                      : d.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+                    setUpcomingDraft({
+                      ...upcomingDraft!,
+                      date: iso,
+                      displayDate: formattedDisplay,
+                    });
+                  }}
+                  style={{
+                    width: "100%",
+                    padding: "10px 12px",
+                    borderRadius: "8px",
+                    background: "#050808",
+                    border: "1px solid rgba(96,165,250,0.3)",
+                    color: "#ffffff",
+                    fontSize: "13px",
+                    outline: "none",
+                    boxSizing: "border-box",
+                  }}
+                />
+                <div style={{ fontSize: "11px", color: "#899393", marginTop: "6px" }}>
+                  Target ISO: <code style={{ color: "#60a5fa" }}>{upcomingDraft!.date}</code>
+                </div>
+              </div>
+
+              {inp(upcomingDraft!.displayDate, (v) => setUpcomingDraft({ ...upcomingDraft!, displayDate: v }), "Display Date String (e.g. Sep 01, 2026)")}
+              {inp(upcomingDraft!.time, (v) => setUpcomingDraft({ ...upcomingDraft!, time: v }), "Time & Duration (e.g. 09:00 AM — 24 Hour Sprint)")}
               {inp(upcomingDraft!.location, (v) => setUpcomingDraft({ ...upcomingDraft!, location: v }), "Location")}
-              {inp(upcomingDraft!.prize, (v) => setUpcomingDraft({ ...upcomingDraft!, prize: v }), "Prize")}
+              {inp(upcomingDraft!.prize, (v) => setUpcomingDraft({ ...upcomingDraft!, prize: v }), "Prize Pool")}
               {inp(upcomingDraft!.registrationLink, (v) => setUpcomingDraft({ ...upcomingDraft!, registrationLink: v }), "Registration Link")}
-              <div style={{ display: "flex", gap: "8px" }}>
-                <button onClick={saveUpcoming} disabled={saving} style={{ padding: "9px 20px", borderRadius: "8px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Saving…" : "Save Changes"}</button>
+              <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+                <button onClick={saveUpcoming} disabled={saving} style={{ padding: "9px 20px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Saving…" : "Save Countdown Changes"}</button>
                 <button onClick={() => setEditUpcoming(false)} style={{ padding: "9px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", color: "#899393", fontSize: "13px", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>Cancel</button>
               </div>
             </div>
@@ -172,7 +210,7 @@ export default function EventsAdminPage() {
         {/* Past Events */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
           <h2 style={{ fontSize: "16px", fontWeight: 700, color: "#F5F5F5", margin: 0 }}>Past Events ({data.past.length})</h2>
-          <button onClick={() => setShowAddPast(true)} style={{ padding: "8px 18px", borderRadius: "8px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "12px", border: "none", cursor: "pointer" }}>+ Add Event</button>
+          <button onClick={() => setShowAddPast(true)} style={{ padding: "8px 18px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "12px", border: "none", cursor: "pointer" }}>+ Add Event</button>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "32px" }}>
@@ -213,12 +251,12 @@ export default function EventsAdminPage() {
                 <label style={{ display: "block", fontSize: "10px", fontWeight: 600, letterSpacing: "0.1em", color: "#899393", textTransform: "uppercase", marginBottom: "8px" }}>Icon</label>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                   {ICON_OPTIONS.map((ic) => (
-                    <button key={ic} onClick={() => setNewPast({ ...newPast, iconType: ic })} style={{ padding: "5px 12px", borderRadius: "6px", background: newPast.iconType === ic ? "rgba(249,115,22,0.15)" : "rgba(255,255,255,0.04)", border: newPast.iconType === ic ? "1px solid rgba(249,115,22,0.4)" : "1px solid rgba(255,255,255,0.1)", color: newPast.iconType === ic ? "#f97316" : "#899393", fontSize: "11px", cursor: "pointer" }}>{ic}</button>
+                    <button key={ic} onClick={() => setNewPast({ ...newPast, iconType: ic })} style={{ padding: "5px 12px", borderRadius: "6px", background: newPast.iconType === ic ? "rgba(96,165,250,0.15)" : "rgba(255,255,255,0.04)", border: newPast.iconType === ic ? "1px solid rgba(96,165,250,0.4)" : "1px solid rgba(255,255,255,0.1)", color: newPast.iconType === ic ? "#60a5fa" : "#899393", fontSize: "11px", cursor: "pointer" }}>{ic}</button>
                   ))}
                 </div>
               </div>
               <div style={{ display: "flex", gap: "8px" }}>
-                <button onClick={addPast} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Adding…" : "Add Event"}</button>
+                <button onClick={addPast} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Adding…" : "Add Event"}</button>
                 <button onClick={() => { setShowAddPast(false); setNewPast(EMPTY_PAST); }} style={{ padding: "10px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", color: "#899393", fontSize: "13px", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>Cancel</button>
               </div>
             </div>
@@ -244,7 +282,7 @@ export default function EventsAdminPage() {
                 </div>
               </div>
               <div style={{ display: "flex", gap: "8px" }}>
-                <button onClick={savePastEdit} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#f97316", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Saving…" : "Save Changes"}</button>
+                <button onClick={savePastEdit} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>{saving ? "Saving…" : "Save Changes"}</button>
                 <button onClick={() => setEditingPast(null)} style={{ padding: "10px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", color: "#899393", fontSize: "13px", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>Cancel</button>
               </div>
             </div>

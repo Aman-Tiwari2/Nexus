@@ -26,13 +26,13 @@ export const teamMembers: TeamMember[] = [
     role: "Founder",
     branch: "Computer Science & Engineering",
     year: "Graduated",
-    bio: "Visionary founder of Nexus Community. Dedicated to building an ecosystem that empowers students with learning experiences, aptitude coaching, coding rounds, and hackathons.",
+    bio: "Founder-level responsibilities include community direction, planning, partnerships, and public engagement.",
     photo: "/images/team/aman.jpg",
-    skills: ["Community Building", "Public Speaking", "Strategic Planning", "Mentorship", "Career Counseling"],
+    skills: ["Community Building", "Public Speaking", "Strategic Planning"],
     projects: [
-      { title: "Nexus Platform", description: "Inception and strategic growth of the Nexus Placement Portal", link: "https://vexta.collegecrm.in" }
+      { title: "Nexus Platform", description: "Strategic direction and growth of Nexus student community initiatives.", link: "https://vexta.collegecrm.in" }
     ],
-    achievements: ["Founded Nexus Community", "Helped 1500+ students secure placements", "Keynote Speaker"],
+    achievements: ["Founded Nexus Community", "Built student-led learning ecosystem", "Keynote Speaker"],
     social: {
       linkedin: "https://www.linkedin.com/in/aman-tiwari-dev",
       email: "aman@nexus.com"
@@ -45,13 +45,13 @@ export const teamMembers: TeamMember[] = [
     role: "Community Lead",
     branch: "Computer Science & Engineering",
     year: "4th Year",
-    bio: "Leading community initiatives at Nexus. Passionate about driving innovation, organizing placement workshops, and coordinating student development drives.",
+    bio: "Coordinates community activities, communication, and initiatives that help students connect and learn together.",
     photo: "/images/team/jaya.jpg",
-    skills: ["Public Relations", "Team Management", "Leadership", "Event Planning"],
+    skills: ["Public Relations", "Team Management", "Leadership"],
     projects: [
-      { title: "Nexus Outreach", description: "Expanded community program to multiple colleges and departments", link: "#" }
+      { title: "Community Outreach", description: "Coordinated student engagement activities and cross-department initiatives.", link: "#" }
     ],
-    achievements: ["Community Lead", "Led 15+ student development workshops"],
+    achievements: ["Community Lead", "Led 15+ student development activities"],
     social: {
       linkedin: "https://www.linkedin.com/in/jaya-pandey-439204311",
       instagram: "https://instagram.com"
@@ -64,13 +64,13 @@ export const teamMembers: TeamMember[] = [
     role: "Community Co-Lead",
     branch: "Cyber Security",
     year: "4th Year",
-    bio: "Supporting community vision and co-leading Nexus operations, workshop planning, and outreach strategies to prepare students for core technical roles.",
+    bio: "Supports community operations, event planning, and student engagement alongside the community leadership team.",
     photo: "/images/team/ashray.jpg",
-    skills: ["Strategic Growth", "Communication", "Technical Planning", "Public Relations"],
+    skills: ["Strategic Growth", "Communication", "Event Planning"],
     projects: [
-      { title: "Placement Bootcamp Coordinator", description: "Coordinated mock interviews and resume building rounds", link: "#" }
+      { title: "Student Operations", description: "Supported workshop planning, operations, and peer engagement.", link: "#" }
     ],
-    achievements: ["Community Co-Lead", "Mentored 100+ juniors in aptitude prep"],
+    achievements: ["Community Co-Lead", "Coordinated student learning drives"],
     social: {
       linkedin: "https://www.linkedin.com/in/ashray-dwivedi-b89295211"
     }
@@ -82,13 +82,13 @@ export const teamMembers: TeamMember[] = [
     role: "Technical Lead",
     branch: "Cyber Security",
     year: "4th Year",
-    bio: "Passionate coder leading technical development and setting challenging programming and DSA benchmarks for the community.",
+    bio: "Leads technical initiatives, coding activities, and development-focused learning within Nexus.",
     photo: "/images/team/subid.jpg",
-    skills: ["Data Structures & Algorithms", "Full Stack Development", "Competitive Programming", "System Design"],
+    skills: ["Web Development", "Full Stack Development", "Competitive Programming"],
     projects: [
-      { title: "Aptitude Round System", description: "Automated test platform for testing students' logic", link: "#" }
+      { title: "Technical Learning Portal", description: "Development-focused coding challenges and problem-solving tracks.", link: "#" }
     ],
-    achievements: ["Technical Lead at Nexus", "Solved 500+ DSA Problems", "Hackathon Finalist"],
+    achievements: ["Technical Lead at Nexus", "Solved 500+ coding challenges", "Hackathon Finalist"],
     social: {
       linkedin: "https://www.linkedin.com/in/subid-kant-nigam-3339142ab"
     }
@@ -100,69 +100,123 @@ export const teamMembers: TeamMember[] = [
     role: "Technical Co-Lead",
     branch: "Computer Science",
     year: "4th Year",
-    bio: "Driven developer and technical mentor focused on co-leading web development workshops and backend architecture.",
+    bio: "Supports technical development, coding initiatives, and mentoring activities within Nexus.",
     photo: "/images/team/etesh.jpg",
-    skills: ["Backend Development", "Node.js", "Express", "Database Management", "API Design"],
+    skills: ["Frontend Development", "Node.js", "Express"],
     projects: [
-      { title: "Nexus Dev Portal", description: "Co-developed the community interface and project repository", link: "#" }
+      { title: "Coding Infrastructure", description: "Supported web development tools and technical workshop labs.", link: "#" }
     ],
-    achievements: ["Technical Co-Lead", "Winner of College Coding Challenge"],
+    achievements: ["Technical Co-Lead", "Winner of College Coding Sprint"],
     social: {
       linkedin: "https://www.linkedin.com/in/etesh-singh-132675294"
     }
   },
   {
-    id: "4",
-    slug: "kirti-srivastava",
-    name: "Kirti Srivastava",
-    role: "Content Lead",
+    id: "10",
+    slug: "chitransh-singh",
+    name: "Chitransh Singh",
+    role: "Technical Coordinator",
     branch: "Computer Science & Engineering",
-    year: "4th Year",
-    bio: "Creative writer managing content generation, placement resources documentation, and instructional materials for workshops.",
-    photo: "/images/team/kirti.jpg",
-    skills: ["Content Writing", "Technical Documentation", "Copywriting", "Resource Curation"],
+    year: "2nd Year",
+    bio: "Supports technical activities, coding events, and other technical initiatives within the Nexus community.",
+    photo: "/images/team/chitransh.jpg",
+    skills: ["Java", "Data Structures", "Algorithms"],
     projects: [
-      { title: "Placement Playbook", description: "Curated resource guide for final year students", link: "#" }
+      { title: "Coding Event Tools", description: "Technical setup and problem-solving tracks for coding events.", link: "#" }
     ],
-    achievements: ["Content Lead", "Published 20+ Placement Preparation Guides"],
+    achievements: ["Technical Coordinator", "Top ranker in coding challenges"],
     social: {
-      linkedin: "https://www.linkedin.com/in/kirti-srivastava-2270a9331"
+      linkedin: "https://www.linkedin.com/in/chitransh-singh-rathour-279b94352"
     }
   },
   {
-    id: "5",
-    slug: "vanshika-saxena",
-    name: "Vanshika Saxena",
-    role: "Event & PR Lead",
-    branch: "Computer Science",
-    year: "3rd Year",
-    bio: "Energetic and organized lead orchestrating coding contests, aptitude challenges, and maintaining relationship drives with placement cells.",
-    photo: "/images/team/vanshika.jpg",
-    skills: ["Event Management", "Public Relations", "Communication", "Team Coordination", "Negotiation"],
+    id: "11",
+    slug: "praval-srivastav",
+    name: "Praval Srivastav",
+    role: "Content Coordinator",
+    branch: "Computer Science & Engineering",
+    year: "2nd Year",
+    bio: "Creates and manages content for Nexus, including community updates, educational resources, and student-focused communications.",
+    photo: "/images/team/praval.jpg",
+    skills: ["Copywriting", "Creative Writing", "Blogging"],
     projects: [
-      { title: "HackNexus Coordinator", description: "Organized end-to-end schedules for college hackathons", link: "#" }
+      { title: "Nexus Communications", description: "Educational resources, community updates, and written publications.", link: "#" }
     ],
-    achievements: ["Event & PR Lead", "Successfully managed 10+ large-scale events"],
+    achievements: ["Content Coordinator", "Curated successful learning guides"],
     social: {
-      linkedin: "https://www.linkedin.com/in/vanshika-saxena-039518329"
+      linkedin: "https://www.linkedin.com/in/praval-srivastav-68017a381"
     }
   },
   {
-    id: "6",
-    slug: "mansi-ranjan",
-    name: "Mansi Ranjan",
-    role: "Social Media Lead",
+    id: "14",
+    slug: "samarth-singh",
+    name: "Samarth Singh",
+    role: "Event & PR Coordinator",
     branch: "Computer Science & Engineering",
-    year: "4th Year",
-    bio: "Digital strategist shaping Nexus's online presence, ensuring placement tips and coding event announcements reach all students.",
-    photo: "/images/team/mansi.jpg",
-    skills: ["Social Media Marketing", "Content Strategy", "Graphic Design", "Brand Positioning"],
+    year: "2nd Year",
+    bio: "Supports event planning, community activities, and communication initiatives at Nexus.",
+    photo: "/images/team/samarth.jpg",
+    skills: ["Event Organization", "Public Relations", "Communication"],
     projects: [
-      { title: "Nexus Campaigns", description: "Designed and executed social outreach programs gaining 1000+ followers", link: "#" }
+      { title: "Event Operations", description: "Planning and executing student activities and community meetups.", link: "#" }
     ],
-    achievements: ["Social Media Lead", "Increased platform engagement by 150%"],
+    achievements: ["Event & PR Coordinator", "Recognized for seamless event management"],
     social: {
-      linkedin: "https://www.linkedin.com/in/mansi-ranjan-6873113aa"
+      linkedin: "https://www.linkedin.com/in/samarth-singh-057926367"
+    }
+  },
+  {
+    id: "15",
+    slug: "divyanshi-singh",
+    name: "Divyanshi Singh",
+    role: "Event & PR Coordinator",
+    branch: "Computer Science & Engineering",
+    year: "2nd Year",
+    bio: "Supports event promotion, communication, and coordination for Nexus activities.",
+    photo: "/images/team/divyanshi.jpg",
+    skills: ["Strategic Planning", "Marketing", "Event Hosting"],
+    projects: [
+      { title: "Event Promotions", description: "Promotional strategies and student onboarding for community activities.", link: "#" }
+    ],
+    achievements: ["Event & PR Coordinator", "Successfully onboarded 300+ students"],
+    social: {
+      linkedin: "https://www.linkedin.com/in/divyanshi-singh-4ba9123b7"
+    }
+  },
+  {
+    id: "16",
+    slug: "aditya-nath-patel",
+    name: "Aditya Nath Patel",
+    role: "Event & PR Coordinator",
+    branch: "Computer Science & Engineering",
+    year: "2nd Year",
+    bio: "Supports event coordination, public relations, and student engagement across Nexus activities.",
+    photo: "/images/team/aditya-patel.jpg",
+    skills: ["Event Coordination", "Public Relations", "Student Engagement"],
+    projects: [
+      { title: "Public Relations Drive", description: "Coordinated student engagement and logistics for events.", link: "#" }
+    ],
+    achievements: ["Event & PR Coordinator", "Coordinated 4+ student activities"],
+    social: {
+      linkedin: "https://www.linkedin.com/in/adityanathpatel"
+    }
+  },
+  {
+    id: "17",
+    slug: "saumy-chaurasia",
+    name: "Saumy Chaurasia",
+    role: "Event & PR Coordinator",
+    branch: "Computer Science & Engineering",
+    year: "2nd Year",
+    bio: "Supports PR activities, event coordination, and communication for Nexus initiatives.",
+    photo: "/images/team/saumy.jpg",
+    skills: ["PR Management", "Campaign Planning", "Scheduling"],
+    projects: [
+      { title: "PR Campaigns", description: "Event schedules and communication campaigns for Nexus activities.", link: "#" }
+    ],
+    achievements: ["Event & PR Coordinator", "Curated campaign media for events"],
+    social: {
+      linkedin: "https://www.linkedin.com/in/saumy-chaurasia"
     }
   },
   {
@@ -172,13 +226,13 @@ export const teamMembers: TeamMember[] = [
     role: "Social Media Co-Lead",
     branch: "Computer Science & Engineering",
     year: "3rd Year",
-    bio: "Content creator co-managing visual branding and design posts, keeping the community interactive and updated on placement drives.",
+    bio: "Supports Nexus's social media presence through content creation, visual design, and digital communication.",
     photo: "/images/team/sumaiya.jpg",
-    skills: ["Content Creation", "Graphic Designing", "Video Editing", "Community Engagement"],
+    skills: ["Content Creation", "Graphic Designing", "Video Editing"],
     projects: [
-      { title: "Daily Placement Tips", description: "Managed daily informational posts for aptitude preparation", link: "#" }
+      { title: "Visual Branding", description: "Designed digital communication assets and social media graphics.", link: "#" }
     ],
-    achievements: ["Social Media Co-Lead", "Designed promotional campaigns for HackNexus 2025"],
+    achievements: ["Social Media Co-Lead", "Designed promotional campaigns for Nexus events"],
     social: {
       linkedin: "https://www.linkedin.com/in/sumaiya-khan-a9b017328"
     }
@@ -190,11 +244,11 @@ export const teamMembers: TeamMember[] = [
     role: "Technical Coordinator",
     branch: "Computer Science & Engineering",
     year: "2nd Year",
-    bio: "Supporting technical operations, contest hosting, and website updates to guarantee a seamless student learning experience.",
+    bio: "Supports technical activities, contest coordination, and website-related initiatives at Nexus.",
     photo: "/images/team/lakshya.jpg",
-    skills: ["C++", "HTML/CSS", "Git", "Problem Solving"],
+    skills: ["C++", "HTML/CSS", "Git"],
     projects: [
-      { title: "Contest Helper Mod", description: "Created tools to help track coding contest submissions", link: "#" }
+      { title: "Website Initiatives", description: "Website maintenance, bug fixes, and technical contest support.", link: "#" }
     ],
     achievements: ["Technical Coordinator", "Organized 5+ college coding sprints"],
     social: {
@@ -208,123 +262,87 @@ export const teamMembers: TeamMember[] = [
     role: "Technical Coordinator",
     branch: "Computer Science & Engineering",
     year: "2nd Year",
-    bio: "Assisting in technical bootcamps and workshops, maintaining system documentation, and facilitating hands-on labs.",
+    bio: "Supports technical workshops, bootcamps, and learning activities within the Nexus community.",
     photo: "/images/team/sakshi.jpg",
-    skills: ["Python", "DSA Basics", "Technical Writing", "Database Basics"],
+    skills: ["Python", "DSA Basics", "Technical Writing"],
     projects: [
-      { title: "Lab Workspace Setup", description: "Configured lab platforms for hands-on SQL and DB workshops", link: "#" }
+      { title: "Workshop Labs", description: "Assisted in setting up hands-on technical labs and workshops.", link: "#" }
     ],
-    achievements: ["Technical Coordinator", "Recognized for excellent student support in workshops"],
+    achievements: ["Technical Coordinator", "Recognized for student support in workshops"],
     social: {
       linkedin: "https://www.linkedin.com/in/sakshi-kashyap-36a11238b"
     }
   },
   {
-    id: "10",
-    slug: "chitransh-singh",
-    name: "Chitransh Singh",
-    role: "Technical Coordinator",
+    id: "4",
+    slug: "kirti-srivastava",
+    name: "Kirti Srivastava",
+    role: "Content Lead",
     branch: "Computer Science & Engineering",
-    year: "2nd Year",
-    bio: "Responsible for managing contest portals, scoring leaderboards, and setting up coding round practice paths.",
-    photo: "/images/team/chitransh.jpg",
-    skills: ["Java", "Data Structures", "Algorithms", "Competitive Coding"],
+    year: "4th Year",
+    bio: "Leads content creation and documentation for Nexus, including educational resources and community updates.",
+    photo: "/images/team/kirti.jpg",
+    skills: ["Content Writing", "Technical Documentation", "Copywriting"],
     projects: [
-      { title: "Mock Leaderboard", description: "Built customized scoreboards for mock placement tests", link: "#" }
+      { title: "Educational Resources", description: "Documenting learning guides and structured content.", link: "#" }
     ],
-    achievements: ["Technical Coordinator", "Top ranker in local coding sprints"],
+    achievements: ["Content Lead", "Published 20+ educational guides"],
     social: {
-      linkedin: "https://www.linkedin.com/in/chitransh-singh-rathour-279b94352"
+      linkedin: "https://www.linkedin.com/in/kirti-srivastava-2270a9331"
     }
   },
   {
-    id: "11",
-    slug: "praval-srivastav",
-    name: "Praval Srivastav",
+    id: "5",
+    slug: "vanshika-saxena",
+    name: "Vanshika Saxena",
+    role: "Event & PR Lead",
+    branch: "Computer Science",
+    year: "3rd Year",
+    bio: "Leads event planning and public relations activities, coordinating initiatives and student engagement.",
+    photo: "/images/team/vanshika.jpg",
+    skills: ["Event Management", "Public Relations", "Communication"],
+    projects: [
+      { title: "Event Management", description: "End-to-end planning of technical activities and public relations.", link: "#" }
+    ],
+    achievements: ["Event & PR Lead", "Successfully managed 10+ community events"],
+    social: {
+      linkedin: "https://www.linkedin.com/in/vanshika-saxena-039518329"
+    }
+  },
+  {
+    id: "6",
+    slug: "mansi-ranjan",
+    name: "Mansi Ranjan",
+    role: "Social Media Lead",
+    branch: "Computer Science & Engineering",
+    year: "4th Year",
+    bio: "Leads Nexus's social media initiatives, creating content and managing the community's online presence.",
+    photo: "/images/team/mansi.jpg",
+    skills: ["Social Media Marketing", "Content Strategy"],
+    projects: [
+      { title: "Social Outreach", description: "Strategic campaigns shaping Nexus's online presence.", link: "#" }
+    ],
+    achievements: ["Social Media Lead", "Increased community engagement by 150%"],
+    social: {
+      linkedin: "https://www.linkedin.com/in/mansi-ranjan-6873113aa"
+    }
+  },
+  {
+    id: "18",
+    slug: "vaibhvi-agarwal",
+    name: "Vaibhvi Agarwal",
     role: "Content Coordinator",
     branch: "Computer Science & Engineering",
-    year: "2nd Year",
-    bio: "Drafting newsletters, placement experience summaries, and educational roadmaps to help juniors plan their college years.",
-    photo: "/images/team/praval.jpg",
-    skills: ["Copywriting", "Creative Writing", "Blogging", "Resource Structuring"],
+    year: "3rd Year",
+    bio: "Creating engaging content for Nexus, including community updates, event promotions, and student-focused posts.",
+    photo: "/images/team/vaibhvi.jpg",
+    skills: ["Content Writing", "Copywriting", "Social Media Content", "Communication"],
     projects: [
-      { title: "Weekly Newsletter", description: "Created and edited weekly career roadmap bulletins", link: "#" }
+      { title: "Content Pipeline", description: "Engaging posts, event promotions, and community updates.", link: "#" }
     ],
-    achievements: ["Content Coordinator", "Curated successful aptitude practice sheets"],
+    achievements: ["Content Coordinator", "Created top engaging community posts"],
     social: {
-      linkedin: "https://www.linkedin.com/in/praval-srivastav-68017a381"
-    }
-  },
-  {
-    id: "14",
-    slug: "samarth-singh",
-    name: "Samarth Singh",
-    role: "Event & PR Coordinator",
-    branch: "Computer Science & Engineering",
-    year: "2nd Year",
-    bio: "Actively organizing placement preparation schedules, hackathons, and corporate public relations to bridge industry connections.",
-    photo: "/images/team/samarth.jpg",
-    skills: ["Event Organization", "Public Relations", "Communication", "Logistics"],
-    projects: [
-      { title: "Corporate Meetup 2025", description: "Coordinated guest list for mock interview panel", link: "#" }
-    ],
-    achievements: ["Event & PR Coordinator", "Recognized for seamless event coordination"],
-    social: {
-      linkedin: "https://www.linkedin.com/in/samarth-singh-057926367"
-    }
-  },
-  {
-    id: "15",
-    slug: "divyanshi-singh",
-    name: "Divyanshi Singh",
-    role: "Event & PR Coordinator",
-    branch: "Computer Science & Engineering",
-    year: "2nd Year",
-    bio: "Designing promotional strategies and scheduling placement practice events for students from starting years.",
-    photo: "/images/team/divyanshi.jpg",
-    skills: ["Strategic Planning", "Marketing", "Event Hosting", "Coordination"],
-    projects: [
-      { title: "Year 1 Guidance Drive", description: "Designed orientation material for freshers", link: "#" }
-    ],
-    achievements: ["Event & PR Coordinator", "Successfully onboarded 300+ freshers to Nexus"],
-    social: {
-      linkedin: "https://www.linkedin.com/in/divyanshi-singh-4ba9123b7"
-    }
-  },
-  {
-    id: "16",
-    slug: "aditya-nath-patel",
-    name: "Aditya Nath Patel",
-    role: "Event & PR Coordinator",
-    branch: "Computer Science & Engineering",
-    year: "2nd Year",
-    bio: "Facilitating event operations and public relations, ensuring high student engagement during coding rounds and hackathons.",
-    photo: "/images/team/aditya-patel.jpg",
-    skills: ["Event Coordination", "Public Relations", "Student Engagement", "Problem Solving"],
-    projects: [
-      { title: "Contest Logistics", description: "Handled infrastructure requirements for mock coding tests", link: "#" }
-    ],
-    achievements: ["Event & PR Coordinator", "Organized 4 successful coding rounds"],
-    social: {
-      linkedin: "https://www.linkedin.com/in/adityanathpatel"
-    }
-  },
-  {
-    id: "17",
-    slug: "saumy-chaurasia",
-    name: "Saumy Chaurasia",
-    role: "Event & PR Coordinator",
-    branch: "Computer Science & Engineering",
-    year: "2nd Year",
-    bio: "Handling PR campaigns and coordinating event schedules to build a cohesive learning pathway for placement prep.",
-    photo: "/images/team/saumy.jpg",
-    skills: ["PR Management", "Campaign Designing", "Scheduling", "Teamwork"],
-    projects: [
-      { title: "Nexus Career Path Workshop", description: "Coordinated schedule and speakers list", link: "#" }
-    ],
-    achievements: ["Event & PR Coordinator", "Curated visual content for placement events"],
-    social: {
-      linkedin: "https://www.linkedin.com/in/saumy-chaurasia"
+      linkedin: "https://www.linkedin.com/company/nexus-23176/"
     }
   }
 ];

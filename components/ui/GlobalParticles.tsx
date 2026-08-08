@@ -27,7 +27,7 @@ export default function GlobalParticles() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    const colors = ["#f97316", "#fb923c", "#ea580c", "#fdba74", "#fbbf24"];
+    const colors = ["#2f81ff", "#60a5fa", "#3b82f6", "#2036b3", "#1800ad"];
 
     // Generate ~50 lightweight particles
     const particleCount = Math.min(Math.floor((width * height) / 25000), 60);
