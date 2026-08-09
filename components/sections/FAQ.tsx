@@ -1,78 +1,83 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Plus, Minus, HelpCircle, MessageSquare, ChevronRight, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { HelpCircle, Plus, Minus, CheckCircle2, MessageSquare, ArrowRight } from "lucide-react";
 
-const faqs = [
+export interface FAQData {
+  q: string;
+  a: string;
+  category: string;
+}
+
+export const faqs: FAQData[] = [
   {
-    category: "Onboarding",
     q: "What is Nexus Community?",
-    a: "Nexus Community is a student-led community where students connect, learn, collaborate, participate in activities, and explore opportunities beyond the classroom.",
+    a: "Nexus is a student-driven technical community founded in 2022. We focus on peer learning, hands-on software engineering, coding bootcamps, and top placement preparation.",
+    category: "General",
   },
   {
-    category: "Onboarding",
     q: "Who can join Nexus?",
-    a: "Students who meet the community's membership requirements can join. It is open to passionate learners who want to build skills and grow.",
+    a: "Nexus is open to all college students, aspiring developers, and tech enthusiasts passionate about building real-world software projects and cracking tech roles.",
+    category: "Membership",
   },
   {
-    category: "Learning & Bootcamps",
     q: "How does Nexus help students?",
-    a: "Nexus provides opportunities for learning, peer interaction, technical activities, mentorship, live bootcamps, and community initiatives.",
+    a: "We offer hands-on programming bootcamps, mock placement drives, technical workshops, open-source projects, and direct peer mentorship from experienced leads.",
+    category: "Events",
   },
   {
-    category: "Learning & Bootcamps",
     q: "What if I am a beginner in coding?",
-    a: "You can start with beginner-friendly sessions and hands-on bootcamps suitable for your current level, learning alongside helpful peers.",
+    a: "No prior experience is required! We provide structured roadmap tracks from fundamental programming concepts to full-stack web development and system architecture.",
+    category: "General",
   },
   {
-    category: "Learning & Bootcamps",
     q: "Why should I join Nexus?",
-    a: "Nexus gives students a dedicated space to learn with peers, participate in real coding challenges, build projects, and explore career opportunities.",
+    a: "You get access to dedicated domain teams, our proprietary testing portal (Vexta Suite), placement drives, hackathons, and a vibrant high-performing peer network.",
+    category: "Membership",
   },
   {
-    category: "Vexta & Support",
     q: "How can I contribute to Nexus?",
-    a: "Students can contribute by participating in events, volunteering for initiatives, sharing prep ideas, creating content, or taking up lead roles within the community.",
+    a: "You can participate in community builds, contribute open-source code, mentor junior members, or lead event management as part of our core team.",
+    category: "General",
   },
   {
-    category: "Vexta & Support",
     q: "Do you provide placement support?",
-    a: "Nexus supports students through learning resources, peer guidance, mock interviews, and mentorship. It provides preparation ecosystems without placement guarantees.",
-  },
-  {
-    category: "Onboarding",
-    q: "Can I join Nexus as a fresher?",
-    a: "Yes! Nexus is designed to help freshers connect with seniors, understand technical roadmaps early, and explore community activities.",
-  },
-  {
-    category: "Vexta & Support",
-    q: "How can I get started today?",
-    a: "Join the community through our official portal link, complete your student profile, and take part in upcoming sessions and initiatives.",
+    a: "Yes! We conduct comprehensive placement preparation bootcamps featuring DSA mock interviews, aptitude testing, English communication practice, and resume reviews.",
+    category: "Placement",
   },
 ];
 
-const categoryTabs = ["All Questions", "Onboarding", "Learning & Bootcamps", "Vexta & Support"];
+const categoryColors: Record<string, string> = {
+  General: "#38bdf8",
+  Membership: "#818cf8",
+  Events: "#2dd4bf",
+  Placement: "#fbbf24",
+};
 
-const themeColors = ["#38bdf8", "#818cf8", "#2dd4bf", "#60a5fa", "#a78bfa", "#34d399"];
+interface FAQItemProps {
+  item: FAQData;
+  index: number;
+  isOpen: boolean;
+  onToggle: () => void;
+}
 
-function FAQItem({ item, index, isOpen, onToggle }: { item: typeof faqs[0]; index: number; isOpen: boolean; onToggle: () => void }) {
-  const color = themeColors[index % themeColors.length];
+function FAQItem({ item, index, isOpen, onToggle }: FAQItemProps) {
+  const color = categoryColors[item.category] || "#38bdf8";
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.04 }}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
       style={{
         borderRadius: "16px",
-        border: `1.5px solid ${isOpen ? `${color}50` : "rgba(255,255,255,0.07)"}`,
-        background: isOpen ? "rgba(15, 23, 42, 0.85)" : "rgba(255, 255, 255, 0.018)",
-        backdropFilter: "blur(12px)",
-        overflow: "hidden",
+        background: isOpen ? "rgba(15, 23, 42, 0.85)" : "rgba(255, 255, 255, 0.02)",
+        border: `1px solid ${isOpen ? `${color}50` : "rgba(255, 255, 255, 0.08)"}`,
+        boxShadow: isOpen ? `0 14px 36px -10px ${color}25` : "none",
         transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-        boxShadow: isOpen ? `0 12px 35px ${color}15` : "none",
-        marginBottom: "12px",
+        overflow: "hidden",
       }}
     >
       <button
@@ -82,7 +87,7 @@ function FAQItem({ item, index, isOpen, onToggle }: { item: typeof faqs[0]; inde
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "20px 24px",
+          padding: "18px 24px",
           textAlign: "left",
           gap: "16px",
           background: "transparent",
@@ -111,9 +116,9 @@ function FAQItem({ item, index, isOpen, onToggle }: { item: typeof faqs[0]; inde
           <span
             style={{
               fontWeight: 700,
-              fontSize: "15.5px",
+              fontSize: "16px",
               color: isOpen ? "#ffffff" : "var(--text-primary)",
-              lineHeight: 1.45,
+              lineHeight: 1.4,
               transition: "color 0.2s",
               fontFamily: "var(--font-display)",
             }}
@@ -124,8 +129,8 @@ function FAQItem({ item, index, isOpen, onToggle }: { item: typeof faqs[0]; inde
 
         <div
           style={{
-            width: "30px",
-            height: "30px",
+            width: "32px",
+            height: "32px",
             borderRadius: "50%",
             background: isOpen ? `${color}20` : "rgba(255,255,255,0.04)",
             border: `1px solid ${isOpen ? `${color}50` : "rgba(255,255,255,0.1)"}`,
@@ -161,14 +166,14 @@ function FAQItem({ item, index, isOpen, onToggle }: { item: typeof faqs[0]; inde
                 paddingLeft: "24px",
                 paddingRight: "24px",
                 paddingBottom: "22px",
-                borderTop: "1px solid rgba(255,255,255,0.05)",
-                paddingTop: "16px",
+                borderTop: "1px solid rgba(255,255,255,0.06)",
+                paddingTop: "18px",
               }}
             >
               <p
                 style={{
-                  fontSize: "14.5px",
-                  lineHeight: 1.8,
+                  fontSize: "15px",
+                  lineHeight: 1.75,
                   color: "#cbd5e1",
                   margin: 0,
                 }}
@@ -204,7 +209,9 @@ export default function FAQ() {
     <section
       id="faq"
       className="section-padding relative overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
+      style={{
+        background: "var(--bg-primary)",
+      }}
     >
       {/* Background ambient lighting */}
       <div
@@ -220,7 +227,7 @@ export default function FAQ() {
         }}
       />
 
-      <div className="section-container relative" style={{ zIndex: 1 }}>
+      <div className="section-container relative" style={{ zIndex: 1, width: "100%" }}>
         <div className="faq-layout" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "48px" }}>
           
           {/* ── Left Column: Sticky Header & Support Box ── */}
@@ -233,7 +240,7 @@ export default function FAQ() {
             <h2
               className="heading-display"
               style={{
-                fontSize: "clamp(38px, 5vw, 62px)",
+                fontSize: "clamp(36px, 5vw, 58px)",
                 lineHeight: 1.05,
                 marginBottom: "20px",
               }}
@@ -246,11 +253,11 @@ export default function FAQ() {
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                Asked Questions
+                Asked Questions.
               </span>
             </h2>
 
-            <p style={{ fontSize: "14.5px", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: "32px", maxWidth: "340px" }}>
+            <p style={{ fontSize: "15.5px", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: "32px", maxWidth: "360px" }}>
               Find quick answers about joining Nexus, participating in bootcamps, and using our proprietary learning portal.
             </p>
 
@@ -261,69 +268,35 @@ export default function FAQ() {
                 borderRadius: "18px",
                 background: "rgba(15, 23, 42, 0.6)",
                 border: "1px solid rgba(255, 255, 255, 0.08)",
-                maxWidth: "340px",
+                maxWidth: "360px",
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                 <MessageSquare style={{ width: "18px", height: "18px", color: "#38bdf8" }} />
-                <span style={{ fontSize: "14px", fontWeight: 800, color: "#ffffff" }}>
+                <span style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
                   Have more questions?
                 </span>
               </div>
-              <p style={{ fontSize: "12.5px", lineHeight: 1.6, color: "var(--text-muted)", marginBottom: "16px" }}>
+              <p style={{ fontSize: "13px", lineHeight: 1.6, color: "var(--text-muted)", marginBottom: "18px" }}>
                 Our community team is available on Discord and email to assist you.
               </p>
               <a
                 href="#contact"
                 className="btn-secondary"
-                style={{ width: "100%", justifyContent: "center", fontSize: "12.5px", padding: "8px 16px" }}
+                style={{ width: "100%", justifyContent: "center", fontSize: "13px", padding: "10px 18px" }}
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
                 }}
               >
-                Contact Support Team
-                <ChevronRight style={{ width: "14px", height: "14px" }} />
+                <span>Ask via Contact Us</span>
+                <ArrowRight style={{ width: "14px", height: "14px" }} />
               </a>
             </div>
           </div>
 
-          {/* ── Right Column: Category Tabs & FAQ Accordion Cards ── */}
-          <div>
-            {/* Category Filter Tabs */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "8px",
-                marginBottom: "28px",
-              }}
-            >
-              {categoryTabs.map((tab) => {
-                const isTabActive = activeTab === tab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    style={{
-                      padding: "7px 16px",
-                      borderRadius: "999px",
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      border: isTabActive ? "1px solid #38bdf8" : "1px solid rgba(255,255,255,0.08)",
-                      background: isTabActive ? "rgba(56, 189, 248, 0.15)" : "rgba(255,255,255,0.02)",
-                      color: isTabActive ? "#38bdf8" : "var(--text-secondary)",
-                      cursor: "pointer",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    {tab}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* FAQ Accordion List */}
+          {/* ── Right Column: FAQ Accordion List (STANDARD HIGH IMPACT SIZE) ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
             {filteredFaqs.map((faq, i) => (
               <FAQItem
                 key={faq.q}
@@ -334,7 +307,6 @@ export default function FAQ() {
               />
             ))}
           </div>
-
         </div>
       </div>
 
@@ -342,7 +314,7 @@ export default function FAQ() {
         @media (min-width: 1024px) {
           .faq-layout {
             grid-template-columns: 360px 1fr !important;
-            gap: 64px !important;
+            gap: 60px !important;
           }
         }
       `}</style>

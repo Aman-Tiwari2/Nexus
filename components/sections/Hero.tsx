@@ -24,7 +24,7 @@ function StarField() {
         const opacity = Math.random() * 0.35 + 0.04;
         ctx.beginPath();
         ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 229, 204, ${opacity})`;
+        ctx.fillStyle = `rgba(56, 189, 248, ${opacity})`;
         ctx.fill();
       }
     };
@@ -88,7 +88,7 @@ export default function Hero() {
           right: "-5%",
           width: "650px",
           height: "650px",
-          background: "radial-gradient(circle, rgba(0,229,204,0.06) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 65%)",
           filter: "blur(90px)",
           zIndex: 0,
         }}
@@ -123,10 +123,10 @@ export default function Hero() {
         className="section-container relative flex-1 flex flex-col justify-center"
         style={{ zIndex: 2, paddingTop: "clamp(96px, 12vw, 136px)", paddingBottom: "clamp(48px, 6vw, 72px)" }}
       >
-        <div className="grid lg:grid-cols-[1fr_520px] gap-8 lg:gap-12 items-center w-full">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_520px] gap-8 lg:gap-12 items-center w-full">
 
-          {/* ── Left: Content ── */}
-          <div className="flex flex-col max-w-xl">
+          {/* ── Left: Content (Shifted left on desktop to fill empty space) ── */}
+          <div className="flex flex-col max-w-xl hero-left-content">
             {/* Eyebrow label */}
             <div
               className="section-tag"
@@ -137,20 +137,21 @@ export default function Hero() {
                 alignItems: "center",
                 gap: "6px",
                 padding: "4px 12px",
-                background: "rgba(0,229,204,0.07)",
-                border: "1px solid rgba(0,229,204,0.15)",
+                background: "rgba(56, 189, 248, 0.08)",
+                border: "1px solid rgba(56, 189, 248, 0.25)",
                 borderRadius: "999px",
+                color: "#38bdf8",
               }}>
                 ✦ Nexus Community · Est. 2022
               </span>
             </div>
 
             {/* Main heading — crisp typewriter with fixed container height */}
-            <div style={{ height: "clamp(60px, 8vw, 110px)", display: "flex", alignItems: "center", marginBottom: "24px" }}>
+            <div style={{ height: "clamp(50px, 6.2vw, 82px)", display: "flex", alignItems: "center", marginBottom: "24px" }}>
               <h1
                 className="heading-display"
                 style={{
-                  fontSize: "clamp(32px, 4.5vw, 68px)",
+                  fontSize: "clamp(28px, 3.8vw, 52px)",
                   lineHeight: 1.1,
                   color: "#ffffff",
                   margin: 0,
@@ -278,7 +279,13 @@ export default function Hero() {
         </span>
       </div>
 
-      <style>{`
+       <style>{`
+        @media (min-width: 1024px) {
+          .hero-left-content {
+            margin-left: -25px !important;
+            max-width: 660px !important;
+          }
+        }
         @keyframes blink {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }

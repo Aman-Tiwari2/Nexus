@@ -13,7 +13,7 @@ module.exports = {
         space: ["var(--font-space-grotesk)", "Space Grotesk", "sans-serif"],
       },
       colors: {
-        accent: "#00e5cc",
+        accent: "#38bdf8",
         dark: {
           900: "#0d0d0d",
           800: "#111111",

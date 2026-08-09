@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { Terminal, Code, Cpu, Trophy, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { Terminal } from "lucide-react";
 
 // Mock student placement data
 interface PlacementCard {
@@ -171,13 +171,14 @@ export default function CodeCube() {
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center justify-center"
+      className="relative flex items-center justify-center flex-shrink-0"
       style={{
         width: "520px",
         height: "500px",
         perspective: "1000px",
         marginLeft: "auto",
-        marginRight: "-10px",
+        marginRight: "-60px",
+        marginTop: "-35px",
       }}
     >
       {/* Background glow matrix */}
@@ -199,11 +200,15 @@ export default function CodeCube() {
         <div className="absolute" style={{ width: "420px", height: "220px", border: "1px dashed rgba(96,165,250,0.08)", borderRadius: "50%", transform: "rotateX(72deg) rotateY(5deg)" }} />
       </div>
 
-      {/* ── Centerpiece: Interactive IDE Compiler Card ── */}
+      {/* ── Centerpiece: Interactive IDE Compiler Card (ROCK-SOLID FIXED SIZE) ── */}
       <motion.div
         style={{
           width: "360px",
           height: "270px",
+          minWidth: "360px",
+          maxWidth: "360px",
+          minHeight: "270px",
+          maxHeight: "270px",
           background: "rgba(8, 8, 10, 0.98)",
           border: "2px solid rgba(47, 129, 255, 0.35)",
           borderRadius: "18px",
@@ -224,18 +229,21 @@ export default function CodeCube() {
           `,
           zIndex: 10,
         }}
-        className="relative flex flex-col overflow-hidden"
+        className="relative flex flex-col overflow-hidden flex-shrink-0"
       >
         {/* Compiler Top Bar */}
         <div
           style={{
             height: "44px",
+            minHeight: "44px",
+            maxHeight: "44px",
             background: "rgba(18, 18, 24, 0.8)",
             borderBottom: "1px solid rgba(255,255,255,0.06)",
             padding: "0 16px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            flexShrink: 0,
           }}
         >
           {/* Traffic light control dots */}
@@ -275,20 +283,47 @@ export default function CodeCube() {
           </div>
         </div>
 
-        {/* Compiler Workspace Content */}
-        <div style={{ flex: 1, padding: "16px", fontFamily: "monospace", fontSize: "12.5px", color: "#e4e4e7", overflow: "hidden", lineHeight: 1.6 }}>
-          <div style={{ display: "flex", gap: "12px", height: "100%" }}>
-            {/* Line numbers */}
-            <div style={{ color: "#52525b", textAlign: "right", userSelect: "none" }}>
-              {Array.from({ length: 9 }).map((_, i) => (
-                <div key={i}>{i + 1}</div>
+        {/* Compiler Workspace Content (FIXED HEIGHT, NO SHAKING OR LAYOUT REFOW) */}
+        <div
+          style={{
+            height: "190px",
+            minHeight: "190px",
+            maxHeight: "190px",
+            padding: "12px 16px",
+            fontFamily: "monospace",
+            fontSize: "12px",
+            color: "#e4e4e7",
+            overflow: "hidden",
+            lineHeight: "19px",
+            flexShrink: 0,
+          }}
+        >
+          <div style={{ display: "flex", gap: "12px", height: "100%", overflow: "hidden" }}>
+            {/* Fixed Line numbers (1 to 10) */}
+            <div style={{ color: "#52525b", textAlign: "right", userSelect: "none", width: "18px", flexShrink: 0 }}>
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={i} style={{ height: "19px", lineHeight: "19px" }}>{i + 1}</div>
               ))}
             </div>
-            {/* Dynamic code typing */}
-            <div style={{ flex: 1, whiteSpace: "pre-wrap" as const }}>
-              <span style={{ color: "#a78bfa" }}>{codeText.split("\n")[0]}</span>
-              {codeText.split("\n").slice(1).join("\n")}
-              <span className="blinking-cursor">|</span>
+            {/* Dynamic code typing with FIXED line heights and pre formatting */}
+            <div
+              style={{
+                flex: 1,
+                height: "100%",
+                overflow: "hidden",
+                whiteSpace: "pre",
+                fontFamily: "monospace",
+                lineHeight: "19px",
+              }}
+            >
+              {codeText.split("\n").map((line, idx) => (
+                <div key={idx} style={{ height: "19px", lineHeight: "19px", overflow: "hidden" }}>
+                  <span style={{ color: idx === 0 ? "#a78bfa" : "inherit" }}>{line}</span>
+                  {idx === codeText.split("\n").length - 1 && (
+                    <span className="blinking-cursor">|</span>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -297,12 +332,15 @@ export default function CodeCube() {
         <div
           style={{
             height: "36px",
+            minHeight: "36px",
+            maxHeight: "36px",
             background: "rgba(14, 14, 18, 0.9)",
             borderTop: "1px solid rgba(255,255,255,0.06)",
             padding: "0 16px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            flexShrink: 0,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "var(--accent)" }}>

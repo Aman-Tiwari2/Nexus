@@ -111,7 +111,7 @@ export default function EventsOverview() {
 
   return (
     <section
-      id="events-overview"
+      id="events"
       className="section-padding relative overflow-hidden"
       style={{ background: "var(--bg-secondary)" }}
     >

@@ -255,7 +255,7 @@ export default function EventSection() {
 
   return (
     <section
-      id="events"
+      id="gallery"
       className="section-padding relative overflow-hidden"
       style={{ background: "#050808", color: "#F5F5F5" }}
       ref={sectionRef}
@@ -265,7 +265,7 @@ export default function EventSection() {
         position: "absolute",
         inset: 0,
         backgroundImage: `
-          radial-gradient(circle at 80% 20%, rgba(0, 229, 204, 0.02) 0%, transparent 60%),
+          radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.02) 0%, transparent 60%),
           radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.015) 0%, transparent 60%)
         `,
         pointerEvents: "none",
