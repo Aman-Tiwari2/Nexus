@@ -11,7 +11,6 @@ interface Particle {
   color: string;
   alpha: number;
   baseAlpha: number;
-  pulseSpeed: number;
 }
 
 export default function GlobalParticles() {
@@ -27,25 +26,23 @@ export default function GlobalParticles() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    const colors = ["#2f81ff", "#60a5fa", "#3b82f6", "#2036b3", "#1800ad"];
+    const colors = ["#2f81ff", "#60a5fa", "#3b82f6", "#2036b3"];
 
-    // Generate ~50 lightweight particles
-    const particleCount = Math.min(Math.floor((width * height) / 25000), 60);
+    const particleCount = Math.min(Math.floor((width * height) / 30000), 45);
     const particles: Particle[] = [];
 
     for (let i = 0; i < particleCount; i++) {
       const color = colors[Math.floor(Math.random() * colors.length)];
-      const baseAlpha = Math.random() * 0.35 + 0.15;
+      const baseAlpha = Math.random() * 0.25 + 0.1;
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        radius: Math.random() * 1.5 + 0.6,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 1.2 + 0.5,
         color,
         alpha: baseAlpha,
         baseAlpha,
-        pulseSpeed: Math.random() * 0.02 + 0.005,
       });
     }
 
@@ -57,55 +54,26 @@ export default function GlobalParticles() {
 
     window.addEventListener("resize", handleResize);
 
-    let time = 0;
     const render = () => {
-      time += 0.01;
       ctx.clearRect(0, 0, width, height);
 
-      // Render & update particles
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
 
-        // Wrap edges
         if (p.x < 0) p.x = width;
         if (p.x > width) p.x = 0;
         if (p.y < 0) p.y = height;
         if (p.y > height) p.y = 0;
 
-        // Pulse alpha gently
-        p.alpha = p.baseAlpha + Math.sin(time * 2 + i) * 0.1;
-
-        // Draw particle dot
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
-        ctx.globalAlpha = Math.max(0.05, Math.min(0.6, p.alpha));
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = p.color;
+        ctx.globalAlpha = p.alpha;
         ctx.fill();
-
-        // Draw subtle connecting lines between close particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < 110) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = p.color;
-            ctx.globalAlpha = (1 - dist / 110) * 0.12;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
       }
 
-      ctx.shadowBlur = 0;
       ctx.globalAlpha = 1;
       animId = requestAnimationFrame(render);
     };
@@ -126,7 +94,7 @@ export default function GlobalParticles() {
         inset: 0,
         pointerEvents: "none",
         zIndex: 0,
-        opacity: 0.75,
+        opacity: 0.6,
       }}
     />
   );

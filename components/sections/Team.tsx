@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Mail, ArrowRight, UserCheck } from "lucide-react";
+import { Github, Mail, ArrowRight, UserCheck, ChevronDown, ChevronUp, ShieldCheck, Sparkles } from "lucide-react";
 import { teamMembers } from "@/data/team";
 
 function LinkedInIcon({ size = 13 }: { size?: number }) {
@@ -16,11 +16,16 @@ function LinkedInIcon({ size = 13 }: { size?: number }) {
 
 const categories = [
   { id: "all", name: "All Members", color: "#60a5fa" },
-  { id: "leadership", name: "Leadership & Core", color: "#fbbf24" },
+  { id: "leadership", name: "Leadership & Core Leads", color: "#fbbf24" },
   { id: "technical", name: "Technical Team", color: "#60a5fa" },
   { id: "content_pr", name: "Content & PR", color: "#ec4899" },
   { id: "social_media", name: "Social Media", color: "#10b981" },
 ];
+
+function isLeadRole(role: string) {
+  const r = role.toLowerCase();
+  return r.includes("founder") || r.includes("lead");
+}
 
 function getMemberCategory(role: string) {
   const r = role.toLowerCase();
@@ -33,6 +38,7 @@ function getMemberCategory(role: string) {
 
 export default function Team() {
   const [activeTab, setActiveTab] = useState("all");
+  const [showAll, setShowAll] = useState(false);
   const [members, setMembers] = useState(teamMembers);
 
   useEffect(() => {
@@ -46,9 +52,26 @@ export default function Team() {
       .catch(() => {});
   }, []);
 
-  const filteredMembers = activeTab === "all"
-    ? members
-    : members.filter((m) => getMemberCategory(m.role).id === activeTab);
+  // Ensure Leads always appear at the top
+  const sortedMembers = useMemo(() => {
+    const leads = members.filter((m) => isLeadRole(m.role));
+    const nonLeads = members.filter((m) => !isLeadRole(m.role));
+    return [...leads, ...nonLeads];
+  }, [members]);
+
+  const categoryMembers = useMemo(() => {
+    return activeTab === "all"
+      ? sortedMembers
+      : sortedMembers.filter((m) => getMemberCategory(m.role).id === activeTab);
+  }, [activeTab, sortedMembers]);
+
+  const displayedMembers = useMemo(() => {
+    if (showAll) return categoryMembers;
+    // If showAll is false, show ONLY leads
+    return categoryMembers.filter((m) => isLeadRole(m.role));
+  }, [showAll, categoryMembers]);
+
+  const hiddenCount = categoryMembers.length - displayedMembers.length;
 
   return (
     <section id="team" className="section-padding relative overflow-hidden" style={{ background: "var(--bg-secondary)" }}>
@@ -80,17 +103,53 @@ export default function Team() {
               marginTop: "8px",
             }}
           >
-            <h2
-              className="heading-display"
-              style={{ fontSize: "clamp(36px, 5.5vw, 68px)" }}
-            >
-              Meet the<br />
-              <span style={{ color: "var(--accent)" }}>People Behind Nexus</span>
-            </h2>
+            <div>
+              <h2
+                className="heading-display"
+                style={{ fontSize: "clamp(36px, 5.5vw, 68px)" }}
+              >
+                Meet the<br />
+                <span style={{ color: "var(--accent)" }}>People Behind Nexus</span>
+              </h2>
+            </div>
 
-            <div style={{ fontSize: "13px", color: "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
-              <UserCheck style={{ width: "16px", height: "16px", color: "var(--accent)" }} />
-              <span>{members.length} Active Team Members</span>
+            {/* Active Members & Leads Stat Badges */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 16px",
+                  borderRadius: "999px",
+                  background: "rgba(16, 185, 129, 0.12)",
+                  border: "1px solid rgba(16, 185, 129, 0.3)",
+                  color: "#10b981",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                }}
+              >
+                <UserCheck style={{ width: "16px", height: "16px" }} />
+                <span>20 Active Members</span>
+              </div>
+
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 16px",
+                  borderRadius: "999px",
+                  background: "rgba(251, 191, 36, 0.12)",
+                  border: "1px solid rgba(251, 191, 36, 0.3)",
+                  color: "#fbbf24",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                }}
+              >
+                <ShieldCheck style={{ width: "16px", height: "16px" }} />
+                <span>9 Domain Leads</span>
+              </div>
             </div>
           </div>
         </div>
@@ -180,8 +239,9 @@ export default function Team() {
           }}
         >
           <AnimatePresence mode="popLayout">
-            {filteredMembers.map((member, idx) => {
+            {displayedMembers.map((member, idx) => {
               const catInfo = getMemberCategory(member.role);
+              const isLead = isLeadRole(member.role);
               const initials = member.name
                 .split(" ")
                 .map((n) => n[0])
@@ -196,7 +256,7 @@ export default function Team() {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-30px" }}
                   exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.4, delay: (idx % 6) * 0.06, ease: "easeOut" }}
+                  transition={{ duration: 0.35, delay: (idx % 6) * 0.05, ease: "easeOut" }}
                   whileHover={{
                     y: -6,
                     borderColor: `${catInfo.color}50`,
@@ -204,7 +264,7 @@ export default function Team() {
                   }}
                   style={{
                     background: "var(--bg-card)",
-                    border: "1px solid var(--border)",
+                    border: `1px solid ${isLead ? `${catInfo.color}40` : "var(--border)"}`,
                     borderRadius: "16px",
                     padding: "24px",
                     display: "flex",
@@ -259,7 +319,7 @@ export default function Team() {
                         </div>
                       </div>
 
-                      {/* Domain Badge */}
+                      {/* Lead / Coordinator Badge */}
                       <span
                         style={{
                           fontSize: "9.5px",
@@ -268,12 +328,12 @@ export default function Team() {
                           textTransform: "uppercase",
                           padding: "4px 10px",
                           borderRadius: "999px",
-                          background: `${catInfo.color}15`,
-                          color: catInfo.color,
-                          border: `1px solid ${catInfo.color}30`,
+                          background: isLead ? `${catInfo.color}20` : "rgba(255,255,255,0.04)",
+                          color: isLead ? catInfo.color : "var(--text-muted)",
+                          border: `1px solid ${isLead ? `${catInfo.color}40` : "var(--border)"}`,
                         }}
                       >
-                        {catInfo.name.split(" ")[0]}
+                        {isLead ? "LEAD" : "TEAM"}
                       </span>
                     </div>
 
@@ -487,6 +547,50 @@ export default function Team() {
             })}
           </AnimatePresence>
         </motion.div>
+
+        {/* ── Show More / Show Less Button ── */}
+        {(hiddenCount > 0 || showAll) && (
+          <div style={{ textAlign: "center", marginTop: "44px" }}>
+            <button
+              onClick={() => setShowAll(!showAll)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "14px 32px",
+                borderRadius: "999px",
+                background: "var(--bg-card)",
+                border: "1px solid var(--border)",
+                color: "var(--text-primary)",
+                fontSize: "13.5px",
+                fontWeight: 700,
+                cursor: "pointer",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+                transition: "all 0.22s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--accent)";
+                e.currentTarget.style.background = "rgba(96,165,250,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--border)";
+                e.currentTarget.style.background = "var(--bg-card)";
+              }}
+            >
+              {showAll ? (
+                <>
+                  Show Only Domain Leads
+                  <ChevronUp style={{ width: "16px", height: "16px" }} />
+                </>
+              ) : (
+                <>
+                  Show All Team Members (+{hiddenCount} Coordinators)
+                  <ChevronDown style={{ width: "16px", height: "16px" }} />
+                </>
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

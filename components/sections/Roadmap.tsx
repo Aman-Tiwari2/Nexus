@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, Code2, Users, Trophy, Star, CheckCircle2, ArrowRight } from "lucide-react";
+import { Brain, Code2, Users, Trophy, Star, CheckCircle2, ArrowRight, Sparkles, Compass } from "lucide-react";
 
 interface Task {
   category: string;
@@ -17,6 +17,9 @@ interface RoadmapPhase {
   icon: any;
   color: string;
   items: Task[];
+  // SVG relative positions (%) along the winding path line
+  x: number;
+  y: number;
 }
 
 const roadmapData: RoadmapPhase[] = [
@@ -26,7 +29,9 @@ const roadmapData: RoadmapPhase[] = [
     title: "Start — Get Connected",
     subtitle: "Join & Understand Nexus",
     icon: Brain,
-    color: "#38bdf8", // Electric Cyan
+    color: "#38bdf8",
+    x: 8,
+    y: 50,
     items: [
       {
         category: "Community Onboarding",
@@ -44,7 +49,9 @@ const roadmapData: RoadmapPhase[] = [
     title: "Learn — Build Skills",
     subtitle: "Workshops & Learning",
     icon: Code2,
-    color: "#818cf8", // Indigo Blue
+    color: "#818cf8",
+    x: 29,
+    y: 22,
     items: [
       {
         category: "Skill Development",
@@ -62,7 +69,9 @@ const roadmapData: RoadmapPhase[] = [
     title: "Participate — Take Initiative",
     subtitle: "Events & Challenges",
     icon: Users,
-    color: "#2dd4bf", // Glowing Teal
+    color: "#2dd4bf",
+    x: 50,
+    y: 78,
     items: [
       {
         category: "Active Engagement",
@@ -80,7 +89,9 @@ const roadmapData: RoadmapPhase[] = [
     title: "Grow — Learn from Others",
     subtitle: "Mentorship & Guidance",
     icon: Trophy,
-    color: "#60a5fa", // Vivid Sky Blue
+    color: "#60a5fa",
+    x: 71,
+    y: 22,
     items: [
       {
         category: "Peer Mentorship",
@@ -98,7 +109,9 @@ const roadmapData: RoadmapPhase[] = [
     title: "Explore — Opportunities",
     subtitle: "Prepare for the Future",
     icon: Star,
-    color: "#a78bfa", // Purple Accent
+    color: "#a78bfa",
+    x: 92,
+    y: 50,
     items: [
       {
         category: "Career Preparation",
@@ -116,7 +129,7 @@ export default function Roadmap() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // Auto-advance tabs
+  // Auto-advance path nodes
   useEffect(() => {
     if (!isPlaying) return;
     const timer = setInterval(() => {
@@ -133,35 +146,42 @@ export default function Roadmap() {
   const activePhase = roadmapData[activeIndex];
   const ActiveIcon = activePhase.icon;
 
+  // Active path line progress calculation
+  const activePercent = (activeIndex / (roadmapData.length - 1)) * 100;
+
   return (
     <section
       id="roadmap"
       className="section-padding relative overflow-hidden"
       style={{ background: "var(--bg-primary)" }}
     >
-      {/* Background ambient lighting */}
+      {/* Background Ambient Glow */}
       <div
         className="absolute pointer-events-none"
         style={{
           bottom: "10%",
           right: "-5%",
-          width: "500px",
-          height: "500px",
-          background: "radial-gradient(circle, rgba(96,165,250,0.04) 0%, transparent 70%)",
-          filter: "blur(80px)",
+          width: "550px",
+          height: "550px",
+          background: `radial-gradient(circle, ${activePhase.color}15 0%, transparent 70%)`,
+          filter: "blur(90px)",
+          transition: "background 0.8s ease",
           zIndex: 0,
         }}
       />
 
       <div className="section-container relative" style={{ zIndex: 1 }}>
-        <div className="section-tag">Learning Path</div>
+        <div className="section-tag">
+          <Compass style={{ width: "13px", height: "13px", display: "inline", marginRight: "6px" }} />
+          Learning Path
+        </div>
 
         {/* Section Header */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            marginBottom: "48px",
+            marginBottom: "44px",
           }}
         >
           <h2
@@ -174,103 +194,186 @@ export default function Roadmap() {
             }}
           >
             Year-wise<br />
-            <span style={{ color: "var(--accent)" }}>Roadmap</span>
+            <span
+              style={{
+                background: "linear-gradient(135deg, #38bdf8 0%, #a78bfa 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Interactive Roadmap
+            </span>
           </h2>
           <p
             style={{
-              color: "var(--text-muted)",
-              fontSize: "14px",
+              color: "var(--text-secondary)",
+              fontSize: "14.5px",
               marginTop: "16px",
-              maxWidth: "540px",
-              lineHeight: 1.6,
+              maxWidth: "560px",
+              lineHeight: 1.7,
             }}
           >
-            A 5-phase structured journey designed to help students connect, learn, participate, grow, and explore opportunities beyond the classroom.
+            Explore our 5-phase interactive journey. Click any node on the path line to inspect the roadmap objectives.
           </p>
         </div>
 
-        {/* ── 5-Step Connected Progress Stepper Track ── */}
-        <div className="roadmap-stepper-container" style={{ marginBottom: "36px" }}>
-          {/* Progress Connecting Laser Line */}
-          <div className="stepper-line-bg" />
-          <div
-            className="stepper-line-active"
-            style={{
-              width: `${(activeIndex / (roadmapData.length - 1)) * 100}%`,
-              background: `linear-gradient(90deg, #38bdf8, ${activePhase.color})`,
-            }}
-          />
+        {/* ── INTERACTIVE CURVED PATH ANIMATION SECTION ── */}
+        <div className="roadmap-path-container" style={{ position: "relative", width: "100%", marginBottom: "50px" }}>
+          
+          {/* SVG Animated Path (Winding Bezier Curve for Desktop) */}
+          <div className="svg-path-wrapper">
+            <svg
+              viewBox="0 0 1000 180"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{ width: "100%", height: "auto", overflow: "visible" }}
+            >
+              {/* Defs for gradients */}
+              <defs>
+                <linearGradient id="pathGradientBg" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.15" />
+                  <stop offset="50%" stopColor="#2dd4bf" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.15" />
+                </linearGradient>
 
-          <div className="stepper-nodes-grid">
+                <linearGradient id="pathGradientActive" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#38bdf8" />
+                  <stop offset="25%" stopColor="#818cf8" />
+                  <stop offset="50%" stopColor="#2dd4bf" />
+                  <stop offset="75%" stopColor="#60a5fa" />
+                  <stop offset="100%" stopColor="#a78bfa" />
+                </linearGradient>
+
+                {/* Pulsing light effect filter */}
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              {/* Background Path Line */}
+              <path
+                d="M 80 90 C 180 20, 290 20, 390 90 C 490 160, 610 160, 710 90 C 810 20, 890 20, 920 90"
+                stroke="url(#pathGradientBg)"
+                strokeWidth="4"
+                strokeDasharray="8 6"
+                strokeLinecap="round"
+              />
+
+              {/* Animated Active Glowing Path Line */}
+              <motion.path
+                d="M 80 90 C 180 20, 290 20, 390 90 C 490 160, 610 160, 710 90 C 810 20, 890 20, 920 90"
+                stroke="url(#pathGradientActive)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                filter="url(#glow)"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: (activeIndex + 1) / roadmapData.length }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+              />
+
+              {/* Continuous Energy Light Particle moving along the path */}
+              <motion.circle
+                r="7"
+                fill="#ffffff"
+                filter="url(#glow)"
+                animate={{
+                  cx: [80, 290, 500, 710, 920][activeIndex],
+                  cy: [90, 40, 140, 40, 90][activeIndex],
+                }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+              />
+            </svg>
+          </div>
+
+          {/* Interactive Path Nodes Grid Overlay */}
+          <div className="path-nodes-overlay">
             {roadmapData.map((item, idx) => {
               const Icon = item.icon;
               const isActive = idx === activeIndex;
               const isPast = idx < activeIndex;
 
               return (
-                <button
+                <div
                   key={item.phaseNum}
                   onClick={() => handlePhaseClick(idx)}
-                  className={`stepper-node-btn ${isActive ? "active" : ""} ${isPast ? "past" : ""}`}
+                  className={`path-node-item ${isActive ? "active" : ""} ${isPast ? "past" : ""}`}
+                  style={{
+                    left: `${item.x}%`,
+                    top: `${item.y}%`,
+                  }}
                 >
+                  {/* Outer Pulsing Ring when Active */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="pulseRing"
+                      className="active-pulse-ring"
+                      style={{ borderColor: item.color, boxShadow: `0 0 25px ${item.color}` }}
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    />
+                  )}
+
+                  {/* Node Icon Circle */}
                   <div
-                    className="node-circle"
+                    className="node-icon-circle"
                     style={{
+                      background: isActive
+                        ? item.color
+                        : isPast
+                        ? `${item.color}25`
+                        : "rgba(15, 23, 42, 0.9)",
                       borderColor: isActive
                         ? item.color
                         : isPast
-                        ? `${item.color}80`
-                        : "rgba(255,255,255,0.12)",
-                      background: isActive
-                        ? `${item.color}25`
-                        : isPast
-                        ? "rgba(18,20,26,0.95)"
-                        : "var(--bg-card)",
-                      boxShadow: isActive ? `0 0 20px ${item.color}40` : "none",
+                        ? item.color
+                        : "rgba(255,255,255,0.15)",
+                      boxShadow: isActive ? `0 0 30px ${item.color}80` : "none",
                     }}
                   >
                     {isPast ? (
-                      <CheckCircle2 style={{ width: "16px", height: "16px", color: item.color }} />
+                      <CheckCircle2 style={{ width: "18px", height: "18px", color: item.color }} />
                     ) : (
                       <Icon
                         style={{
-                          width: "16px",
-                          height: "16px",
-                          color: isActive ? item.color : "var(--text-muted)",
+                          width: "18px",
+                          height: "18px",
+                          color: isActive ? "#ffffff" : item.color,
                         }}
                       />
                     )}
                   </div>
 
-                  <div className="node-text">
-                    <span className="node-phase" style={{ color: isActive ? item.color : "var(--text-muted)" }}>
-                      PHASE {item.phaseNum}
+                  {/* Node Label & Phase Tag */}
+                  <div className="node-tooltip-label">
+                    <span className="node-phase-tag" style={{ color: item.color }}>
+                      {item.year}
                     </span>
-                    <span className="node-title" style={{ color: isActive ? "#ffffff" : "var(--text-secondary)" }}>
+                    <span className="node-title-tag" style={{ color: isActive ? "#ffffff" : "var(--text-secondary)" }}>
                       {item.title.split("—")[0].trim()}
                     </span>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>
+
         </div>
 
         {/* ── Active Phase Showcase Card ── */}
         <div
           style={{
             background: "rgba(16, 18, 24, 0.92)",
-            backdropFilter: "blur(12px)",
-            border: `1px solid ${activePhase.color}40`,
-            borderRadius: "20px",
+            backdropFilter: "blur(14px)",
+            border: `1.5px solid ${activePhase.color}45`,
+            borderRadius: "24px",
             padding: "36px 32px",
             position: "relative",
             overflow: "hidden",
-            boxShadow: `0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 ${activePhase.color}25`,
-            transition: "border-color 0.4s, box-shadow 0.4s",
+            boxShadow: `0 20px 50px rgba(0,0,0,0.5), 0 0 30px ${activePhase.color}15`,
+            transition: "all 0.4s ease",
           }}
         >
-          {/* Top subtle accent gradient bar */}
+          {/* Top glowing gradient accent bar */}
           <div
             style={{
               position: "absolute",
@@ -295,26 +398,27 @@ export default function Roadmap() {
               gap: "14px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
               <div
                 style={{
-                  width: "42px",
-                  height: "42px",
-                  borderRadius: "12px",
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "14px",
                   background: `${activePhase.color}20`,
-                  border: `1px solid ${activePhase.color}45`,
+                  border: `1.5px solid ${activePhase.color}50`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   flexShrink: 0,
+                  boxShadow: `0 0 20px ${activePhase.color}30`,
                 }}
               >
-                <ActiveIcon style={{ width: "20px", height: "20px", color: activePhase.color }} />
+                <ActiveIcon style={{ width: "22px", height: "22px", color: activePhase.color }} />
               </div>
               <div>
                 <div
                   style={{
-                    fontSize: "11px",
+                    fontSize: "11.5px",
                     fontWeight: 800,
                     letterSpacing: "0.15em",
                     textTransform: "uppercase",
@@ -325,11 +429,11 @@ export default function Roadmap() {
                 </div>
                 <h3
                   style={{
-                    fontSize: "clamp(20px, 2.5vw, 26px)",
+                    fontSize: "clamp(22px, 2.5vw, 28px)",
                     fontWeight: 800,
                     color: "#ffffff",
                     margin: 0,
-                    letterSpacing: "-0.01em",
+                    fontFamily: "var(--font-display)",
                   }}
                 >
                   {activePhase.title}
@@ -344,15 +448,19 @@ export default function Roadmap() {
                   fontSize: "11.5px",
                   fontWeight: 700,
                   color: "#ffffff",
-                  background: `${activePhase.color}20`,
-                  border: `1px solid ${activePhase.color}45`,
-                  padding: "6px 14px",
-                  borderRadius: "8px",
+                  background: `${activePhase.color}25`,
+                  border: `1px solid ${activePhase.color}50`,
+                  padding: "7px 16px",
+                  borderRadius: "999px",
                   cursor: "pointer",
                   transition: "all 0.2s",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
                 }}
               >
-                Auto-play Journey ▶
+                <Sparkles style={{ width: "12px", height: "12px", color: activePhase.color }} />
+                Auto-play Path
               </button>
             )}
           </div>
@@ -403,10 +511,10 @@ export default function Roadmap() {
                       <div
                         key={tIdx}
                         style={{
-                          padding: "14px 16px",
-                          borderRadius: "10px",
+                          padding: "16px 18px",
+                          borderRadius: "12px",
                           background: "rgba(255,255,255,0.025)",
-                          border: `1px solid ${activePhase.color}20`,
+                          border: `1px solid ${activePhase.color}25`,
                           display: "flex",
                           alignItems: "flex-start",
                           gap: "12px",
@@ -414,14 +522,14 @@ export default function Roadmap() {
                       >
                         <ArrowRight
                           style={{
-                            width: "14px",
-                            height: "14px",
+                            width: "15px",
+                            height: "15px",
                             color: activePhase.color,
                             flexShrink: 0,
-                            marginTop: "3px",
+                            marginTop: "2px",
                           }}
                         />
-                        <span style={{ fontSize: "13.5px", lineHeight: 1.6, color: "#e2e8f0", fontWeight: 500 }}>
+                        <span style={{ fontSize: "14px", lineHeight: 1.6, color: "#e2e8f0", fontWeight: 500 }}>
                           {task}
                         </span>
                       </div>
@@ -434,114 +542,138 @@ export default function Roadmap() {
         </div>
       </div>
 
-      {/* Embedded CSS for Stepper Track */}
+      {/* ── Interactive Path Animation CSS ── */}
       <style>{`
-        .roadmap-stepper-container {
-          position: relative;
-          padding: 20px 0;
+        .roadmap-path-container {
+          height: 180px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        .stepper-line-bg {
+        .svg-path-wrapper {
+          width: 100%;
           position: absolute;
-          top: 38px;
-          left: 5%;
-          right: 5%;
-          height: 2px;
-          background: rgba(255, 255, 255, 0.08);
-          z-index: 0;
+          inset: 0;
+          display: flex;
+          align-items: center;
         }
 
-        .stepper-line-active {
+        .path-nodes-overlay {
           position: absolute;
-          top: 38px;
-          left: 5%;
-          height: 2px;
-          z-index: 1;
-          transition: width 0.4s ease-out, background 0.4s ease-out;
+          inset: 0;
+          pointer-events: none;
         }
 
-        .stepper-nodes-grid {
-          position: relative;
-          z-index: 2;
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 12px;
-        }
-
-        .stepper-node-btn {
-          background: transparent;
-          border: none;
-          cursor: pointer;
+        .path-node-item {
+          position: absolute;
+          transform: translate(-50%, -50%);
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 10px;
-          text-align: center;
-          padding: 0;
+          cursor: pointer;
+          pointer-events: auto;
+          transition: all 0.3s ease;
+          z-index: 10;
         }
 
-        .node-circle {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
+        .node-icon-circle {
+          width: 44px;
+          height: 44px;
+          borderRadius: 50%;
           border: 2px solid;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .node-text {
+        .path-node-item:hover .node-icon-circle {
+          transform: scale(1.15);
+        }
+
+        .active-pulse-ring {
+          position: absolute;
+          width: 58px;
+          height: 58px;
+          border-radius: 50%;
+          border: 2px solid;
+          pointer-events: none;
+          animation: pulseHalo 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseHalo {
+          0% { transform: scale(0.9); opacity: 0.9; }
+          50% { transform: scale(1.25); opacity: 0.3; }
+          100% { transform: scale(0.9); opacity: 0.9; }
+        }
+
+        .node-tooltip-label {
+          position: absolute;
+          top: 52px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 2px;
+          white-space: nowrap;
+          text-align: center;
         }
 
-        .node-phase {
-          font-size: 9.5px;
+        .node-phase-tag {
+          font-size: 10px;
           font-weight: 800;
           letter-spacing: 0.12em;
           text-transform: uppercase;
         }
 
-        .node-title {
-          font-size: 12px;
+        .node-title-tag {
+          font-size: 12.5px;
           font-weight: 700;
-          line-height: 1.3;
-          max-width: 140px;
-          transition: color 0.3s;
+          margin-top: 1px;
         }
 
+        /* Mobile Responsive Adjustments */
         @media (max-width: 768px) {
-          .stepper-line-bg, .stepper-line-active {
+          .roadmap-path-container {
+            height: auto;
+            margin-bottom: 24px !important;
+          }
+
+          .svg-path-wrapper {
             display: none;
           }
 
-          .stepper-nodes-grid {
-            grid-template-columns: 1fr;
-            gap: 10px;
+          .path-nodes-overlay {
+            position: relative;
+            inset: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
           }
 
-          .stepper-node-btn {
+          .path-node-item {
+            position: relative !important;
+            left: auto !important;
+            top: auto !important;
+            transform: none !important;
             flex-direction: row;
-            align-items: center;
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            width: 100%;
           }
 
-          .stepper-node-btn.active {
-            background: rgba(255,255,255,0.05);
+          .active-pulse-ring {
+            display: none;
           }
 
-          .node-text {
+          .node-tooltip-label {
+            position: relative;
+            top: auto;
             align-items: flex-start;
-          }
-
-          .node-title {
-            max-width: none;
+            text-align: left;
           }
         }
       `}</style>

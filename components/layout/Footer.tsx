@@ -1,19 +1,28 @@
 "use client";
 
+import Link from "next/link";
 import { Github, Instagram, Linkedin, Mail, ArrowUpRight } from "lucide-react";
 
 const quickLinks = [
   { href: "#home", label: "Home" },
   { href: "#about", label: "About" },
-  { href: "#events", label: "Event Highlights" },
+  { href: "#timeline", label: "Evolution" },
+  { href: "#events-overview", label: "Events" },
+  { href: "#blog", label: "News" },
+  { href: "#events", label: "Gallery" },
+];
+
+const exploreLinks = [
   { href: "#team", label: "Team" },
   { href: "#roadmap", label: "Roadmap" },
+  { href: "#why-join", label: "Why Join" },
+  { href: "#faq", label: "FAQ" },
   { href: "#contact", label: "Contact" },
 ];
 
 const communityLinks = [
   { href: "https://vexta.collegecrm.in", label: "Join Community", external: true },
-  { href: "#faq", label: "FAQ" },
+  { href: "/blog", label: "News & Study Hub" },
 ];
 
 const socials = [
@@ -24,7 +33,7 @@ const socials = [
     label: "Instagram",
   },
   { icon: Linkedin, href: "https://www.linkedin.com/company/nexus-23176/", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:nexus@college.edu", label: "Email" },
+  { icon: Mail, href: "mailto:contact@nexuscommunity.in", label: "Email" },
 ];
 
 const linkStyle: React.CSSProperties = {
@@ -55,90 +64,6 @@ export default function Footer() {
         overflow: "hidden",
       }}
     >
-      {/* ── Top Solid Orange Bar (matching screenshot style but with theme color) ── */}
-      <div
-        style={{
-          height: "22px",
-          background: "var(--accent)", // Neon orange theme
-          width: "100%",
-        }}
-      />
-
-      {/* ── The Two Banner Buttons (exact design from screenshot) ── */}
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-        }}
-      >
-        {/* Left button: WHERE DO I SIGN? */}
-        <a
-          href="https://vexta.collegecrm.in"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            flex: 3,
-            background: "#000000",
-            color: "#ffffff",
-            padding: "24px 20px",
-            textAlign: "center",
-            fontFamily: "var(--font-display), sans-serif",
-            fontSize: "clamp(12px, 1.8vw, 18px)",
-            fontWeight: 800,
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            borderRight: "1px solid rgba(255, 255, 255, 0.15)",
-            transition: "background 0.25s, color 0.25s",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "#111111";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "#000000";
-          }}
-        >
-          WHERE DO I SIGN?
-        </a>
-
-        {/* Right button: HERE ↗↗↗ */}
-        <a
-          href="https://vexta.collegecrm.in"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            flex: 2,
-            background: "#ffffff",
-            color: "#000000",
-            padding: "24px 20px",
-            textAlign: "center",
-            fontFamily: "var(--font-display), sans-serif",
-            fontSize: "clamp(12px, 1.8vw, 18px)",
-            fontWeight: 800,
-            letterSpacing: "0.05em",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            transition: "background 0.25s",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "4px",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "var(--accent)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "#ffffff";
-          }}
-        >
-          HERE ↗↗↗
-        </a>
-      </div>
-
       {/* ── Main links content ── */}
       <div className="section-container" style={{ paddingTop: "48px", paddingBottom: "36px" }}>
         <div
@@ -150,8 +75,22 @@ export default function Footer() {
           }}
           className="footer-grid"
         >
-          {/* Brand Column */}
+          {/* Brand Column with Original Logo */}
           <div>
+            <Link href="/" style={{ display: "inline-flex", alignItems: "center", marginBottom: "16px" }} className="footer-logo-link">
+              <img
+                src="/images/logo.png"
+                alt="Nexus Community"
+                style={{
+                  height: "36px",
+                  width: "auto",
+                  objectFit: "contain",
+                  transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+                className="footer-logo-img"
+              />
+            </Link>
+
             <p
               style={{
                 fontSize: "13px",
@@ -163,6 +102,7 @@ export default function Footer() {
             >
               Nexus Community — Connect. Learn. Create. Grow.
             </p>
+
             <div style={{ display: "flex", gap: "8px" }}>
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
@@ -197,7 +137,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links (Column 1) */}
           <div>
             <h4
               style={{
@@ -213,7 +153,7 @@ export default function Footer() {
             </h4>
             <ul style={{ display: "flex", flexDirection: "column", gap: "8px", listStyle: "none", padding: 0 }}>
               {quickLinks.map((link) => (
-                <li key={link.href}>
+                <li key={link.href + link.label}>
                   <a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
@@ -228,7 +168,38 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Community */}
+          {/* Explore Links (Column 2) */}
+          <div>
+            <h4
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--text-muted)",
+                marginBottom: "16px",
+              }}
+            >
+              Explore
+            </h4>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "8px", listStyle: "none", padding: 0 }}>
+              {exploreLinks.map((link) => (
+                <li key={link.href + link.label}>
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    style={linkStyle}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; }}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Community Links */}
           <div>
             <h4
               style={{
@@ -262,40 +233,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Get in touch */}
-          <div>
-            <h4
-              style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: "var(--text-muted)",
-                marginBottom: "16px",
-              }}
-            >
-              Get In Touch
-            </h4>
-            <p
-              style={{
-                fontSize: "13px",
-                lineHeight: 1.6,
-                color: "var(--text-secondary)",
-                marginBottom: "16px",
-                maxWidth: "220px",
-              }}
-            >
-              Want to collaborate, sponsor, or join? Reach out to us.
-            </p>
-            <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, "#contact")}
-              className="btn-secondary"
-              style={{ fontSize: "12px", padding: "8px 16px" }}
-            >
-              Contact Us
-            </a>
-          </div>
         </div>
 
         {/* ── Bottom bar ── */}
@@ -339,6 +276,12 @@ export default function Footer() {
           .footer-grid {
             grid-template-columns: 1.4fr 1fr 1fr 1fr !important;
           }
+        }
+
+        /* Logo Cursor Pointing Hover Effect */
+        .footer-logo-link:hover .footer-logo-img {
+          transform: scale(1.06);
+          filter: brightness(1.15) drop-shadow(0 0 14px rgba(96, 165, 250, 0.45));
         }
       `}</style>
     </footer>

@@ -2,59 +2,104 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
-
-import { Home, Info, CalendarClock, CalendarDays, Images, Users, Map, Star, HelpCircle, Mail, BookOpen } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Home, Info, CalendarClock, CalendarDays, Images, Users, Map, Star, HelpCircle, Mail, Newspaper, GraduationCap, Sparkles } from "lucide-react";
 
 const navLinks = [
-  { href: "#home",           label: "Home",         icon: Home },
-  { href: "#about",          label: "About",        icon: Info },
-  { href: "#timeline",       label: "Evolution",    icon: CalendarClock },
-  { href: "#events-overview",label: "Events",       icon: CalendarDays },
-  { href: "#blog",           label: "News",         icon: BookOpen },
-  { href: "#events",         label: "Gallery",      icon: Images },
-  { href: "#team",           label: "Team",         icon: Users },
-  { href: "#roadmap",        label: "Roadmap",      icon: Map },
-  { href: "#why-join",       label: "Why Join",     icon: Star },
-  { href: "#faq",            label: "FAQ",          icon: HelpCircle },
-  { href: "#contact",        label: "Contact",      icon: Mail },
+  { href: "#home", label: "Home", icon: Home },
+  { href: "#about", label: "About", icon: Info },
+  { href: "#timeline", label: "Evolution", icon: CalendarClock },
+  { href: "#events-overview", label: "Events", icon: CalendarDays },
+  { href: "#events", label: "Gallery", icon: Images },
+  { href: "#team", label: "Team", icon: Users },
+  { href: "#roadmap", label: "Roadmap", icon: Map },
+  { href: "#why-join", label: "Why Join", icon: Star },
+  { href: "#faq", label: "FAQ", icon: HelpCircle },
+  { href: "#contact", label: "Contact", icon: Mail },
 ];
 
-
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
+  // Track scroll background
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-      const sections = navLinks.map((l) => l.href.replace("#", ""));
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && window.scrollY >= el.offsetTop - 100) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Absolute document coordinate active section scroll tracking
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const sectionIds = [
+      "home",
+      "about",
+      "timeline",
+      "events-overview",
+      "blog",
+      "events",
+      "team",
+      "roadmap",
+      "why-join",
+      "faq",
+      "contact",
+    ];
+
+    const handleScroll = () => {
+      const scrollCenter = window.scrollY + window.innerHeight / 2;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const top = rect.top + window.scrollY;
+          const height = el.offsetHeight;
+
+          if (scrollCenter >= top && scrollCenter < top + height) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [pathname]);
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("/")) {
+      setMobileOpen(false);
+      return;
+    }
     e.preventDefault();
+    if (pathname !== "/") {
+      window.location.href = `/${href}`;
+      return;
+    }
     const id = href.replace("#", "");
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(id);
+    }
     setMobileOpen(false);
   };
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
+
+  const showNavbarBg = scrolled || pathname !== "/";
 
   return (
     <>
@@ -66,10 +111,10 @@ export default function Navbar() {
           right: 0,
           zIndex: 50,
           transition: "background 0.3s, border-color 0.3s, backdrop-filter 0.3s",
-          background: scrolled ? "rgba(12,12,12,0.9)" : "transparent",
-          backdropFilter: scrolled ? "blur(18px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(18px)" : "none",
-          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+          background: showNavbarBg ? "rgba(12,12,12,0.92)" : "transparent",
+          backdropFilter: showNavbarBg ? "blur(18px)" : "none",
+          WebkitBackdropFilter: showNavbarBg ? "blur(18px)" : "none",
+          borderBottom: showNavbarBg ? "1px solid var(--border)" : "1px solid transparent",
         }}
       >
         <div className="section-container">
@@ -81,62 +126,44 @@ export default function Navbar() {
               height: "60px",
             }}
           >
-            {/* Logo */}
-            <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+            {/* Logo with cursor pointing hover effect */}
+            <Link href="/" style={{ display: "flex", alignItems: "center" }} className="nav-logo-link">
               <img
                 src="/images/logo.png"
                 alt="Nexus Community"
-                style={{ height: "34px", width: "auto", objectFit: "contain" }}
+                style={{
+                  height: "34px",
+                  width: "auto",
+                  objectFit: "contain",
+                  transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                }}
+                className="nav-logo-img"
               />
             </Link>
 
-            {/* Desktop nav links */}
+            {/* Desktop Nav Links */}
             <div
               style={{
                 display: "none",
                 alignItems: "center",
-                gap: "2px",
+                gap: "3px",
               }}
               className="nav-desktop"
             >
               {navLinks.map((link) => {
                 const id = link.href.replace("#", "");
-                const isActive = activeSection === id;
+                const isRoute = link.href.startsWith("/");
+                const isActive = isRoute ? pathname === link.href : pathname === "/" && activeSection === id;
+                const targetHref = isRoute ? link.href : pathname === "/" ? link.href : `/${link.href}`;
+
                 return (
                   <a
-                    key={link.href}
-                    href={link.href}
+                    key={link.href + link.label}
+                    href={targetHref}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    style={{
-                      position: "relative",
-                      padding: "6px 10px",
-                      fontSize: "12px",
-                      fontWeight: isActive ? 600 : 400,
-                      color: isActive ? "#ffffff" : "var(--text-secondary)",
-                      borderRadius: "6px",
-                      transition: "color 0.18s, background 0.18s",
-                      whiteSpace: "nowrap",
-                      background: isActive ? "rgba(96,165,250,0.08)" : "transparent",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "3px",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isActive) {
-                        (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
-                        (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isActive) {
-                        (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
-                        (e.currentTarget as HTMLElement).style.background = "transparent";
-                      }
-                    }}
+                    className={`nav-item-link ${isActive ? "active" : ""}`}
                   >
                     <span>{link.label}</span>
-                    {/* Active underline bar — sits INSIDE the element */}
                     <span
                       style={{
                         display: "block",
@@ -150,11 +177,36 @@ export default function Navbar() {
                   </a>
                 );
               })}
-
             </div>
 
-            {/* Desktop CTA */}
-            <div style={{ display: "none" }} className="nav-cta">
+            {/* Desktop CTA Buttons Area */}
+            <div style={{ display: "none", alignItems: "center", gap: "10px" }} className="nav-cta">
+              {/* News & Study Action Button */}
+              <Link
+                href="/blog"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "7px",
+                  fontSize: "12.5px",
+                  fontWeight: 700,
+                  padding: "7px 16px",
+                  borderRadius: "999px",
+                  background: pathname === "/blog" ? "rgba(96, 165, 250, 0.22)" : "rgba(96, 165, 250, 0.12)",
+                  border: "1px solid rgba(96, 165, 250, 0.35)",
+                  color: "#60a5fa",
+                  transition: "all 0.22s ease",
+                  whiteSpace: "nowrap",
+                  boxShadow: "0 0 14px rgba(96, 165, 250, 0.2)",
+                }}
+                className="news-study-cta"
+              >
+                <GraduationCap style={{ width: "15px", height: "15px", color: "#60a5fa" }} />
+                <span>News & Study</span>
+                <Sparkles style={{ width: "10px", height: "10px", color: "#a78bfa" }} />
+              </Link>
+
+              {/* Join Community Button */}
               <a
                 href="https://vexta.collegecrm.in"
                 target="_blank"
@@ -164,22 +216,15 @@ export default function Navbar() {
                   alignItems: "center",
                   gap: "6px",
                   fontSize: "12.5px",
-                  fontWeight: 500,
+                  fontWeight: 600,
                   padding: "7px 18px",
                   borderRadius: "999px",
                   border: "1px solid rgba(255,255,255,0.18)",
                   color: "var(--text-primary)",
-                  transition: "background 0.18s, border-color 0.18s",
+                  transition: "all 0.18s ease",
                   whiteSpace: "nowrap",
                 }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.32)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "transparent";
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.18)";
-                }}
+                className="join-community-cta"
               >
                 <span style={{ fontSize: "9px", color: "var(--accent)" }}>✦</span>
                 Join Community
@@ -210,7 +255,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* ── Mobile overlay menu ── */}
+      {/* ── Mobile Overlay Menu ── */}
       <div
         style={{
           position: "fixed",
@@ -222,7 +267,6 @@ export default function Navbar() {
         }}
         className="nav-mobile-overlay"
       >
-        {/* Backdrop */}
         <div
           style={{
             position: "absolute",
@@ -234,7 +278,6 @@ export default function Navbar() {
           onClick={() => setMobileOpen(false)}
         />
 
-        {/* Menu content */}
         <div
           style={{
             position: "absolute",
@@ -246,14 +289,17 @@ export default function Navbar() {
             transition: "transform 0.22s ease",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginBottom: "24px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "20px" }}>
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href.replace("#", "");
+              const isRoute = link.href.startsWith("/");
+              const isActive = isRoute ? pathname === link.href : pathname === "/" && activeSection === link.href.replace("#", "");
               const Icon = link.icon;
+              const targetHref = isRoute ? link.href : pathname === "/" ? link.href : `/${link.href}`;
+
               return (
                 <a
-                  key={link.href}
-                  href={link.href}
+                  key={link.href + link.label}
+                  href={targetHref}
                   onClick={(e) => handleNavClick(e, link.href)}
                   style={{
                     padding: "12px 16px",
@@ -273,22 +319,34 @@ export default function Navbar() {
                     width: "16px", height: "16px",
                     color: isActive ? "var(--accent)" : "var(--text-muted)",
                     flexShrink: 0,
-                    transition: "color 0.18s",
                   }} />
                   {link.label}
                 </a>
               );
             })}
           </div>
-          <a
-            href="https://vexta.collegecrm.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-            style={{ width: "100%", justifyContent: "center" }}
-          >
-            Join Community
-          </a>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <Link
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="btn-primary"
+              style={{ width: "100%", justifyContent: "center", background: "linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)" }}
+            >
+              <GraduationCap style={{ width: "16px", height: "16px" }} />
+              News & Study
+            </Link>
+
+            <a
+              href="https://vexta.collegecrm.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
+              Join Community
+            </a>
+          </div>
         </div>
       </div>
 
@@ -298,6 +356,52 @@ export default function Navbar() {
           .nav-cta { display: flex !important; }
           .nav-burger { display: none !important; }
           .nav-mobile-overlay { display: none !important; }
+        }
+
+        /* Logo cursor pointing hover effect */
+        .nav-logo-link:hover .nav-logo-img {
+          transform: scale(1.08);
+          filter: brightness(1.2) drop-shadow(0 0 16px rgba(96, 165, 250, 0.5));
+        }
+
+        .nav-item-link {
+          position: relative;
+          padding: 6px 9px;
+          font-size: 12px;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+          color: var(--text-secondary);
+          background: transparent;
+          cursor: pointer;
+          text-decoration: none;
+        }
+
+        .nav-item-link:hover {
+          color: #ffffff !important;
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .nav-item-link.active {
+          color: #ffffff !important;
+          background: rgba(96, 165, 250, 0.12) !important;
+          font-weight: 600;
+        }
+
+        .news-study-cta:hover {
+          background: rgba(96, 165, 250, 0.25) !important;
+          border-color: #60a5fa !important;
+          transform: translateY(-1px);
+          box-shadow: 0 0 20px rgba(96, 165, 250, 0.35) !important;
+        }
+
+        .join-community-cta:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+          border-color: rgba(255, 255, 255, 0.35) !important;
         }
       `}</style>
     </>

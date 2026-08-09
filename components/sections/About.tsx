@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Eye, Heart, ShieldCheck, Users } from "lucide-react";
+import { Target, Eye, Heart, ShieldCheck, Users, Sparkles, Compass, Lightbulb, BookOpen } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 // Helper to convert hex colors to RGBA
@@ -92,7 +92,6 @@ function NetworkCanvas({ color = "#60a5fa" }: { color?: string }) {
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw connections
       dots.forEach((a, i) => {
         dots.forEach((b, j) => {
           if (j <= i) return;
@@ -108,7 +107,6 @@ function NetworkCanvas({ color = "#60a5fa" }: { color?: string }) {
         });
       });
 
-      // Draw dots
       dots.forEach((d) => {
         ctx.beginPath();
         ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
@@ -148,7 +146,7 @@ const pillars = [
     icon: Target,
     title: "Our Mission",
     badge: "PURPOSE",
-    color: "#38bdf8", // Electric Cyan
+    color: "#38bdf8",
     bg: "rain" as const,
     desc1:
       "To help students develop practical skills, confidence, and awareness of opportunities through learning, mentorship, and community activities.",
@@ -160,7 +158,7 @@ const pillars = [
     icon: Eye,
     title: "Our Vision",
     badge: "GOAL",
-    color: "#818cf8", // Futuristic Indigo-Blue
+    color: "#818cf8",
     bg: "network" as const,
     desc1:
       "To build a strong student community where learners can connect, collaborate, and grow through shared experiences and opportunities.",
@@ -172,7 +170,7 @@ const pillars = [
     icon: Heart,
     title: "Peer Mentorship",
     badge: "COMMUNITY",
-    color: "#2dd4bf", // Glowing Teal
+    color: "#2dd4bf",
     bg: "rain" as const,
     desc1:
       "Seniors share their experiences, preparation strategies, and guidance to help juniors navigate their academic and career journey.",
@@ -184,13 +182,44 @@ const pillars = [
     icon: ShieldCheck,
     title: "College CRM Integration",
     badge: "TECH",
-    color: "#60a5fa", // Vivid Sky Blue
+    color: "#60a5fa",
     bg: "network" as const,
     desc1:
       "We run entirely on College CRM — our proprietary task-tracking system ensuring total operational transparency and real-time team performance tracking.",
     desc2:
       "Paired with Vexta, our online evaluation engine — the full Nexus tech stack is built in-house, by students.",
     tags: ["Vexta Portal", "College CRM", "Live Reports", "Leaderboard"],
+  },
+];
+
+const coreValues = [
+  {
+    title: "Excellence",
+    icon: Sparkles,
+    badge: "CORE VALUE",
+    desc: "We encourage students to keep improving their skills and the quality of their work.",
+    color: "#38bdf8",
+  },
+  {
+    title: "Community",
+    icon: Users,
+    badge: "CORE VALUE",
+    desc: "We learn from each other, support each other, and grow together.",
+    color: "#60a5fa",
+  },
+  {
+    title: "Innovation",
+    icon: Lightbulb,
+    badge: "CORE VALUE",
+    desc: "We encourage students to experiment, build, and explore new ideas.",
+    color: "#a78bfa",
+  },
+  {
+    title: "Learning",
+    icon: BookOpen,
+    badge: "CORE VALUE",
+    desc: "We believe learning becomes stronger when it is shared through practice, feedback, and collaboration.",
+    color: "#34d399",
   },
 ];
 
@@ -228,7 +257,6 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
         minHeight: "260px",
       }}
     >
-      {/* ── Top Subtle Accent Gradient Line ── */}
       <div
         style={{
           position: "absolute",
@@ -240,12 +268,10 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
         }}
       />
 
-      {/* ── Animated Background Layer ── */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0, borderRadius: "16px", overflow: "hidden" }}>
         {p.bg === "rain" && <CodeRainCanvas color={p.color} />}
         {p.bg === "network" && <NetworkCanvas color={p.color} />}
 
-        {/* Dark subtle gradient overlay */}
         <div
           style={{
             position: "absolute",
@@ -255,7 +281,6 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
           }}
         />
 
-        {/* Corner Glow */}
         <div
           style={{
             position: "absolute",
@@ -270,7 +295,6 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
         />
       </div>
 
-      {/* ── Card Content ── */}
       <div
         style={{
           position: "relative",
@@ -281,7 +305,6 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
           flex: 1,
         }}
       >
-        {/* Badge Header */}
         <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
           <div
             style={{
@@ -311,7 +334,6 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
           </span>
         </div>
 
-        {/* Title */}
         <h3
           style={{
             fontFamily: "var(--font-display)",
@@ -327,12 +349,10 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
           {p.title}
         </h3>
 
-        {/* Desc 1 */}
         <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#d1d5db", marginBottom: "14px" }}>
           {p.desc1}
         </p>
 
-        {/* Desc 2 Quote Box (High Contrast) */}
         <div
           style={{
             fontSize: "12.5px",
@@ -349,7 +369,6 @@ function PillarCard({ p, i }: { p: typeof pillars[0]; i: number }) {
           {p.desc2}
         </div>
 
-        {/* High-Contrast Tags */}
         <div style={{ display: "flex", flexWrap: "wrap" as const, gap: "6px", marginTop: "auto" }}>
           {p.tags.map((tag) => (
             <span
@@ -383,7 +402,6 @@ export default function About() {
       className="section-padding relative overflow-hidden"
       style={{ background: "var(--bg-primary)" }}
     >
-      {/* Ambient background glow */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -398,7 +416,6 @@ export default function About() {
       />
 
       <div className="section-container relative" style={{ zIndex: 1 }}>
-        {/* Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -410,7 +427,6 @@ export default function About() {
           About Nexus
         </motion.div>
 
-        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -452,8 +468,7 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* Divider */}
-        <div className="section-divider" style={{ marginBottom: "32px" }} />
+        <div className="section-divider" style={{ marginBottom: "48px" }} />
 
         {/* 2×2 Pillar Grid */}
         <div
@@ -462,11 +477,75 @@ export default function About() {
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
             gap: "16px",
+            marginBottom: "56px",
           }}
         >
           {pillars.map((p, i) => (
-            <PillarCard key={p.badge} p={p} i={i} />
+            <PillarCard key={p.badge + p.title} p={p} i={i} />
           ))}
+        </div>
+
+        {/* ── Core Values Grid (Excellence, Community, Innovation, Learning) ── */}
+        <div style={{ marginTop: "32px", marginBottom: "48px" }}>
+          <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--accent)", marginBottom: "16px" }}>
+            Our Core Values
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "16px",
+            }}
+          >
+            {coreValues.map((val, idx) => {
+              const VIcon = val.icon;
+              return (
+                <motion.div
+                  key={val.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  style={{
+                    padding: "22px",
+                    borderRadius: "16px",
+                    border: `1px solid ${val.color}30`,
+                    background: "rgba(15, 23, 42, 0.6)",
+                    backdropFilter: "blur(10px)",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                    <div
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "8px",
+                        background: `${val.color}18`,
+                        border: `1px solid ${val.color}35`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: val.color,
+                      }}
+                    >
+                      <VIcon style={{ width: "16px", height: "16px" }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "9.5px", fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: val.color }}>
+                        {val.badge}
+                      </div>
+                      <div style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "var(--font-display)" }}>
+                        {val.title}
+                      </div>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: "13.5px", lineHeight: 1.6, color: "var(--text-secondary)" }}>
+                    {val.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* CTA */}
@@ -475,7 +554,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          style={{ marginTop: "44px" }}
+          style={{ marginTop: "32px" }}
         >
           <a
             href="https://vexta.collegecrm.in"

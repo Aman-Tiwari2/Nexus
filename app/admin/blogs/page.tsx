@@ -170,12 +170,16 @@ export default function BlogsAdminPage() {
     if (!confirm("Are you sure you want to delete this blog post?")) return;
     try {
       const res = await fetch(`/api/admin/blogs/${id}`, { method: "DELETE" });
-      if (res.ok) {
-        showToast("Blog post deleted!");
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast("Blog post deleted successfully!");
+        setBlogs((prev) => prev.filter((b) => String(b.id) !== String(id)));
         loadBlogs();
+      } else {
+        showToast(`Failed to delete blog post: ${data.error || "Unknown error"}`);
       }
     } catch (e: any) {
-      showToast(`Error: ${e.message}`);
+      showToast(`Error deleting blog: ${e.message}`);
     }
   };
 
