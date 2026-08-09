@@ -14,7 +14,6 @@ import WhyJoin from "@/components/sections/WhyJoin";
 import Roadmap from "@/components/sections/Roadmap";
 import Blog from "@/components/sections/Blog";
 import FAQ from "@/components/sections/FAQ";
-import Sponsors from "@/components/sections/Sponsors";
 import Contact from "@/components/sections/Contact";
 
 export default function Home() {
@@ -47,7 +46,6 @@ export default function Home() {
         <Roadmap />
         <WhyJoin />
         <FAQ />
-        <Sponsors />
         <Contact />
       </main>
 

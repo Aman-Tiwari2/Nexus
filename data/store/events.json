@@ -15,7 +15,7 @@
       "date": "Sept 2025",
       "type": "Coding Challenge",
       "description": "Proprietary testing portal launch with live leaderboards, Aptitude, English & Coding rounds — all in real-time.",
-      "stat": "800+ Competitors",
+      "stat": "Active Competitors",
       "tagColor": "#2f81ff",
       "iconType": "Zap"
     },
@@ -23,9 +23,9 @@
       "id": "2",
       "title": "Placement Bootcamp 2025",
       "date": "Nov 2025",
-      "type": "Mock Interview Drive",
-      "description": "3-day intensive resume reviews, mock HR rounds, and live senior referral programs for final-year students.",
-      "stat": "300+ Students",
+      "type": "Placement Mock Interviews",
+      "description": "Organized placement prep event featuring live mock interviews across DSA, Aptitude, English & Technical Problem Solving.",
+      "stat": "Mock Interview Drive",
       "tagColor": "#60a5fa",
       "iconType": "Trophy"
     },

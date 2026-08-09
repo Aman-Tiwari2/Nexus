@@ -25,13 +25,14 @@ function saveBlogs(blogsData: BlogPost[]) {
   fs.writeFileSync(filePath, JSON.stringify(blogsData, null, 2), "utf-8");
 }
 
-export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> | { id: string } }) {
   try {
-    const { id } = await params;
+    const resolvedParams = await params;
+    const targetId = String(resolvedParams.id);
     const body = await req.json();
     const current = getBlogs();
 
-    const index = current.findIndex((b) => b.id === id);
+    const index = current.findIndex((b) => String(b.id) === targetId);
     if (index === -1) {
       return NextResponse.json({ error: "Blog post not found" }, { status: 404 });
     }
@@ -49,15 +50,18 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   }
 }
 
-export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> | { id: string } }) {
   try {
-    const { id } = await params;
+    const resolvedParams = await params;
+    const targetId = String(resolvedParams.id);
     const current = getBlogs();
 
-    const filtered = current.filter((b) => b.id !== id);
+    const filtered = current.filter((b) => String(b.id) !== targetId);
+    
+    // Save updated list to blogs.json
     saveBlogs(filtered);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, deletedId: targetId });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
