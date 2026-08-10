@@ -1,48 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-const NAV = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: "⬡" },
-  { href: "/admin/events", label: "Events", icon: "📅" },
-  { href: "/admin/gallery", label: "Gallery", icon: "🖼" },
-  { href: "/admin/team", label: "Team", icon: "👥" },
-  { href: "/admin/blogs", label: "Blogs", icon: "📰" },
-];
-
-function Sidebar({ active }: { active: string }) {
-  const router = useRouter();
-  const logout = async () => { await fetch("/api/admin/auth", { method: "DELETE" }); router.push("/admin"); };
-  return (
-    <aside style={{ width: "220px", minHeight: "100vh", background: "rgba(255,255,255,0.02)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", flexShrink: 0, position: "sticky", top: 0 }}>
-      <div style={{ padding: "24px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
-          <div>
-            <div style={{ fontSize: "13px", fontWeight: 700, color: "#F5F5F5", lineHeight: 1.2 }}>NEXUS</div>
-            <div style={{ fontSize: "10px", color: "#899393", letterSpacing: "0.1em" }}>ADMIN PANEL</div>
-          </div>
-        </div>
-      </div>
-      <nav style={{ flex: 1, padding: "16px 12px" }}>
-        {NAV.map((item) => {
-          const isActive = active === item.href;
-          return (
-            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(96,165,250,0.1)" : "transparent", color: isActive ? "#60a5fa" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #60a5fa" : "2px solid transparent", transition: "all 0.15s" }}>
-              <span style={{ fontSize: "15px" }}>{item.icon}</span>{item.label}
-            </Link>
-          );
-        })}
-      </nav>
-      <div style={{ padding: "16px 12px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <Link href="/" target="_blank" style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 12px", borderRadius: "8px", color: "#899393", fontSize: "12px", textDecoration: "none", marginBottom: "4px" }}>↗ View Live Site</Link>
-        <button onClick={logout} style={{ width: "100%", padding: "9px 12px", borderRadius: "8px", border: "none", background: "rgba(239,68,68,0.08)", color: "#ef4444", fontSize: "12px", cursor: "pointer", textAlign: "left" }}>⎋ Sign Out</button>
-      </div>
-    </aside>
-  );
-}
+import AdminSidebar from "@/components/admin/AdminSidebar";
 
 type GalleryItem = { id: string; title: string; category: string; image: string; sub: string; caption: string; number: string; date: string };
 
@@ -70,7 +29,7 @@ export default function GalleryAdminPage() {
     await load();
     setEditing(null);
     setSaving(false);
-    showToast("Gallery item updated ✓");
+    showToast("Gallery item updated");
   };
 
   const addItem = async () => {
@@ -80,7 +39,7 @@ export default function GalleryAdminPage() {
     setShowAdd(false);
     setNewItem({ title: "", category: "", image: "", sub: "", caption: "", date: "" });
     setSaving(false);
-    showToast("Gallery item added ✓");
+    showToast("Gallery item added");
   };
 
   const deleteItem = async (id: string) => {
@@ -99,7 +58,7 @@ export default function GalleryAdminPage() {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar active="/admin/gallery" />
+      <AdminSidebar active="/admin/gallery" />
       {toast && (<div style={{ position: "fixed", bottom: "24px", right: "24px", background: "#10b981", color: "#fff", padding: "12px 20px", borderRadius: "10px", fontSize: "13px", fontWeight: 600, zIndex: 9999 }}>{toast}</div>)}
       <main style={{ flex: 1, padding: "40px", overflowX: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "32px" }}>
@@ -122,14 +81,13 @@ export default function GalleryAdminPage() {
                 <div style={{ fontSize: "12px", color: "#899393", fontStyle: "italic", marginBottom: "12px" }}>"{item.caption}"</div>
                 <div style={{ display: "flex", gap: "8px" }}>
                   <button onClick={() => setEditing({ ...item })} style={{ flex: 1, padding: "7px", borderRadius: "7px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#F5F5F5", fontSize: "12px", cursor: "pointer" }}>Edit</button>
-                  <button onClick={() => deleteItem(item.id)} style={{ padding: "7px 12px", borderRadius: "7px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "#ef4444", fontSize: "12px", cursor: "pointer" }}>✕</button>
+                  <button onClick={() => deleteItem(item.id)} style={{ padding: "7px 12px", borderRadius: "7px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", color: "#ef4444", fontSize: "12px", cursor: "pointer" }}>Remove</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Edit Modal */}
         {editing && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(5,8,8,0.92)", backdropFilter: "blur(12px)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
             <div style={{ background: "#0e1212", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px", padding: "28px", width: "100%", maxWidth: "480px", maxHeight: "90vh", overflowY: "auto" }}>
@@ -151,7 +109,6 @@ export default function GalleryAdminPage() {
           </div>
         )}
 
-        {/* Add Modal */}
         {showAdd && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(5,8,8,0.92)", backdropFilter: "blur(12px)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
             <div style={{ background: "#0e1212", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px", padding: "28px", width: "100%", maxWidth: "480px", maxHeight: "90vh", overflowY: "auto" }}>

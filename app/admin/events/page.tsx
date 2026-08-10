@@ -1,51 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-const NAV = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: "⬡" },
-  { href: "/admin/events", label: "Events", icon: "📅" },
-  { href: "/admin/gallery", label: "Gallery", icon: "🖼" },
-  { href: "/admin/team", label: "Team", icon: "👥" },
-  { href: "/admin/blogs", label: "Blogs", icon: "📰" },
-];
-
-function Sidebar({ active }: { active: string }) {
-  const router = useRouter();
-  const logout = async () => {
-    await fetch("/api/admin/auth", { method: "DELETE" });
-    router.push("/admin");
-  };
-  return (
-    <aside style={{ width: "220px", minHeight: "100vh", background: "rgba(255,255,255,0.02)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", flexShrink: 0, position: "sticky", top: 0 }}>
-      <div style={{ padding: "24px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
-          <div>
-            <div style={{ fontSize: "13px", fontWeight: 700, color: "#F5F5F5", lineHeight: 1.2 }}>NEXUS</div>
-            <div style={{ fontSize: "10px", color: "#899393", letterSpacing: "0.1em" }}>ADMIN PANEL</div>
-          </div>
-        </div>
-      </div>
-      <nav style={{ flex: 1, padding: "16px 12px" }}>
-        {NAV.map((item) => {
-          const isActive = active === item.href;
-          return (
-            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(96,165,250,0.1)" : "transparent", color: isActive ? "#60a5fa" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #60a5fa" : "2px solid transparent", transition: "all 0.15s" }}>
-              <span style={{ fontSize: "15px" }}>{item.icon}</span>{item.label}
-            </Link>
-          );
-        })}
-      </nav>
-      <div style={{ padding: "16px 12px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <Link href="/" target="_blank" style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 12px", borderRadius: "8px", color: "#899393", fontSize: "12px", textDecoration: "none", marginBottom: "4px" }}>↗ View Live Site</Link>
-        <button onClick={logout} style={{ width: "100%", padding: "9px 12px", borderRadius: "8px", border: "none", background: "rgba(239,68,68,0.08)", color: "#ef4444", fontSize: "12px", cursor: "pointer", textAlign: "left" }}>⎋ Sign Out</button>
-      </div>
-    </aside>
-  );
-}
+import AdminSidebar from "@/components/admin/AdminSidebar";
 
 const ICON_OPTIONS = ["Zap", "Trophy", "Users", "Star", "Code", "BookOpen", "Award"];
 const TAG_COLORS = ["#00E5CC", "#00A8FF", "#8B5CF6", "#60a5fa", "#10b981", "#ec4899"];
@@ -83,7 +39,7 @@ export default function EventsAdminPage() {
     await load();
     setEditUpcoming(false);
     setSaving(false);
-    showToast("Upcoming event updated ✓");
+    showToast("Upcoming event updated");
   };
 
   const savePastEdit = async () => {
@@ -93,7 +49,7 @@ export default function EventsAdminPage() {
     await load();
     setEditingPast(null);
     setSaving(false);
-    showToast("Event updated ✓");
+    showToast("Event updated");
   };
 
   const addPast = async () => {
@@ -103,7 +59,7 @@ export default function EventsAdminPage() {
     setShowAddPast(false);
     setNewPast(EMPTY_PAST);
     setSaving(false);
-    showToast("Event added ✓");
+    showToast("Event added");
   };
 
   const deletePast = async (id: string) => {
@@ -124,11 +80,11 @@ export default function EventsAdminPage() {
     </div>
   );
 
-  if (!data) return <div style={{ display: "flex", minHeight: "100vh" }}><Sidebar active="/admin/events" /><main style={{ flex: 1, padding: "40px" }}><p style={{ color: "#899393" }}>Loading…</p></main></div>;
+  if (!data) return <div style={{ display: "flex", minHeight: "100vh" }}><AdminSidebar active="/admin/events" /><main style={{ flex: 1, padding: "40px" }}><p style={{ color: "#899393" }}>Loading…</p></main></div>;
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar active="/admin/events" />
+      <AdminSidebar active="/admin/events" />
 
       {toast && (
         <div style={{ position: "fixed", bottom: "24px", right: "24px", background: "#10b981", color: "#fff", padding: "12px 20px", borderRadius: "10px", fontSize: "13px", fontWeight: 600, zIndex: 9999, boxShadow: "0 8px 24px rgba(0,0,0,0.4)" }}>{toast}</div>
@@ -156,11 +112,9 @@ export default function EventsAdminPage() {
           ) : (
             <div>
               {inp(upcomingDraft!.title, (v) => setUpcomingDraft({ ...upcomingDraft!, title: v }), "Title (e.g. HackNexus 2026)")}
-              
-              {/* Countdown Target Date Picker */}
               <div style={{ marginBottom: "14px", background: "rgba(96,165,250,0.06)", padding: "14px", borderRadius: "10px", border: "1px solid rgba(96,165,250,0.2)" }}>
                 <label style={{ display: "block", fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#60a5fa", textTransform: "uppercase", marginBottom: "6px" }}>
-                  ⏱ Live Countdown Target Date & Time
+                  Live Countdown Target Date & Time
                 </label>
                 <input
                   type="datetime-local"
@@ -171,29 +125,14 @@ export default function EventsAdminPage() {
                     const formattedDisplay = isNaN(d.getTime())
                       ? upcomingDraft!.displayDate
                       : d.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
-                    setUpcomingDraft({
-                      ...upcomingDraft!,
-                      date: iso,
-                      displayDate: formattedDisplay,
-                    });
+                    setUpcomingDraft({ ...upcomingDraft!, date: iso, displayDate: formattedDisplay });
                   }}
-                  style={{
-                    width: "100%",
-                    padding: "10px 12px",
-                    borderRadius: "8px",
-                    background: "#050808",
-                    border: "1px solid rgba(96,165,250,0.3)",
-                    color: "#ffffff",
-                    fontSize: "13px",
-                    outline: "none",
-                    boxSizing: "border-box",
-                  }}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: "8px", background: "#050808", border: "1px solid rgba(96,165,250,0.3)", color: "#ffffff", fontSize: "13px", outline: "none", boxSizing: "border-box" }}
                 />
                 <div style={{ fontSize: "11px", color: "#899393", marginTop: "6px" }}>
                   Target ISO: <code style={{ color: "#60a5fa" }}>{upcomingDraft!.date}</code>
                 </div>
               </div>
-
               {inp(upcomingDraft!.displayDate, (v) => setUpcomingDraft({ ...upcomingDraft!, displayDate: v }), "Display Date String (e.g. Sep 01, 2026)")}
               {inp(upcomingDraft!.time, (v) => setUpcomingDraft({ ...upcomingDraft!, time: v }), "Time & Duration (e.g. 09:00 AM — 24 Hour Sprint)")}
               {inp(upcomingDraft!.location, (v) => setUpcomingDraft({ ...upcomingDraft!, location: v }), "Location")}

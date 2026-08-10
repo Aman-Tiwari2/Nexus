@@ -1,59 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-const NAV = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: "⬡" },
-  { href: "/admin/events", label: "Events", icon: "📅" },
-  { href: "/admin/gallery", label: "Gallery", icon: "🖼" },
-  { href: "/admin/team", label: "Team", icon: "👥" },
-  { href: "/admin/blogs", label: "Blogs", icon: "📰" },
-];
-
-function Sidebar({ active }: { active: string }) {
-  const router = useRouter();
-  const logout = async () => { await fetch("/api/admin/auth", { method: "DELETE" }); router.push("/admin"); };
-  return (
-    <aside style={{ width: "220px", minHeight: "100vh", background: "rgba(255,255,255,0.02)", borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", flexShrink: 0, position: "sticky", top: 0 }}>
-      <div style={{ padding: "24px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{ width: "34px", height: "34px", borderRadius: "10px", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px" }}>⬡</div>
-          <div>
-            <div style={{ fontSize: "13px", fontWeight: 700, color: "#F5F5F5", lineHeight: 1.2 }}>NEXUS</div>
-            <div style={{ fontSize: "10px", color: "#899393", letterSpacing: "0.1em" }}>ADMIN PANEL</div>
-          </div>
-        </div>
-      </div>
-      <nav style={{ flex: 1, padding: "16px 12px" }}>
-        {NAV.map((item) => {
-          const isActive = active === item.href;
-          return (
-            <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px", background: isActive ? "rgba(96,165,250,0.1)" : "transparent", color: isActive ? "#60a5fa" : "#899393", fontSize: "13px", fontWeight: isActive ? 600 : 400, textDecoration: "none", borderLeft: isActive ? "2px solid #60a5fa" : "2px solid transparent", transition: "all 0.15s" }}>
-              <span style={{ fontSize: "15px" }}>{item.icon}</span>{item.label}
-            </Link>
-          );
-        })}
-      </nav>
-      <div style={{ padding: "16px 12px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <Link href="/" target="_blank" style={{ display: "flex", alignItems: "center", gap: "8px", padding: "9px 12px", borderRadius: "8px", color: "#899393", fontSize: "12px", textDecoration: "none", marginBottom: "4px" }}>↗ View Live Site</Link>
-        <button onClick={logout} style={{ width: "100%", padding: "9px 12px", borderRadius: "8px", border: "none", background: "rgba(239,68,68,0.08)", color: "#ef4444", fontSize: "12px", cursor: "pointer", textAlign: "left" }}>⎋ Sign Out</button>
-      </div>
-    </aside>
-  );
-}
+import AdminSidebar from "@/components/admin/AdminSidebar";
 
 type SocialLinks = { linkedin?: string; github?: string; instagram?: string; email?: string };
 type TeamMember = {
   id: string; slug: string; name: string; role: string; branch: string; year: string;
   bio: string; photo: string; skills: string[]; achievements: string[];
   social: SocialLinks;
+  projects: { title: string; description: string; link: string }[];
 };
 
 const EMPTY_MEMBER: Omit<TeamMember, "id" | "slug"> = {
   name: "", role: "", branch: "", year: "", bio: "", photo: "",
-  skills: [], achievements: [], social: {},
+  skills: [], achievements: [], social: {}, projects: [],
 };
 
 export default function TeamAdminPage() {
@@ -63,7 +23,6 @@ export default function TeamAdminPage() {
   const [newMember, setNewMember] = useState<Omit<TeamMember, "id" | "slug">>(EMPTY_MEMBER);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState("");
-  // Temp skill/achievement input strings
   const [skillInput, setSkillInput] = useState("");
   const [achInput, setAchInput] = useState("");
 
@@ -82,7 +41,7 @@ export default function TeamAdminPage() {
     await load();
     setEditing(null);
     setSaving(false);
-    showToast("Member updated ✓");
+    showToast("Member updated");
   };
 
   const addMember = async () => {
@@ -92,7 +51,7 @@ export default function TeamAdminPage() {
     setShowAdd(false);
     setNewMember(EMPTY_MEMBER);
     setSaving(false);
-    showToast("Member added ✓");
+    showToast("Member added");
   };
 
   const deleteMember = async (id: string) => {
@@ -156,7 +115,6 @@ export default function TeamAdminPage() {
       <div style={{ position: "fixed", inset: 0, background: "rgba(5,8,8,0.94)", backdropFilter: "blur(12px)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
         <div style={{ background: "#0e1212", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px", padding: "28px", width: "100%", maxWidth: "540px", maxHeight: "90vh", overflowY: "auto" }}>
           <h3 style={{ fontSize: "17px", fontWeight: 700, color: "#F5F5F5", margin: "0 0 20px" }}>{isEdit ? "Edit" : "Add"} Team Member</h3>
-
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
             {F(member.name, (v) => setM({ name: v }), "Full Name")}
             {F(member.role, (v) => setM({ role: v }), "Role")}
@@ -168,39 +126,19 @@ export default function TeamAdminPage() {
           {member.photo && (
             <div style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundImage: `url(${member.photo})`, backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "rgba(255,255,255,0.05)", marginBottom: "12px" }} />
           )}
-
-          <TagEditor
-            label="Skills"
-            tags={member.skills}
-            input={isEdit ? skillInput : skillInput}
-            setInput={setSkillInput}
+          <TagEditor label="Skills" tags={member.skills} input={skillInput} setInput={setSkillInput}
             onAdd={() => { if (!skillInput.trim()) return; setM({ skills: [...(member.skills ?? []), skillInput.trim()] }); setSkillInput(""); }}
-            onRemove={(i) => setM({ skills: member.skills.filter((_, idx) => idx !== i) })}
-          />
-          <TagEditor
-            label="Achievements"
-            tags={member.achievements}
-            input={achInput}
-            setInput={setAchInput}
+            onRemove={(i) => setM({ skills: member.skills.filter((_, idx) => idx !== i) })} />
+          <TagEditor label="Achievements" tags={member.achievements} input={achInput} setInput={setAchInput}
             onAdd={() => { if (!achInput.trim()) return; setM({ achievements: [...(member.achievements ?? []), achInput.trim()] }); setAchInput(""); }}
-            onRemove={(i) => setM({ achievements: member.achievements.filter((_, idx) => idx !== i) })}
-          />
+            onRemove={(i) => setM({ achievements: member.achievements.filter((_, idx) => idx !== i) })} />
           <SocialEditor social={member.social} set={(s) => setM({ social: s })} />
-
           <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
-            <button
-              onClick={isEdit ? saveEdit : addMember}
-              disabled={saving}
-              style={{ padding: "10px 24px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}
-            >
+            <button onClick={isEdit ? saveEdit : addMember} disabled={saving} style={{ padding: "10px 24px", borderRadius: "8px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>
               {saving ? "Saving…" : isEdit ? "Save Changes" : "Add Member"}
             </button>
-            <button
-              onClick={() => { if (isEdit) setEditing(null); else setShowAdd(false); setSkillInput(""); setAchInput(""); }}
-              style={{ padding: "10px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", color: "#899393", fontSize: "13px", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}
-            >
-              Cancel
-            </button>
+            <button onClick={() => { if (isEdit) setEditing(null); else setShowAdd(false); setSkillInput(""); setAchInput(""); }}
+              style={{ padding: "10px 16px", borderRadius: "8px", background: "rgba(255,255,255,0.05)", color: "#899393", fontSize: "13px", border: "1px solid rgba(255,255,255,0.1)", cursor: "pointer" }}>Cancel</button>
           </div>
         </div>
       </div>
@@ -209,9 +147,8 @@ export default function TeamAdminPage() {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar active="/admin/team" />
+      <AdminSidebar active="/admin/team" />
       {toast && (<div style={{ position: "fixed", bottom: "24px", right: "24px", background: "#10b981", color: "#fff", padding: "12px 20px", borderRadius: "10px", fontSize: "13px", fontWeight: 600, zIndex: 9999 }}>{toast}</div>)}
-
       <main style={{ flex: 1, padding: "40px", overflowX: "auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "32px" }}>
           <div>
@@ -220,7 +157,6 @@ export default function TeamAdminPage() {
           </div>
           <button onClick={() => setShowAdd(true)} style={{ padding: "10px 20px", borderRadius: "9px", background: "#60a5fa", color: "#0c0c0c", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>+ Add Member</button>
         </div>
-
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
           {members.map((m) => (
             <div key={m.id} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "12px", padding: "16px 20px", display: "flex", alignItems: "center", gap: "16px" }}>
@@ -242,7 +178,6 @@ export default function TeamAdminPage() {
             </div>
           ))}
         </div>
-
         {editing && <MemberModal isEdit={true} />}
         {showAdd && <MemberModal isEdit={false} />}
       </main>
