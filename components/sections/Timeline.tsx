@@ -12,7 +12,7 @@ const points = [
     color: "#a78bfa",
     title: "Nexus Founding & Vision",
     subtitle: "Inception & Student Bootcamps",
-    description: "Founded in 2022 as an elite student technical community to foster innovation, peer learning, hands-on software engineering, and placement excellence.",
+    description: "Founded in 2025 as an elite student technical community to foster innovation, peer learning, hands-on software engineering, and placement excellence.",
     highlights: ["Organized first offline coding bootcamps", "Built core coding peer group", "Established student mentorship framework"],
     statsValue: "100+ Students",
   },
@@ -22,10 +22,10 @@ const points = [
     year: "2025",
     icon: Users2,
     color: "#60a5fa",
-    title: "Rebranded to Nexus & Core Team",
-    subtitle: "Scaling Operations & Team Expansion",
-    description: "Officially rebranded to Nexus Community to build a full-fledged placement ecosystem. Recruited our core team of developers, coordinators, and domain leads.",
-    highlights: ["Formed 4 core domain teams", "Launched structured hiring drives", "Established official college partnership"],
+    title: "Nexus & Core Team Formation",
+    subtitle: "Building the Foundation Team",
+    description: "Assembled a dedicated core team of developers, coordinators, and domain leads to drive Nexus forward. Structured the community into focused teams to deliver real impact.",
+    highlights: ["Recruited passionate developers and coordinators", "Defined team roles across tech, content, and PR", "Established leadership and mentorship pipeline"],
     statsValue: "20 Active Members",
   },
   {
@@ -69,7 +69,7 @@ const points = [
 const evolutionBadges = [
   { label: "Growing Community", icon: Users2, color: "#60a5fa" },
   { label: "Student-Led Initiatives", icon: Sparkles, color: "#a78bfa" },
-  { label: "Since 2022", icon: TrendingUp, color: "#ec4899" },
+  { label: "Since 2025", icon: TrendingUp, color: "#ec4899" },
 ];
 
 export default function Timeline() {

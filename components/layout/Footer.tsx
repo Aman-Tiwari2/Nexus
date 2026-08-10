@@ -33,7 +33,7 @@ const socials = [
     label: "Instagram",
   },
   { icon: Linkedin, href: "https://www.linkedin.com/company/nexus-23176/", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:contact@nexuscommunity.in", label: "Email" },
+  { icon: Mail, href: "mailto:nexuscommunitystu@gmail.com", label: "Email" },
 ];
 
 const linkStyle: React.CSSProperties = {
@@ -79,7 +79,7 @@ export default function Footer() {
           <div>
             <Link href="/" style={{ display: "inline-flex", alignItems: "center", marginBottom: "16px" }} className="footer-logo-link">
               <img
-                src="/images/logo.png"
+                src="/images/nexus_logo.png"
                 alt="Nexus Community"
                 style={{
                   height: "36px",
@@ -248,20 +248,10 @@ export default function Footer() {
           }}
         >
           <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-            © 2025 Nexus Community. All rights reserved.
+            © 2026 Nexus Community. All rights reserved.
           </p>
           <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-            Built with care by the Nexus Team ·{" "}
-            <a
-              href="https://vexta.collegecrm.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "var(--text-secondary)", transition: "color 0.18s" }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-secondary)"; }}
-            >
-              Powered by Vexta
-            </a>
+            Built with love by the Nexus Team
           </p>
         </div>
       </div>

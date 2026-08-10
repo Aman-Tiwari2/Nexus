@@ -6,14 +6,12 @@ import {
   Send,
   CheckCircle2,
   Users,
-  Headset,
   MessageSquare,
   QrCode,
   Radio,
   Globe,
   Phone,
   Share2,
-  Github,
   Linkedin,
   Instagram,
   X as CloseIcon,
@@ -94,12 +92,6 @@ export default function Contact() {
   // Official Nexus Social Links
   const socialChannels = [
     {
-      icon: Github,
-      href: "https://github.com",
-      label: "GitHub",
-      className: "social-btn-github",
-    },
-    {
       icon: Instagram,
       href: "https://www.instagram.com/nexuscommunity___?igsh=MXNmZW5xYXk1ZmoyeQ==",
       label: "Instagram",
@@ -113,7 +105,7 @@ export default function Contact() {
     },
     {
       icon: Mail,
-      href: "mailto:contact@nexuscommunity.in",
+      href: "mailto:nexuscommunitystu@gmail.com",
       label: "Email",
       className: "social-btn-email",
     },
@@ -299,9 +291,8 @@ export default function Contact() {
 
               {/* 2. Official Email & Member Portal & Student Support Channels */}
               {[
-                { icon: Mail, label: "Official Email", value: "contact@nexuscommunity.in", color: "#38bdf8" },
-                { icon: Users, label: "Member Portal", value: "vexta.collegecrm.in", color: "#a78bfa" },
-                { icon: Headset, label: "Student Support", value: "Official Support Channel", color: "#38bdf8" },
+                { icon: Mail, label: "Official Email", value: "nexuscommunitystu@gmail.com", color: "#38bdf8" },
+                { icon: Users, label: "Nexus Build Portal", value: "vexta.collegecrm.in", color: "#a78bfa" },
               ].map(({ icon: Icon, label, value, color }) => (
                 <div
                   key={label}

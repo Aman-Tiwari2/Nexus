@@ -13,7 +13,7 @@ export interface FAQData {
 export const faqs: FAQData[] = [
   {
     q: "What is Nexus Community?",
-    a: "Nexus is a student-driven technical community founded in 2022. We focus on peer learning, hands-on software engineering, coding bootcamps, and top placement preparation.",
+    a: "Nexus is a student-driven technical community founded in 2025. We focus on peer learning, hands-on software engineering, coding bootcamps, and top placement preparation.",
     category: "General",
   },
   {

@@ -142,7 +142,7 @@ export default function Hero() {
                 borderRadius: "999px",
                 color: "#38bdf8",
               }}>
-                ✦ Nexus Community · Est. 2022
+                ✦ Nexus Community · Est. 2025
               </span>
             </div>
 
@@ -224,7 +224,7 @@ export default function Hero() {
               {[
                 { value: "Growing", label: "Community", color: "#818cf8" },
                 { value: "Student-Led", label: "Initiatives", color: "#38bdf8" },
-                { value: "Since 2022", label: "Established", color: "#2dd4bf" },
+                { value: "Since 2025", label: "Established", color: "#2dd4bf" },
               ].map((s) => (
                 <div key={s.label}>
                   <div

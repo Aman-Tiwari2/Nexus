@@ -51,7 +51,7 @@ const roadmapData: RoadmapPhase[] = [
     icon: Code2,
     color: "#818cf8",
     x: 29,
-    y: 22,
+    y: 21,
     items: [
       {
         category: "Skill Development",
@@ -91,7 +91,7 @@ const roadmapData: RoadmapPhase[] = [
     icon: Trophy,
     color: "#60a5fa",
     x: 71,
-    y: 22,
+    y: 50,
     items: [
       {
         category: "Peer Mentorship",
@@ -272,17 +272,6 @@ export default function Roadmap() {
                 transition={{ duration: 0.7, ease: "easeInOut" }}
               />
 
-              {/* Continuous Energy Light Particle moving along the path */}
-              <motion.circle
-                r="7"
-                fill="#ffffff"
-                filter="url(#glow)"
-                animate={{
-                  cx: [80, 290, 500, 710, 920][activeIndex],
-                  cy: [90, 40, 140, 40, 90][activeIndex],
-                }}
-                transition={{ duration: 0.7, ease: "easeInOut" }}
-              />
             </svg>
           </div>
 
@@ -320,8 +309,8 @@ export default function Roadmap() {
                       background: isActive
                         ? item.color
                         : isPast
-                        ? `${item.color}25`
-                        : "rgba(15, 23, 42, 0.9)",
+                        ? "#0f1624"
+                        : "#0f1624",
                       borderColor: isActive
                         ? item.color
                         : isPast
@@ -557,12 +546,14 @@ export default function Roadmap() {
           inset: 0;
           display: flex;
           align-items: center;
+          z-index: 1;
         }
 
         .path-nodes-overlay {
           position: absolute;
           inset: 0;
           pointer-events: none;
+          z-index: 2;
         }
 
         .path-node-item {
@@ -580,12 +571,14 @@ export default function Roadmap() {
         .node-icon-circle {
           width: 44px;
           height: 44px;
-          borderRadius: 50%;
+          border-radius: 50%;
           border: 2px solid;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          z-index: 3;
         }
 
         .path-node-item:hover .node-icon-circle {
@@ -600,6 +593,9 @@ export default function Roadmap() {
           border: 2px solid;
           pointer-events: none;
           animation: pulseHalo 2s infinite ease-in-out;
+          top: -7px;
+          left: 50%;
+          margin-left: -29px;
         }
 
         @keyframes pulseHalo {

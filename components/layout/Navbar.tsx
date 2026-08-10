@@ -131,7 +131,7 @@ export default function Navbar() {
               className="nav-logo-link"
             >
               <img
-                src="/images/logo.png"
+                src="/images/nexus_logo.png"
                 alt="Nexus Community"
                 style={{
                   height: "36px",
