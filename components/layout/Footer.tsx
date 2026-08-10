@@ -25,6 +25,13 @@ const socials = [
   { icon: Mail, href: "mailto:nexus@college.edu", label: "Email" },
 ];
 
+const linkStyle: React.CSSProperties = {
+  color: "var(--text-secondary)",
+  textDecoration: "none",
+  fontSize: "13px",
+  transition: "color 0.2s ease",
+};
+
 export default function Footer() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith("#")) {
