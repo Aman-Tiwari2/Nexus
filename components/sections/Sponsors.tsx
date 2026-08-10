@@ -8,11 +8,11 @@ const companies = [
 
 export default function Sponsors() {
   return (
-    <section id="sponsors" style={{ background: "#111111", borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "36px 0", overflow: "hidden" }}>
-      <div className="section-container mb-6">
+    <section id="sponsors" style={{ background: "var(--bg-secondary)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", padding: "48px 0", overflow: "hidden" }}>
+      <div className="section-container mb-8">
         <p
           className="text-xs uppercase"
-          style={{ color: "#808080", letterSpacing: "0.25em", fontWeight: 600 }}
+          style={{ color: "var(--text-muted)", letterSpacing: "0.25em", fontWeight: 600 }}
         >
           Our Members Are Placed At Top Companies
         </p>
@@ -26,8 +26,9 @@ export default function Sponsors() {
               key={i}
               className="flex-shrink-0 px-5 py-2 rounded-full text-sm font-medium"
               style={{
-                border: "1px solid rgba(255,255,255,0.07)",
-                color: "#a0a0a0",
+                border: "1px solid var(--border)",
+                color: "var(--text-secondary)",
+                background: "var(--bg-card)",
                 whiteSpace: "nowrap",
               }}
             >
@@ -45,8 +46,9 @@ export default function Sponsors() {
               key={i}
               className="flex-shrink-0 px-5 py-2 rounded-full text-sm font-medium"
               style={{
-                border: "1px solid rgba(255,255,255,0.07)",
-                color: "#a0a0a0",
+                border: "1px solid var(--border)",
+                color: "var(--text-secondary)",
+                background: "var(--bg-card)",
                 whiteSpace: "nowrap",
               }}
             >

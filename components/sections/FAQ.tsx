@@ -1,128 +1,323 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Plus, Minus } from "lucide-react";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { HelpCircle, Plus, Minus, CheckCircle2, MessageSquare, ArrowRight } from "lucide-react";
 
-const faqs = [
-  { q: "Who can join Nexus?", a: "Any college student from any year or branch can join Nexus. We welcome everyone from first-year freshers to final-year students. The earlier you join, the more you benefit from our structured roadmaps." },
-  { q: "Is there a membership fee?", a: "Nexus is completely free to join. We believe every student deserves access to quality placement preparation resources regardless of their financial background." },
-  { q: "How are events conducted?", a: "Events are conducted both online and offline depending on the format. Coding contests and aptitude tests use our platform at vexta.collegecrm.in, while hackathons and workshops are usually in-person at college." },
-  { q: "What if I'm a complete beginner?", a: "Perfect! We specifically cater to students who don't know where to start. Our roadmaps begin from the basics and we pair beginners with senior mentors for personalized guidance." },
-  { q: "How are mock interviews conducted?", a: "Mock interviews are scheduled sessions with senior Nexus members who have already been placed. They simulate real technical and HR rounds, provide detailed feedback, and suggest areas to improve." },
-  { q: "Do you provide certificates?", a: "Yes! Participants in our coding contests, bootcamps, and hackathons receive digital certificates that can be added to resumes and LinkedIn profiles." },
-  { q: "Can I contribute to Nexus as a senior?", a: "Absolutely! Placed students and seniors are our backbone. You can mentor juniors, conduct sessions, set contest problems, or serve on our core team. Your experience is invaluable." },
-  { q: "How do I register for events?", a: "Events are announced on our community channels and you can register through our platform at vexta.collegecrm.in. Make sure to follow our social media for timely updates." },
+export interface FAQData {
+  q: string;
+  a: string;
+  category: string;
+}
+
+export const faqs: FAQData[] = [
+  {
+    q: "What is Nexus Community?",
+    a: "Nexus is a student-driven technical community founded in 2022. We focus on peer learning, hands-on software engineering, coding bootcamps, and top placement preparation.",
+    category: "General",
+  },
+  {
+    q: "Who can join Nexus?",
+    a: "Nexus is open to all college students, aspiring developers, and tech enthusiasts passionate about building real-world software projects and cracking tech roles.",
+    category: "Membership",
+  },
+  {
+    q: "How does Nexus help students?",
+    a: "We offer hands-on programming bootcamps, mock placement drives, technical workshops, open-source projects, and direct peer mentorship from experienced leads.",
+    category: "Events",
+  },
+  {
+    q: "What if I am a beginner in coding?",
+    a: "No prior experience is required! We provide structured roadmap tracks from fundamental programming concepts to full-stack web development and system architecture.",
+    category: "General",
+  },
+  {
+    q: "Why should I join Nexus?",
+    a: "You get access to dedicated domain teams, our proprietary testing portal (Vexta Suite), placement drives, hackathons, and a vibrant high-performing peer network.",
+    category: "Membership",
+  },
+  {
+    q: "How can I contribute to Nexus?",
+    a: "You can participate in community builds, contribute open-source code, mentor junior members, or lead event management as part of our core team.",
+    category: "General",
+  },
+  {
+    q: "Do you provide placement support?",
+    a: "Yes! We conduct comprehensive placement preparation bootcamps featuring DSA mock interviews, aptitude testing, English communication practice, and resume reviews.",
+    category: "Placement",
+  },
 ];
 
-function FAQItem({ item, index }: { item: typeof faqs[0]; index: number }) {
-  const [open, setOpen] = useState(false);
+const categoryColors: Record<string, string> = {
+  General: "#38bdf8",
+  Membership: "#818cf8",
+  Events: "#2dd4bf",
+  Placement: "#fbbf24",
+};
+
+interface FAQItemProps {
+  item: FAQData;
+  index: number;
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+function FAQItem({ item, index, isOpen, onToggle }: FAQItemProps) {
+  const color = categoryColors[item.category] || "#38bdf8";
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
       style={{
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        borderRadius: "16px",
+        background: isOpen ? "rgba(15, 23, 42, 0.85)" : "rgba(255, 255, 255, 0.02)",
+        border: `1px solid ${isOpen ? `${color}50` : "rgba(255, 255, 255, 0.08)"}`,
+        boxShadow: isOpen ? `0 14px 36px -10px ${color}25` : "none",
+        transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+        overflow: "hidden",
       }}
     >
       <button
-        className="w-full flex items-center justify-between py-5 text-left gap-4"
-        onClick={() => setOpen(!open)}
+        onClick={onToggle}
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "18px 24px",
+          textAlign: "left",
+          gap: "16px",
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+        }}
+        aria-expanded={isOpen}
       >
-        <div className="flex items-center gap-4">
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", flex: 1, minWidth: 0 }}>
           <span
-            className="text-xs font-mono flex-shrink-0"
-            style={{ color: "#808080", width: "24px" }}
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "12px",
+              fontWeight: 900,
+              color: color,
+              flexShrink: 0,
+              padding: "4px 10px",
+              borderRadius: "8px",
+              background: `${color}18`,
+              border: `1px solid ${color}40`,
+              letterSpacing: "0.05em",
+            }}
           >
             {String(index + 1).padStart(2, "0")}
           </span>
-          <span className="font-medium text-white text-sm leading-snug">{item.q}</span>
+          <span
+            style={{
+              fontWeight: 700,
+              fontSize: "16px",
+              color: isOpen ? "#ffffff" : "var(--text-primary)",
+              lineHeight: 1.4,
+              transition: "color 0.2s",
+              fontFamily: "var(--font-display)",
+            }}
+          >
+            {item.q}
+          </span>
         </div>
+
         <div
-          className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200"
           style={{
-            border: "1px solid rgba(255,255,255,0.15)",
-            color: open ? "#00e5cc" : "#a0a0a0",
-            borderColor: open ? "rgba(0,229,204,0.2)" : "rgba(255,255,255,0.15)",
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            background: isOpen ? `${color}20` : "rgba(255,255,255,0.04)",
+            border: `1px solid ${isOpen ? `${color}50` : "rgba(255,255,255,0.1)"}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            color: isOpen ? color : "var(--text-muted)",
+            transition: "all 0.3s ease",
+            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
           }}
         >
-          {open ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+          {isOpen ? (
+            <Minus style={{ width: "14px", height: "14px" }} />
+          ) : (
+            <Plus style={{ width: "14px", height: "14px" }} />
+          )}
         </div>
       </button>
 
-      <div
-        style={{
-          maxHeight: open ? "480px" : "0",
-          overflow: "hidden",
-          transition: "max-height 0.35s ease",
-        }}
-      >
-        <p
-          className="text-sm leading-relaxed pb-5"
-          style={{ color: "#a0a0a0", paddingLeft: "40px" }}
-        >
-          {item.a}
-        </p>
-      </div>
-    </div>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="answer"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            <div
+              style={{
+                paddingLeft: "24px",
+                paddingRight: "24px",
+                paddingBottom: "22px",
+                borderTop: "1px solid rgba(255,255,255,0.06)",
+                paddingTop: "18px",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "15px",
+                  lineHeight: 1.75,
+                  color: "#cbd5e1",
+                  margin: 0,
+                }}
+              >
+                {item.a}
+              </p>
+
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "14px" }}>
+                <CheckCircle2 style={{ width: "13px", height: "13px", color: color }} />
+                <span style={{ fontSize: "11px", fontWeight: 700, color: color, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                  Verified Nexus Guide
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
 export default function FAQ() {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [activeTab, setActiveTab] = useState("All Questions");
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
-    if (sectionRef.current) obs.observe(sectionRef.current);
-    return () => obs.disconnect();
-  }, []);
+  const filteredFaqs = useMemo(() => {
+    return faqs.filter((faq) => {
+      return activeTab === "All Questions" || faq.category === activeTab;
+    });
+  }, [activeTab]);
 
   return (
-    <section id="faq" className="section-padding" style={{ background: "#111111" }}>
-      <div className="section-container">
-        <div className="flex flex-col lg:flex-row gap-16 max-w-5xl mx-auto">
-          {/* Left */}
-          <div className="lg:w-80 flex-shrink-0">
-            <div className="section-tag">FAQ</div>
+    <section
+      id="faq"
+      className="section-padding relative overflow-hidden"
+      style={{
+        background: "var(--bg-primary)",
+      }}
+    >
+      {/* Background ambient lighting */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "20%",
+          right: "-10%",
+          width: "600px",
+          height: "600px",
+          background: "radial-gradient(circle, rgba(56,189,248,0.04) 0%, transparent 70%)",
+          filter: "blur(100px)",
+          zIndex: 0,
+        }}
+      />
+
+      <div className="section-container relative" style={{ zIndex: 1, width: "100%" }}>
+        <div className="faq-layout" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "48px" }}>
+          
+          {/* ── Left Column: Sticky Header & Support Box ── */}
+          <div>
+            <div className="section-tag" style={{ marginBottom: "14px" }}>
+              <HelpCircle style={{ width: "13px", height: "13px", display: "inline", marginRight: "6px" }} />
+              Got Questions?
+            </div>
+
             <h2
-              className="font-black text-white leading-[0.95] mt-3 mb-6"
+              className="heading-display"
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(32px, 5vw, 60px)",
-                letterSpacing: "-0.03em",
+                fontSize: "clamp(36px, 5vw, 58px)",
+                lineHeight: 1.05,
+                marginBottom: "20px",
               }}
             >
-              Frequently<br />Asked
+              Frequently<br />
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #38bdf8 0%, #a78bfa 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Asked Questions.
+              </span>
             </h2>
-            <p className="text-sm leading-relaxed mb-8" style={{ color: "#a0a0a0" }}>
-              Have a question that isn&apos;t answered here? Feel free to reach out.
+
+            <p style={{ fontSize: "15.5px", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: "32px", maxWidth: "360px" }}>
+              Find quick answers about joining Nexus, participating in bootcamps, and using our proprietary learning portal.
             </p>
-            <a
-              href="#contact"
-              className="btn-secondary text-sm"
-              style={{ padding: "10px 22px" }}
-              onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+
+            {/* Still Have Questions Box */}
+            <div
+              style={{
+                padding: "24px",
+                borderRadius: "18px",
+                background: "rgba(15, 23, 42, 0.6)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                maxWidth: "360px",
+              }}
             >
-              Contact Us
-            </a>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                <MessageSquare style={{ width: "18px", height: "18px", color: "#38bdf8" }} />
+                <span style={{ fontSize: "15px", fontWeight: 800, color: "#ffffff" }}>
+                  Have more questions?
+                </span>
+              </div>
+              <p style={{ fontSize: "13px", lineHeight: 1.6, color: "var(--text-muted)", marginBottom: "18px" }}>
+                Our community team is available on Discord and email to assist you.
+              </p>
+              <a
+                href="#contact"
+                className="btn-secondary"
+                style={{ width: "100%", justifyContent: "center", fontSize: "13px", padding: "10px 18px" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                <span>Ask via Contact Us</span>
+                <ArrowRight style={{ width: "14px", height: "14px" }} />
+              </a>
+            </div>
           </div>
 
-          {/* Right */}
-          <div
-            ref={sectionRef}
-            className="flex-1"
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? "translateY(0)" : "translateY(20px)",
-              transition: "opacity 0.7s ease, transform 0.7s ease",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
-            }}
-          >
-            {faqs.map((faq, i) => (
-              <FAQItem key={i} item={faq} index={i} />
+          {/* ── Right Column: FAQ Accordion List (STANDARD HIGH IMPACT SIZE) ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            {filteredFaqs.map((faq, i) => (
+              <FAQItem
+                key={faq.q}
+                item={faq}
+                index={i}
+                isOpen={openIndex === i}
+                onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+              />
             ))}
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (min-width: 1024px) {
+          .faq-layout {
+            grid-template-columns: 360px 1fr !important;
+            gap: 60px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
