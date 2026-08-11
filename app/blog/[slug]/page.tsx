@@ -83,7 +83,7 @@ export default async function BlogPostPage({ params }: Props) {
             <ArrowLeft style={{ width: "14px", height: "14px" }} />
             Back to Tech News
           </Link>
-          <img src="/images/logo.png" alt="Nexus" style={{ height: "26px", objectFit: "contain" }} />
+          <img src="/images/nexus_logo.png" alt="Nexus" style={{ height: "26px", objectFit: "contain" }} />
         </div>
       </div>
 

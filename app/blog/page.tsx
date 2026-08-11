@@ -95,7 +95,7 @@ export default function BlogHubPage() {
             </Link>
 
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <img src="/images/logo.png" alt="Nexus" style={{ height: "30px", width: "auto" }} />
+              <img src="/images/nexus_logo.png" alt="Nexus" style={{ height: "30px", width: "auto" }} />
               <span style={{ fontSize: "12px", color: "var(--accent)", fontWeight: 700, letterSpacing: "0.1em" }}>
                 STUDY HUB
               </span>
